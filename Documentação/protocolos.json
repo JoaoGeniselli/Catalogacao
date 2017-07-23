@@ -1,0 +1,44 @@
+// Cidades
+
+
+// <DNS>/
+
+Nome: Cidades disponíveis: 
+Método: GET
+URL: <DNS>/catalogacao/v1/cities
+
+Response: 
+[
+	{
+		"id" : 123
+		"name" : "nome da cidade",
+		"stateId" : 12,
+		"coutryId" : 1
+	},
+	{
+		"id" : 124
+		"name" : "nome da cidade",
+		"stateId" : 12,
+		"coutryId" : 1
+	}
+]
+
+=================================================
+
+Nome: Ninhos Por Cidades
+Método: POST
+URL: <DNS>/catalogacao/v1/nests
+
+Request:
+{
+	"cities" : [1, 2, 3, 4]
+}
+
+Response: 
+[
+	Ninho,
+	Ninho,
+	Ninho
+]
+
+=================================================
