@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
@@ -20,18 +21,58 @@ public class AntNest implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer nestId;
     
-//    @ManyToOne
-//    private City city;
+    @ManyToOne
+    private City city;
     
     private String name;
     private String vegetation;
     
-//    private Date lastVisitDate;
-
-//    public Coordinate lastBeginingPoint; // coordenadas
-//    public Coordinate lastEndingPoint; // coordenadas
+    @ManyToOne
+    private DataUpdateVisit lastVisit;
 
     public AntNest() {
         
     }
+
+    public Integer getNestId() {
+        return nestId;
+    }
+
+    public void setNestId(Integer nestId) {
+        this.nestId = nestId;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVegetation() {
+        return vegetation;
+    }
+
+    public void setVegetation(String vegetation) {
+        this.vegetation = vegetation;
+    }
+
+    public DataUpdateVisit getLastVisit() {
+        return lastVisit;
+    }
+
+    public void setLastVisit(DataUpdateVisit lastVisit) {
+        this.lastVisit = lastVisit;
+    }
+    
+    
 }

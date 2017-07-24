@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.jgeniselli.catalogacaoWS.model;
+package br.com.jgeniselli.catalogacaoWS.model.location;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,30 +24,30 @@ public class City implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    
-    private String name;
-//    private String state;
-    private String country;
 
+    private String name;
+
+    @ManyToOne
+    private State state;
+    
     public City() {
         
     }
 
-    public City(String name, String state, String country) {
+    public City(String name, State state) {
         this.name = name;
-//        this.state = state;
-        this.country = country;
+        this.state = state;
     }
 
     public String getName() {
         return name;
     }
 
-//    public String getState() {
-//        return state;
-//    }
+    public State getState() {
+        return state;
+    }
 
-    public String getCountry() {
-        return country;
+    public Integer getId() {
+        return id;
     }
 }

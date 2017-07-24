@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.jgeniselli.catalogacaoWS.model;
+package br.com.jgeniselli.catalogacaoWS.model.location;
 
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- * @author joaog
+ * @author jgeniselli
  */
-public interface CityRepository extends CrudRepository<City, Long> {
-
+public interface CountryRepository extends CrudRepository<Country, Long> {
+    List<Country> findByName(String name);
 }
+
