@@ -20,16 +20,16 @@ public class AntNest implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer nestId;
     
-    @ManyToOne
-    private City city;
+//    @ManyToOne
+//    private City city;
     
     private String name;
     private String vegetation;
     
-    private Date lastVisitDate;
+//    private Date lastVisitDate;
 
-    public Coordinate lastBeginingPoint; // coordenadas
-    public Coordinate lastEndingPoint; // coordenadas
+//    public Coordinate lastBeginingPoint; // coordenadas
+//    public Coordinate lastEndingPoint; // coordenadas
 
     public AntNest() {
         

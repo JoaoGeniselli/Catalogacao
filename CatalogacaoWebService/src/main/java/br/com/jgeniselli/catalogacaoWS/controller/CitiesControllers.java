@@ -1,4 +1,4 @@
-package br.com.jgeniselli.catalogacaoWS;
+package br.com.jgeniselli.catalogacaoWS.controller;
 
 import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.City;

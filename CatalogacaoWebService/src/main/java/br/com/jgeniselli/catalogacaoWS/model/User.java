@@ -5,15 +5,27 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author joaog
  */
-public class User {
+@Entity
+public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    
     private String userId;
     private String password;
 
     public User() {
+        
     }
 
     public String getUserId() {
