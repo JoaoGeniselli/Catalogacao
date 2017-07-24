@@ -28,6 +28,9 @@ public class Ant implements Serializable {
 
     @ManyToOne
     private DataUpdateVisit visit;
+    
+    @ManyToOne
+    private AntNest antNest;
 
     public Ant() {
 

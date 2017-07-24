@@ -2,6 +2,7 @@ package br.com.jgeniselli.catalogacaoWS.model;
 
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import javax.persistence.Entity;
@@ -29,6 +30,8 @@ public class AntNest implements Serializable {
     
     @ManyToOne
     private DataUpdateVisit lastVisit;
+    
+    private ArrayList<Ant> ants;
 
     public AntNest() {
         
@@ -73,6 +76,4 @@ public class AntNest implements Serializable {
     public void setLastVisit(DataUpdateVisit lastVisit) {
         this.lastVisit = lastVisit;
     }
-    
-    
 }
