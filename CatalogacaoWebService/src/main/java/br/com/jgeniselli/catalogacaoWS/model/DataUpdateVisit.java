@@ -22,22 +22,22 @@ public class DataUpdateVisit implements Serializable {
     
     private Date collectionDate; // data
     
-    @ManyToOne
-    private User collector;
-
-    @ManyToOne
-    private Coordinate newBeginingPoint;
-    
-    @ManyToOne
-    private Coordinate newEndingPoint;
+//    @ManyToOne
+//    private User collector;
+//
+//    @ManyToOne
+//    private Coordinate newBeginingPoint;
+//    
+//    @ManyToOne
+//    private Coordinate newEndingPoint;
 
     private String observation;
-    
-    @ManyToOne
-    private AntNest nest;
-    
-    @OneToMany
-    private ArrayList<Photo> photos;
+//    
+//    @ManyToOne
+//    private AntNest nest;
+//    
+//    @OneToMany
+//    private ArrayList<Photo> photos;
 
     public DataUpdateVisit() {
         
@@ -45,56 +45,56 @@ public class DataUpdateVisit implements Serializable {
 
     public DataUpdateVisit(Date collectionDate, User collector, AntNest nest) {
         this.collectionDate = collectionDate;
-        this.collector = collector;
-        this.nest = nest;
+//        this.collector = collector;
+//        this.nest = nest;
     }
 
     public void setCollectionDate(Date collectionDate) {
         this.collectionDate = collectionDate;
     }
 
-    public void setCollector(User collector) {
-        this.collector = collector;
-    }
-
-    public void setNewBeginingPoint(Coordinate newBeginingPoint) {
-        this.newBeginingPoint = newBeginingPoint;
-    }
-
-    public void setNewEndingPoint(Coordinate newEndingPoint) {
-        this.newEndingPoint = newEndingPoint;
-    }
+//    public void setCollector(User collector) {
+//        this.collector = collector;
+//    }
+//
+//    public void setNewBeginingPoint(Coordinate newBeginingPoint) {
+//        this.newBeginingPoint = newBeginingPoint;
+//    }
+//
+//    public void setNewEndingPoint(Coordinate newEndingPoint) {
+//        this.newEndingPoint = newEndingPoint;
+//    }
 
     public void setObservation(String observation) {
         this.observation = observation;
     }
 
-    public void setNest(AntNest nest) {
-        this.nest = nest;
-        nest.setLastVisit(this);
-    }
+//    public void setNest(AntNest nest) {
+//        this.nest = nest;
+//        nest.setLastVisit(this);
+//    }
 
     public Date getCollectionDate() {
         return collectionDate;
     }
 
-    public User getCollector() {
-        return collector;
-    }
-
-    public Coordinate getNewBeginingPoint() {
-        return newBeginingPoint;
-    }
-
-    public Coordinate getNewEndingPoint() {
-        return newEndingPoint;
-    }
+//    public User getCollector() {
+//        return collector;
+//    }
+//
+//    public Coordinate getNewBeginingPoint() {
+//        return newBeginingPoint;
+//    }
+//
+//    public Coordinate getNewEndingPoint() {
+//        return newEndingPoint;
+//    }
 
     public String getObservation() {
         return observation;
     }
 
-    public AntNest getNest() {
-        return nest;
-    }
+//    public AntNest getNest() {
+//        return nest;
+//    }
 }

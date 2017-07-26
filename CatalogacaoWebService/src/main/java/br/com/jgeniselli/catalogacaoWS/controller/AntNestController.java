@@ -34,11 +34,7 @@ public class AntNestController extends BaseController {
     @RequestMapping(method=POST, path="/nestsByCities")
     public ArrayList<AntNest> nestsByCities(
             @RequestParam(name = "cities") ArrayList<City> cities) {
-        ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository.findByCity(cities);
+        ArrayList<AntNest> nests = new ArrayList<>(); //(ArrayList<AntNest>) nestRepository.findByCity(cities);
         return nests;
     }
-    
-    
-    
-    
 }

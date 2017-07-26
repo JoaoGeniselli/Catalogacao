@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author joaog
  */
-@RequestMapping(path = "catalogacao")
+@RequestMapping(path = "catalogacao/v1")
 public class BaseController {
     
     public boolean tokenIsValid(String token) {

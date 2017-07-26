@@ -26,23 +26,23 @@ public class Ant implements Serializable {
     private String antSubgenus; // texto
     private String antSpecies; // texto
 
-    @ManyToOne
-    private DataUpdateVisit visit;
-    
-    @ManyToOne
-    private AntNest antNest;
+//    @ManyToOne
+//    private DataUpdateVisit visit;
+//    
+//    @ManyToOne
+//    private AntNest antNest;
 
     public Ant() {
 
     }
-    
-    public DataUpdateVisit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(DataUpdateVisit visit) {
-        this.visit = visit;
-    }
+//    
+//    public DataUpdateVisit getVisit() {
+//        return visit;
+//    }
+//
+//    public void setVisit(DataUpdateVisit visit) {
+//        this.visit = visit;
+//    }
 
     public String getName() {
         return name;

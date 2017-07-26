@@ -1,6 +1,9 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,15 +25,17 @@ public class AntNest implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer nestId;
     
-    @ManyToOne
-    private City city;
+//    @ManyToOne
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
+//    private City city;
     
     private String name;
     private String vegetation;
     
-    @ManyToOne
-    private DataUpdateVisit lastVisit;
-    
+//    @ManyToOne
+//    private DataUpdateVisit lastVisit;
+//    
     private ArrayList<Ant> ants;
 
     public AntNest() {
@@ -45,13 +50,13 @@ public class AntNest implements Serializable {
         this.nestId = nestId;
     }
 
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
+//    public City getCity() {
+//        return city;
+//    }
+//
+//    public void setCity(City city) {
+//        this.city = city;
+//    }
 
     public String getName() {
         return name;
@@ -68,12 +73,12 @@ public class AntNest implements Serializable {
     public void setVegetation(String vegetation) {
         this.vegetation = vegetation;
     }
-
-    public DataUpdateVisit getLastVisit() {
-        return lastVisit;
-    }
-
-    public void setLastVisit(DataUpdateVisit lastVisit) {
-        this.lastVisit = lastVisit;
-    }
+//
+//    public DataUpdateVisit getLastVisit() {
+//        return lastVisit;
+//    }
+//
+//    public void setLastVisit(DataUpdateVisit lastVisit) {
+//        this.lastVisit = lastVisit;
+//    }
 }
