@@ -7,12 +7,17 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  * Created by joaog on 26/05/2017.
@@ -25,19 +30,26 @@ public class AntNest implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer nestId;
     
-//    @ManyToOne
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//    @JsonIdentityReference(alwaysAsId = true)
-//    private City city;
+    @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private City city;
     
     private String name;
     private String vegetation;
     
-//    @ManyToOne
-//    private DataUpdateVisit lastVisit;
-//    
-    private ArrayList<Ant> ants;
+    @OneToMany
+    private List<DataUpdateVisit> dataUpdateVisits;
 
+    @OneToMany
+    private List<Ant> ants;
+    
+    @OneToMany
+    private List<Photo> photos;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date registerDate; 
+   
     public AntNest() {
         
     }
@@ -50,13 +62,13 @@ public class AntNest implements Serializable {
         this.nestId = nestId;
     }
 
-//    public City getCity() {
-//        return city;
-//    }
-//
-//    public void setCity(City city) {
-//        this.city = city;
-//    }
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     public String getName() {
         return name;
@@ -73,12 +85,16 @@ public class AntNest implements Serializable {
     public void setVegetation(String vegetation) {
         this.vegetation = vegetation;
     }
-//
-//    public DataUpdateVisit getLastVisit() {
-//        return lastVisit;
-//    }
-//
-//    public void setLastVisit(DataUpdateVisit lastVisit) {
-//        this.lastVisit = lastVisit;
-//    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
+    }
+    
+    public void addPhoto(Photo photo) {
+        photos.add(photo);
+    }
 }

@@ -38,8 +38,9 @@ public class CitiesControllers extends BaseController {
     
     @RequestMapping(method=GET, path="/addCity")
     public String addCity(@RequestParam(required=true, name="name")String name) {
-        
-        
+        City city = new City();
+        city.setName(name);
+        cityRepository.save(city);
         return name + ": Salva";
     }
     

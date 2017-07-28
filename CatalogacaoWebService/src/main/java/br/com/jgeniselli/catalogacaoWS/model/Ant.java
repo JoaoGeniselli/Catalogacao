@@ -1,11 +1,15 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  * Created by joaog on 26/05/2017.
@@ -26,23 +30,21 @@ public class Ant implements Serializable {
     private String antSubgenus; // texto
     private String antSpecies; // texto
 
-//    @ManyToOne
-//    private DataUpdateVisit visit;
-//    
-//    @ManyToOne
-//    private AntNest antNest;
+    @ManyToOne
+    private DataUpdateVisit visit;
+
+    @ManyToOne
+    private AntNest antNest;
+    
+    @OneToMany
+    private List<Photo> photos;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date registerDate;
 
     public Ant() {
 
     }
-//    
-//    public DataUpdateVisit getVisit() {
-//        return visit;
-//    }
-//
-//    public void setVisit(DataUpdateVisit visit) {
-//        this.visit = visit;
-//    }
 
     public String getName() {
         return name;
@@ -99,6 +101,32 @@ public class Ant implements Serializable {
     public void setAntSpecies(String antSpecies) {
         this.antSpecies = antSpecies;
     }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    public DataUpdateVisit getVisit() {
+        return visit;
+    }
+
+    public void setVisit(DataUpdateVisit visit) {
+        this.visit = visit;
+    }
+
+    public AntNest getAntNest() {
+        return antNest;
+    }
+
+    public void setAntNest(AntNest antNest) {
+        this.antNest = antNest;
+    }
     
-    
+    public void addPhoto(Photo photo) {
+        photos.add(photo);
+    }
 }

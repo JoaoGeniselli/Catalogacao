@@ -1,10 +1,12 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  * Created by joaog on 27/05/2017.
@@ -14,10 +16,12 @@ public class Photo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
-    
+
     private String description;
     private String filepath;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date registerDate;
 
     public Photo() {
         
@@ -43,6 +47,12 @@ public class Photo implements Serializable {
     public void setFilepath(String filepath) {
         this.filepath = filepath;
     }
-    
-    
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
+    }
 }

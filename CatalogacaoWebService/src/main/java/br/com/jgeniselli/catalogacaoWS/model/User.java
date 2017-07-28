@@ -21,11 +21,13 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    private Boolean active;
+    
     private String userId;
     private String password;
 
     public User() {
-        
+        active = true;
     }
 
     public String getUserId() {
