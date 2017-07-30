@@ -39,11 +39,11 @@ public class DataUpdateVisit implements Serializable {
     private Coordinate newEndingPoint;
 
     private String notes;
-    
+
     @ManyToOne
     private AntNest nest;
-    
-    @OneToMany
+
+    @OneToMany(mappedBy = "visit")
     private List<Ant> ants;
     
     @OneToMany

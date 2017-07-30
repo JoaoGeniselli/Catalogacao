@@ -18,7 +18,6 @@ import javax.persistence.Table;
  * @author joaog
  */
 @Entity
-@Table(name = "CIDADE")
 public class City implements Serializable {
     
     @Id
@@ -28,7 +27,7 @@ public class City implements Serializable {
     private String name;
 
     @ManyToOne
-    private State state;
+    private CountryState state;
     
     public City() {
         
@@ -38,7 +37,7 @@ public class City implements Serializable {
         this.name = name;
     }
 
-    public City(String name, State state) {
+    public City(String name, CountryState state) {
         this.name = name;
         this.state = state;
     }
@@ -47,11 +46,17 @@ public class City implements Serializable {
         return name;
     }
 
-    public State getState() {
+    public CountryState getState() {
         return state;
     }
 
     public Integer getId() {
         return id;
     }
+
+    public void setState(CountryState state) {
+        this.state = state;
+    }
+    
+    
 }

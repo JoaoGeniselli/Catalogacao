@@ -67,7 +67,7 @@ public class AntNestController extends BaseController {
     }
     
     @RequestMapping(method=GET, path="/allDataUpdates")
-    public ArrayList<AntNest> allDataUpdates() {
+    public ArrayList<DataUpdateVisit> allDataUpdates() {
         ArrayList<DataUpdateVisit> dataUpdates = (ArrayList<DataUpdateVisit>) dataUpdateVisitRepository.findAll();
         return dataUpdates;
     }

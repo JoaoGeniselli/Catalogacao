@@ -29,19 +29,19 @@ public class AntNest implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer nestId;
-    
-    @ManyToOne
+
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @OneToOne
     private City city;
     
     private String name;
     private String vegetation;
     
-    @OneToMany
+    @OneToMany(mappedBy = "nest")
     private List<DataUpdateVisit> dataUpdateVisits;
 
-    @OneToMany
+    @OneToMany(mappedBy = "antNest")
     private List<Ant> ants;
     
     @OneToMany

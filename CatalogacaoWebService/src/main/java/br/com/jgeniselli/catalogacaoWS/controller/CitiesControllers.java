@@ -2,15 +2,18 @@ package br.com.jgeniselli.catalogacaoWS.controller;
 
 import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
-import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
+//import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.Country;
 import br.com.jgeniselli.catalogacaoWS.model.location.CountryRepository;
-import br.com.jgeniselli.catalogacaoWS.model.location.State;
-import br.com.jgeniselli.catalogacaoWS.model.location.StateRepository;
+import br.com.jgeniselli.catalogacaoWS.model.location.CountryState;
+//import br.com.jgeniselli.catalogacaoWS.model.location.StateRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -22,72 +25,57 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CitiesControllers extends BaseController {
     
-    @Autowired
-    private CityRepository cityRepository;
-    
-    @Autowired
-    private StateRepository stateRepository;
+//    @Autowired
+//    private CityRepository cityRepository;
+//    
+//    @Autowired
+//    private StateRepository stateRepository;
     
     @Autowired
     private CountryRepository countryRepository;
-    
-    @RequestMapping(method=GET, path="/cities")
-    public @ResponseBody Iterable<City> cities() {
-        return cityRepository.findAll();
-    }
-    
+        
     @RequestMapping(method=GET, path="/addCity")
     public String addCity(@RequestParam(required=true, name="name")String name) {
         City city = new City();
         city.setName(name);
-        cityRepository.save(city);
+//        cityRepository.save(city);
         return name + ": Salva";
     }
     
-    @RequestMapping(method=POST, path="/nests")
-//    public ArrayList<AntNest> nests(@RequestParam(name = "cities") ArrayList<Spring> cities) {
-    public ArrayList<AntNest> nests() {
-        ArrayList cities;
-        cities = new ArrayList<>();
-        ArrayList<AntNest> nests = new ArrayList<>();
-        
-//        if (cities.contains("Santa Gertrudes")) {
-//            nests.add(new AntNest("Ninho 1", "Mata Atlântica", "Santa Gertrudes", "SP", "Brasil"));
-//            nests.add(new AntNest("Ninho 2", "Mata Atlântica", "Santa Gertrudes", "SP", "Brasil"));
-//        }
-//
-//        if (cities.contains("Rio Claro")) {
-//            nests.add(new AntNest("Ninho 3", "Mata Atlântica", "Rio Claro", "SP", "Brasil"));
-//            nests.add(new AntNest("Ninho 4", "Mata Atlântica", "Rio Claro", "SP", "Brasil"));
-//        }
-//        
-//        if (cities.isEmpty()) {
-//            nests.add(new AntNest("Ninho 1", "Mata Atlântica", "Santa Gertrudes", "SP", "Brasil"));
-//            nests.add(new AntNest("Ninho 2", "Mata Atlântica", "Santa Gertrudes", "SP", "Brasil"));
-//            nests.add(new AntNest("Ninho 3", "Mata Atlântica", "Rio Claro", "SP", "Brasil"));
-//            nests.add(new AntNest("Ninho 4", "Mata Atlântica", "Rio Claro", "SP", "Brasil"));
-//        }       
-        return nests;
+    @RequestMapping(method=GET, path="/locationContent")
+    public List<Country> locationContent() {
+        List<Country> countries = (List<Country>) countryRepository.findAll();
+        return countries;
     }
     
+    @RequestMapping(method=POST,path="/addCountryInfo")
+    public String addCountryInfo(@RequestBody HashMap<String, ?> json) { 
+        ArrayList<HashMap> states = (ArrayList) json.get("estados");        
+        
+        Country country = new Country((String) json.get("pais"));
+        
+
+        HashSet<CountryState> countryStates = new HashSet();
+        
+        for(HashMap stateInfo : states) {
+            
+            CountryState state = new CountryState(country, (String) stateInfo.get("nome"));
+            state.setInitials((String) stateInfo.get("sigla"));
+            state.setCountry(country);
+            countryStates.add(state);
+            
+            HashSet<City> citiesSet = new HashSet();
+            ArrayList<String> citiesNames = (ArrayList<String>)stateInfo.get("cidades");
+            for (String cityName : citiesNames) {
+                City city = new City();
+                city.setName(cityName);
+                city.setState(state);
+                citiesSet.add(city);
+            }
+        }
+        countryRepository.save(country);
+        return "Carga de cidades salva";
+    }   
     
-//     public String loadCitiesFromJson(HashMap<String, ?> json) { 
-//        ArrayList<HashMap> states = (ArrayList) json.get("estados");
-//        
-//        Country country = new Country((String) json.get("pais"));
-//        countryRepository.save(country);
-//        
-//         for (HashMap stateInfo : states) {
-//            State state = new State(country, (String) stateInfo.get("nome"));
-//            stateRepository.save(state); 
-//            
-//             for (Object city : (ArrayList) stateInfo.get("cidades")) {
-//                 
-//             }
-//         }
-//
-//         return "";
-//     }   
-//    
             
 }

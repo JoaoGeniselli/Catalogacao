@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.jgeniselli.catalogacaoWS.model.location;
-
-import org.springframework.data.repository.CrudRepository;
+package br.com.jgeniselli.catalogacaoWS.model.Rest;
 
 /**
  *
  * @author joaog
  */
-public interface CityRepository extends CrudRepository<City, Long> {
-
+public class RestCoordinate {
+    
 }
