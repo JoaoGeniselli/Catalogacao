@@ -1,11 +1,7 @@
-// Cidades
 
-
-// <DNS>/
-
-Nome: Cidades disponíveis: 
+Nome: Carga de localizações (cidades, estados, países) 
 Método: GET
-URL: <DNS>/catalogacao/v1/cities
+URL: <DNS>/catalogacao/v1/locationContent
 
 Response: 
 [
@@ -25,20 +21,165 @@ Response:
 
 =================================================
 
-Nome: Ninhos Por Cidades
+Nome: Novo Ninho
 Método: POST
-URL: <DNS>/catalogacao/v1/nests
+URL: <DNS>/catalogacao/v1/addNewNest
 
 Request:
 {
-	"cities" : [1, 2, 3, 4]
+	"cityId" : 123,
+	"name" : "nest 1",
+	"collectorId" : 3,
+	"vegetation" : "vegetation",
+	"beginPoint" : {
+		"latitude" : -21.0000,
+		"longitude" : -47.0000
+	},
+	"endingPoint" : {
+		"latitude" : -21.0011,
+		"longitude" : -47.0011
+	},
+}
+
+Response: 
+{
+	"nestId" : 123
+	"message" : "salvo | erro"
+}
+
+=================================================
+
+Nome: Nova atualização de dados
+Método: POST
+URL: <DNS>/catalogacao/v1/addDataUpdate
+
+Request:
+{
+	"nestId" : 123,
+	"collectionDate" : "20-05-2017",
+	"collectorId" : 12,
+	"beginPoint" : {
+		"latitude" : -21.0000,
+		"longitude" : -47.0000
+	},
+	"endingPoint" : {
+		"latitude" : -21.0011,
+		"longitude" : -47.0011
+	},
+	"notes" : "text text text",	
+}
+
+Response: 
+{
+	"dataUpdateId" : 10,
+	"message" : "salvo | erro"
+}
+
+=================================================
+
+Nome: Novas formigas
+Método: POST
+URL: <DNS>/catalogacao/v1/addAnts
+
+Request:
+[
+	{
+		"name" : "ant A",
+		"order" : "order A",
+		"family" : "family B",
+		"subfamily" : "subfamily C",
+		"genus" : "genus A",
+		"subgenus" : "subgenus C",
+		"species" : "ant species",
+		"dataUpdateId" : 10
+	},
+	{
+		"name" : "ant A",
+		"order" : "order A",
+		"family" : "family B",
+		"subfamily" : "subfamily C",
+		"genus" : "genus A",
+		"subgenus" : "subgenus C",
+		"species" : "ant species",
+		"dataUpdateId" : 10
+	}
+]
+
+Response:
+{
+	"message" : "salvo | erro"
+}
+
+=================================================
+
+Nome: Novas fotos
+Método: POST
+URL: <DNS>/catalogacao/v1/addPhotos
+
+Request:
+[
+	{
+		"antId" : 12,
+		"nestId" : 0,
+		"dataUpdateId" : 0,
+		"image" : "base64 encoded image",
+		"description" : "text text text"
+	},
+	{
+		"antId" : 0,
+		"nestId" : 0,
+		"dataUpdateId" : 10,
+		"image" : "base64 encoded image",
+		"description" : "text text text"
+	}
+]
+
+Response:
+{
+	"message" : "salvo | erro"
+}
+
+=================================================
+
+Nome: Ninhos por cidades
+Método: POST
+URL: <DNS>/catalogacao/v1/nestsByCities
+
+Request:
+{
+	"cities" : [ 1, 2, 5, 9, 13 ]
 }
 
 Response: 
 [
-	Ninho,
-	Ninho,
-	Ninho
+	{
+		"id" : 5,
+		"cityId" : 123,
+		"name" : "nest 1",
+		"vegetation" : "vegetation",
+		"lastUpdate" : "20-05-2017"
+		"beginPoint" : {
+			"latitude" : -21.0000,
+			"longitude" : -47.0000
+		},
+		"endingPoint" : {
+			"latitude" : -21.0011,
+			"longitude" : -47.0011
+		},
+	},
+	{
+		"id" : 11,
+		"cityId" : 2,
+		"name" : "nest 1",
+		"vegetation" : "vegetation",
+		"lastUpdate" : "20-05-2017"
+		"beginPoint" : {
+			"latitude" : -21.0000,
+			"longitude" : -47.0000
+		},
+		"endingPoint" : {
+			"latitude" : -21.0011,
+			"longitude" : -47.0011
+		},
+	}
 ]
-
-=================================================
