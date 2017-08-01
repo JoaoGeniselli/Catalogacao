@@ -41,10 +41,10 @@ public class AntNestController extends BaseController {
         return nest.getName() + ": Salvo com sucesso";
     }
     
-    @RequestMapping(method=POST, path="/nestsByCities")
+    @RequestMapping(method=GET, path="/nestsByCities")
     public ArrayList<AntNest> nestsByCities(
-            @RequestParam(name = "cities") ArrayList<City> cities) {
-        ArrayList<AntNest> nests = new ArrayList<>(); //(ArrayList<AntNest>) nestRepository.findByCity(cities);
+            @RequestParam(name = "cities") ArrayList<Integer> cities) {
+        ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository.findByCityIdIn(cities);
         return nests;
     }
     
