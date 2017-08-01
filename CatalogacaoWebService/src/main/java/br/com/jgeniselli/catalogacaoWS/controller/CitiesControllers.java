@@ -1,12 +1,11 @@
 package br.com.jgeniselli.catalogacaoWS.controller;
 
-import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
-//import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
+import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.Country;
 import br.com.jgeniselli.catalogacaoWS.model.location.CountryRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.CountryState;
-//import br.com.jgeniselli.catalogacaoWS.model.location.StateRepository;
+import br.com.jgeniselli.catalogacaoWS.model.location.CountryStateRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CitiesControllers extends BaseController {
     
-//    @Autowired
-//    private CityRepository cityRepository;
-//    
-//    @Autowired
-//    private StateRepository stateRepository;
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private CountryStateRepository stateRepository;
     
     @Autowired
     private CountryRepository countryRepository;
@@ -53,15 +52,16 @@ public class CitiesControllers extends BaseController {
         ArrayList<HashMap> states = (ArrayList) json.get("estados");        
         
         Country country = new Country((String) json.get("pais"));
-        
+        countryRepository.save(country);
 
         HashSet<CountryState> countryStates = new HashSet();
         
         for(HashMap stateInfo : states) {
-            
             CountryState state = new CountryState(country, (String) stateInfo.get("nome"));
             state.setInitials((String) stateInfo.get("sigla"));
             state.setCountry(country);
+            stateRepository.save(state);
+
             countryStates.add(state);
             
             HashSet<City> citiesSet = new HashSet();
@@ -71,7 +71,11 @@ public class CitiesControllers extends BaseController {
                 city.setName(cityName);
                 city.setState(state);
                 citiesSet.add(city);
+                cityRepository.save(city);
             }
+            
+            state.setCities(citiesSet);
+            stateRepository.save(state);
         }
         countryRepository.save(country);
         return "Carga de cidades salva";

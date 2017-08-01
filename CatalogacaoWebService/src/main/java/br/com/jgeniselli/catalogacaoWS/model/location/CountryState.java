@@ -5,9 +5,12 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.location;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +30,11 @@ public class CountryState implements Serializable {
     private Integer id;   
     
     @ManyToOne
+    @JsonIgnore
     private Country country;
     
     @OneToMany(mappedBy = "state")
-    private List<City> cities;
+    private Set<City> cities;
     
     private String initials;
     
@@ -42,12 +46,12 @@ public class CountryState implements Serializable {
     public CountryState(Country country, String name) {
         this.country = country;
         this.name = name;
-        this.cities = new ArrayList<>();
+        this.cities = new HashSet<>();
     }
 
     public void setCountry(Country country) {
         this.country = country;
-        this.cities = new ArrayList<>();
+        this.cities = new HashSet<>();
     }
 
     public void setName(String name) {
@@ -74,11 +78,11 @@ public class CountryState implements Serializable {
         this.initials = initials;
     }
 
-    public List<City> getCities() {
+    public Set<City> getCities() {
         return cities;
     }
 
-    public void setCities(List<City> cities) {
+    public void setCities(Set<City> cities) {
         this.cities = cities;
     }
     

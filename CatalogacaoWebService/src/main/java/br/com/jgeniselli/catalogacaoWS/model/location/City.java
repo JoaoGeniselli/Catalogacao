@@ -5,6 +5,7 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.location;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class City implements Serializable {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     private CountryState state;
     
     public City() {
