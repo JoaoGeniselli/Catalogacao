@@ -84,6 +84,48 @@ public class DataUpdateVisit implements Serializable {
     public List<Ant> getAnts() {
         return ants;
     }
+
+    public User getCollector() {
+        return collector;
+    }
+
+    public void setCollector(User collector) {
+        this.collector = collector;
+    }
+
+    public Coordinate getNewBeginingPoint() {
+        return newBeginingPoint;
+    }
+
+    public void setNewBeginingPoint(Coordinate newBeginingPoint) {
+        this.newBeginingPoint = newBeginingPoint;
+    }
+
+    public Coordinate getNewEndingPoint() {
+        return newEndingPoint;
+    }
+
+    public void setNewEndingPoint(Coordinate newEndingPoint) {
+        this.newEndingPoint = newEndingPoint;
+    }
+
+    public AntNest getNest() {
+        return nest;
+    }
+
+    public void setNest(AntNest nest) {
+        this.nest = nest;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+    
+    
     
     
 }

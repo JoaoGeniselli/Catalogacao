@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,10 +41,10 @@ public class AntNest implements Serializable {
     private String vegetation;
     
     @OneToMany(mappedBy = "nest")
-    private List<DataUpdateVisit> dataUpdateVisits;
+    private Set<DataUpdateVisit> dataUpdateVisits;
 
     @OneToMany(mappedBy = "antNest")
-    private List<Ant> ants;
+    private Set<Ant> ants;
     
     @OneToMany
     private List<Photo> photos;
@@ -97,4 +99,22 @@ public class AntNest implements Serializable {
     public void addPhoto(Photo photo) {
         photos.add(photo);
     }
+
+    public Set<DataUpdateVisit> getDataUpdateVisits() {
+        return dataUpdateVisits;
+    }
+
+    public void setDataUpdateVisits(Set<DataUpdateVisit> dataUpdateVisits) {
+        this.dataUpdateVisits = dataUpdateVisits;
+    }
+
+    public Set<Ant> getAnts() {
+        return ants;
+    }
+
+    public void setAnts(Set<Ant> ants) {
+        this.ants = ants;
+    }    
+    
+    
 }

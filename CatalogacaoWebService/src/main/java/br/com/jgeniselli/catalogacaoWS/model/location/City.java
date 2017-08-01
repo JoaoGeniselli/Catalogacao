@@ -59,6 +59,8 @@ public class City implements Serializable {
     public void setState(CountryState state) {
         this.state = state;
     }
-    
-    
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

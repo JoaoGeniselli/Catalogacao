@@ -10,10 +10,15 @@ import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -35,10 +40,61 @@ public class AntNestController extends BaseController {
     private DataUpdateVisitRepository dataUpdateVisitRepository;
     
     @RequestMapping(method=POST, path="/addNewNest")
-    public String addNewNest(@RequestBody AntNest nest) {
+    public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
+        
+        // TODO: VALIDAR TOKEN
+
+        if (nestInfo.getCity() == null) {
+            String message = "Cidade inválida";
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        
+        if (nestInfo.getBeginingPoint() == null || nestInfo.getEndingPoint() == null) {
+            String message = "Localização inválida";
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        
+        if (nestInfo.getCollector() == null) {
+            String message = "Usuário inválido";
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+        }
+        
+        AntNest nest = new AntNest();
+
+        nest.setCity(nestInfo.getCity());
+        nest.setName(nestInfo.getName());
+        nest.setVegetation(nestInfo.getVegetation());
+        
+        nestRepository.save(nest);
+        
+        DataUpdateVisit dataUpdate = new DataUpdateVisit();
+        
+        dataUpdate.setCollector(nestInfo.getCollector());
+        dataUpdate.setNewBeginingPoint(nestInfo.getBeginingPoint());
+        dataUpdate.setNewEndingPoint(nestInfo.getEndingPoint());
+        
+        dataUpdate.setNotes("--- REGISTRO DO NINHO ---");
+        dataUpdate.setNest(nest);
+        
+        dataUpdateVisitRepository.save(dataUpdate);
+        
+        HashSet set = new HashSet();
+        set.add(dataUpdate);
+        nest.setDataUpdateVisits(set);
         nest.setRegisterDate(new Date());
         nestRepository.save(nest);
-        return nest.getName() + ": Salvo com sucesso";
+        
+        String message = "Ninho salvo com sucesso";
+        HashMap<String, String> map = new HashMap<>();
+        map.put("msg", message);
+        map.put("id", nest.getNestId().toString());
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
     @RequestMapping(method=GET, path="/nestsByCities")
