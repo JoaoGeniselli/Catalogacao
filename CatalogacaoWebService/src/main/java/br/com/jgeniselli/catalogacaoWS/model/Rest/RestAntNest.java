@@ -19,18 +19,12 @@ import java.io.Serializable;
  * @author joaog
  */
 public class RestAntNest implements Serializable {
-    
-    @JsonProperty(value = "cityId")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", resolver = EntityIdResolver.class)
-    @JsonIdentityReference(alwaysAsId = true)
-    private City city;
-    
+
+    private Long cityId;
     private String name;
+    private Long collectorId;
     
-    @JsonProperty(value = "collectorId")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", resolver = EntityIdResolver.class)
-    @JsonIdentityReference(alwaysAsId = true)
-    private User collector;
+    private String token;
     
     private String vegetation;
     
@@ -41,16 +35,8 @@ public class RestAntNest implements Serializable {
         
     }
 
-    public City getCity() {
-        return city;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public User getCollector() {
-        return collector;
     }
 
     public String getVegetation() {
@@ -64,6 +50,28 @@ public class RestAntNest implements Serializable {
     public Coordinate getEndingPoint() {
         return endingPoint;
     }
-    
-    
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public Long getCollectorId() {
+        return collectorId;
+    }
+
+    public void setCollectorId(Long collectorId) {
+        this.collectorId = collectorId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -21,7 +21,7 @@ public class DataUpdateVisit implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date collectionDate; // data

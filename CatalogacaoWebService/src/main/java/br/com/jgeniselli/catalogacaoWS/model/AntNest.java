@@ -30,7 +30,7 @@ public class AntNest implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer nestId;
+    private Long nestId;
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
@@ -54,14 +54,6 @@ public class AntNest implements Serializable {
    
     public AntNest() {
         
-    }
-
-    public Integer getNestId() {
-        return nestId;
-    }
-
-    public void setNestId(Integer nestId) {
-        this.nestId = nestId;
     }
 
     public City getCity() {
@@ -115,6 +107,12 @@ public class AntNest implements Serializable {
     public void setAnts(Set<Ant> ants) {
         this.ants = ants;
     }    
+
+    public Long getNestId() {
+        return nestId;
+    }
+
+    
     
     
 }

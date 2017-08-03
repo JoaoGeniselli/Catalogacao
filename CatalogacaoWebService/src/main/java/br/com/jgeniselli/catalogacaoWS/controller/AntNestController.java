@@ -8,10 +8,14 @@ package br.com.jgeniselli.catalogacaoWS.controller;
 import br.com.jgeniselli.catalogacaoWS.model.Ant;
 import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
+import br.com.jgeniselli.catalogacaoWS.model.CoordinateRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
+import br.com.jgeniselli.catalogacaoWS.model.User;
+import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
+import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,43 +43,65 @@ public class AntNestController extends BaseController {
     @Autowired
     private DataUpdateVisitRepository dataUpdateVisitRepository;
     
+    @Autowired
+    private CityRepository cityRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private CoordinateRepository coordinateRepository;
+    
     @RequestMapping(method=POST, path="/addNewNest")
     public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
         
-        // TODO: VALIDAR TOKEN
+        User user;
+        try {
+            user = userRepository.findOne(nestInfo.getCollectorId());
+            
+            if (user == null || !user.getToken().equals(nestInfo.getToken())) {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            String message = "Operação não autorizada";
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+        }
 
-        if (nestInfo.getCity() == null) {
+        City city;
+        try {
+            city = cityRepository.findOne(nestInfo.getCityId());
+            if (city == null) {
+                throw new Exception();
+            }
+        } catch(Exception e) {
             String message = "Cidade inválida";
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
-        
+
         if (nestInfo.getBeginingPoint() == null || nestInfo.getEndingPoint() == null) {
             String message = "Localização inválida";
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
-        
-        if (nestInfo.getCollector() == null) {
-            String message = "Usuário inválido";
-            HashMap<String, String> map = new HashMap<>();
-            map.put("msg", message);
-            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
-        }
-        
+
         AntNest nest = new AntNest();
 
-        nest.setCity(nestInfo.getCity());
+        nest.setCity(city);
         nest.setName(nestInfo.getName());
         nest.setVegetation(nestInfo.getVegetation());
         
         nestRepository.save(nest);
+        coordinateRepository.save(nestInfo.getBeginingPoint());
+        coordinateRepository.save(nestInfo.getEndingPoint());
         
         DataUpdateVisit dataUpdate = new DataUpdateVisit();
         
-        dataUpdate.setCollector(nestInfo.getCollector());
+        dataUpdate.setCollector(user);
         dataUpdate.setNewBeginingPoint(nestInfo.getBeginingPoint());
         dataUpdate.setNewEndingPoint(nestInfo.getEndingPoint());
         

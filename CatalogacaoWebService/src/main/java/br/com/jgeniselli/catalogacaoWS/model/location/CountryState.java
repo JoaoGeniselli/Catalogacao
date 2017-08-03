@@ -27,7 +27,7 @@ public class CountryState implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;   
+    private Long id;   
     
     @ManyToOne
     @JsonIgnore
@@ -58,10 +58,6 @@ public class CountryState implements Serializable {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public Country getCountry() {
         return country;
     }
@@ -85,6 +81,11 @@ public class CountryState implements Serializable {
     public void setCities(Set<City> cities) {
         this.cities = cities;
     }
+
+    public Long getId() {
+        return id;
+    }
+    
     
     
 

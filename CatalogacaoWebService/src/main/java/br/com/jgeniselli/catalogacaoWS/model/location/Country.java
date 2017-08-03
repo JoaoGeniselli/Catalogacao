@@ -25,7 +25,7 @@ public class Country implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;   
+    private Long id;   
 
     @OneToMany(mappedBy = "country")
     private Set<CountryState> states;
@@ -41,10 +41,6 @@ public class Country implements Serializable {
         this.states = new HashSet<>();
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }   
@@ -55,5 +51,11 @@ public class Country implements Serializable {
 
     public void setStates(Set<CountryState> states) {
         this.states = states;
-    }    
+    }  
+
+    public Long getId() {
+        return id;
+    }
+    
+    
 }

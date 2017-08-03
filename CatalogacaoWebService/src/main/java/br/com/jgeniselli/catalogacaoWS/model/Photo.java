@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 public class Photo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String description;
     private String filepath;

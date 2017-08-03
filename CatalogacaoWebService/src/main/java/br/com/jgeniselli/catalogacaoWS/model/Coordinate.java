@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class Coordinate implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     
     private double latitude;
     private double longitude;
