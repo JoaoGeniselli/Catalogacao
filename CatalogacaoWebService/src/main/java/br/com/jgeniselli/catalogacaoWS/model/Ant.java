@@ -129,4 +129,11 @@ public class Ant implements Serializable {
     public void addPhoto(Photo photo) {
         photos.add(photo);
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    
+
 }

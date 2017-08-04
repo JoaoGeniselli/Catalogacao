@@ -8,9 +8,12 @@ package br.com.jgeniselli.catalogacaoWS.controller;
 import br.com.jgeniselli.catalogacaoWS.model.Ant;
 import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
+import br.com.jgeniselli.catalogacaoWS.model.AntRepository;
 import br.com.jgeniselli.catalogacaoWS.model.CoordinateRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.IndexAnswer;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAnt;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.User;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +44,9 @@ public class AntNestController extends BaseController {
     
     @Autowired
     private AntNestRepository nestRepository;
+    
+    @Autowired
+    private AntRepository antRepository;
     
     @Autowired
     private DataUpdateVisitRepository dataUpdateVisitRepository;
@@ -183,16 +190,61 @@ public class AntNestController extends BaseController {
         nest.getDataUpdateVisits().add(dataUpdate);        
         nestRepository.save(nest);
 
-        HashSet set = new HashSet();
-        set.add(dataUpdate);
-        nest.setDataUpdateVisits(set);
-        nest.setRegisterDate(new Date());
-        nestRepository.save(nest);
-        
         String message = "Ninho salvo com sucesso";
         HashMap<String, String> map = new HashMap<>();
         map.put("msg", message);
         map.put("id", nest.getNestId().toString());
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = POST, path = "/addAnts")
+    public ResponseEntity<?> addAnts(@RequestBody List<RestAnt> antInfos) {
+
+        ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
+        for(int i = 0; i < antInfos.size(); i++) {
+            RestAnt antInfo = antInfos.get(i);
+            
+            DataUpdateVisit dataUpdate = null;
+            try {
+                dataUpdate = dataUpdateVisitRepository.findOne(antInfo.getDataUpdateId());
+                if (dataUpdate == null) {
+                   throw new Exception(); 
+                }
+            } catch (Exception e) {
+                String message = "Atualização de dados inválida";
+                IndexAnswer error = new IndexAnswer(null, message);
+                indexAnswers.add(error);
+            } finally {
+                if (dataUpdate != null) {
+                    Ant ant = new Ant();
+                    
+                    ant.setName(antInfo.getName());
+                    ant.setVisit(dataUpdate);
+                    ant.setAntFamily(antInfo.getFamily());
+                    ant.setAntOrder(antInfo.getOrder());
+                    ant.setAntSubfamily(antInfo.getSubfamily());
+                    ant.setAntGenus(antInfo.getGenus());
+                    ant.setAntSubgenus(antInfo.getSubgenus());
+                    ant.setAntSpecies(antInfo.getSpecies());
+                    ant.setAntNest(dataUpdate.getNest());
+                    
+                    ant.setRegisterDate(new Date());
+                    
+                    antRepository.save(ant);
+
+                    dataUpdate.getAnts().add(ant);
+                    dataUpdateVisitRepository.save(dataUpdate);
+                    
+                    dataUpdate.getNest().getAnts().add(ant);
+                    nestRepository.save(dataUpdate.getNest());
+                    
+                    indexAnswers.add(new IndexAnswer(ant.getId(), "Salvo com sucesso"));
+                }
+            }
+        }
+
+        HashMap<String, ArrayList> map = new HashMap<>();
+        map.put("indices", indexAnswers);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
