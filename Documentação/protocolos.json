@@ -1,26 +1,35 @@
 
+STATUS: DESENVOLVIDO
 Nome: Carga de localizações (cidades, estados, países) 
 Método: GET
 URL: <DNS>/catalogacao/v1/locationContent
 
 Response: 
 [
-	{
-		"id" : 123
-		"name" : "nome da cidade",
-		"stateId" : 12,
-		"coutryId" : 1
-	},
-	{
-		"id" : 124
-		"name" : "nome da cidade",
-		"stateId" : 12,
-		"coutryId" : 1
-	}
+	"id" : 1,
+	"name" : "Brasil",
+	"states" : [
+		{
+			"id" : 15,
+			"initials" : "SP",
+			"name" : "São Paulo",
+			"cities" : [
+				{
+					"id" : 5301
+					"name" : "Santa Gertrudes"
+				},
+				{
+					"id" : 5304
+					"name" : "Rio Claro"
+				}
+			]
+		}
+	]
 ]
 
 =================================================
 
+STATUS: DESENVOLVIDO
 Nome: Novo Ninho
 Método: POST
 URL: <DNS>/catalogacao/v1/addNewNest
@@ -31,7 +40,7 @@ Request:
 	"name" : "nest 1",
 	"collectorId" : 3,
 	"vegetation" : "vegetation",
-	"beginPoint" : {
+	"beginingPoint" : {
 		"latitude" : -21.0000,
 		"longitude" : -47.0000
 	},
@@ -49,6 +58,7 @@ Response:
 
 =================================================
 
+STATUS: DESENVOLVIDO
 Nome: Nova atualização de dados
 Método: POST
 URL: <DNS>/catalogacao/v1/addDataUpdate
@@ -77,6 +87,7 @@ Response:
 
 =================================================
 
+STATUS: DESENVOLVIDO
 Nome: Novas formigas
 Método: POST
 URL: <DNS>/catalogacao/v1/addAnts
@@ -107,7 +118,16 @@ Request:
 
 Response:
 {
-	"message" : "salvo | erro"
+	"indices" : [
+		{
+			"id" : null,
+			"message" : "atualização de dados inválida",
+		},
+		{
+			"id" : 16,
+			"message" : "Formiga salva com sucesso",
+		},
+	]
 }
 
 =================================================
@@ -136,7 +156,16 @@ Request:
 
 Response:
 {
-	"message" : "salvo | erro"
+	"indices" : [
+		{
+			"id" : 9,
+			"message" : "Foto salva com sucesso",
+		},
+		{
+			"id" : null,
+			"message" : "Foto não relacionada a uma entidade",
+		},
+	]
 }
 
 =================================================
