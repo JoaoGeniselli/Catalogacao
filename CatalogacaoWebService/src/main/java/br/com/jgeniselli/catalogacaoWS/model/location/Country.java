@@ -25,7 +25,7 @@ public class Country implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;   
+    private Long id;
 
     @OneToMany(mappedBy = "country")
     private Set<CountryState> states;

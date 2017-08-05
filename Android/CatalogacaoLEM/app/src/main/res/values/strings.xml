@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CatalogacaoLEM</string>
+    <string name="ant_nest_register">Novo Ninho</string>
+    <string name="default_login_rest_error">Ocorreu um problema ao obter as informações do serviço</string>
+</resources>

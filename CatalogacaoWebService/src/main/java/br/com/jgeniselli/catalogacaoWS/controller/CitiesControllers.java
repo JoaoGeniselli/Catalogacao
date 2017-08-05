@@ -79,7 +79,5 @@ public class CitiesControllers extends BaseController {
         }
         countryRepository.save(country);
         return "Carga de cidades salva";
-    }   
-    
-            
+    }        
 }

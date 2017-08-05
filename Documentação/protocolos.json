@@ -211,4 +211,13 @@ Response:
 			"longitude" : -47.0011
 		},
 	}
-]
+]self.
+
+=================================================
+
+Nome: Checar versão da carga de localizações 
+Método: GET
+URL: <DNS>/catalogacao/v1/locationContentVersion
+
+Response: 
+3
