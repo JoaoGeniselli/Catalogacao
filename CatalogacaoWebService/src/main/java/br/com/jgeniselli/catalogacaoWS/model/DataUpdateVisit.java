@@ -1,6 +1,9 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +33,8 @@ public class DataUpdateVisit implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date registerDate; // data
     
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     private User collector;
 
@@ -67,16 +72,8 @@ public class DataUpdateVisit implements Serializable {
         this.registerDate = registerDate;
     }
 
-    public void setObservation(String observation) {
-        this.notes = observation;
-    }
-
     public Date getCollectionDate() {
         return collectionDate;
-    }
-
-    public String getObservation() {
-        return notes;
     }
     
     public void addPhoto(Photo photo) {
