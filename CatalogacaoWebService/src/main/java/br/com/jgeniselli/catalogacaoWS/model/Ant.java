@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -31,9 +32,11 @@ public class Ant implements Serializable {
     private String antSpecies; // texto
 
     @ManyToOne
+    @JsonIgnore
     private DataUpdateVisit visit;
 
     @ManyToOne
+    @JsonIgnore
     private AntNest antNest;
     
     @OneToMany

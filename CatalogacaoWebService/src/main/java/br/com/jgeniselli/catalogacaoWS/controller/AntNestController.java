@@ -12,14 +12,20 @@ import br.com.jgeniselli.catalogacaoWS.model.AntRepository;
 import br.com.jgeniselli.catalogacaoWS.model.CoordinateRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
+import br.com.jgeniselli.catalogacaoWS.model.Photo;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.CitiesListRequest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.IndexAnswer;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAnt;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestDataUpdateVisit;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.RestPhoto;
 import br.com.jgeniselli.catalogacaoWS.model.User;
 import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +40,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -59,7 +66,7 @@ public class AntNestController extends BaseController {
     
     @Autowired
     private CoordinateRepository coordinateRepository;
-    
+
     @RequestMapping(method=POST, path="/addNewNest")
     public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
         
@@ -67,7 +74,7 @@ public class AntNestController extends BaseController {
         try {
             user = userRepository.findOne(nestInfo.getCollectorId());
             
-            if (user == null || !user.getToken().equals(nestInfo.getToken())) {
+            if (user == null) {
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -90,7 +97,8 @@ public class AntNestController extends BaseController {
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
 
-        if (nestInfo.getBeginingPoint() == null || nestInfo.getEndingPoint() == null) {
+        if (nestInfo.getBeginingPoint() == null ||
+                nestInfo.getEndingPoint() == null) {
             String message = "Localização inválida";
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
@@ -161,7 +169,8 @@ public class AntNestController extends BaseController {
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
 
-        if (dataUpdateInfo.getBeginingPoint() == null || dataUpdateInfo.getEndingPoint() == null) {
+        if (dataUpdateInfo.getBeginingPoint() == null || 
+                dataUpdateInfo.getEndingPoint() == null) {
             String message = "Localização inválida";
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
@@ -208,7 +217,7 @@ public class AntNestController extends BaseController {
             try {
                 dataUpdate = dataUpdateVisitRepository.findOne(antInfo.getDataUpdateId());
                 if (dataUpdate == null) {
-                   throw new Exception(); 
+                   throw new Exception();
                 }
             } catch (Exception e) {
                 String message = "Atualização de dados inválida";
@@ -248,10 +257,21 @@ public class AntNestController extends BaseController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @RequestMapping(method=GET, path="/nestsByCities")
+    @RequestMapping(method=POST, path="/nestsByCities")
     public ArrayList<AntNest> nestsByCities(
-            @RequestParam(name = "cities") ArrayList<Integer> cities) {
+            @RequestBody CitiesListRequest body) {
+        
+        ArrayList<Long> cities = (ArrayList<Long>) body.cities;
+        
+        if (cities == null) {
+            return new ArrayList<>();
+        }
+        
         ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository.findByCityIdIn(cities);
+        
+        if (nests == null) {
+            nests = new ArrayList<>();
+        }
         return nests;
     }
     
@@ -261,7 +281,7 @@ public class AntNestController extends BaseController {
         
         for(Ant ant : visit.getAnts()) {
             ant.setVisit(visit);
-        }        
+        }
         dataUpdateVisitRepository.save(visit);
 
         return "Salvo com sucesso";
@@ -278,4 +298,84 @@ public class AntNestController extends BaseController {
         ArrayList<DataUpdateVisit> dataUpdates = (ArrayList<DataUpdateVisit>) dataUpdateVisitRepository.findAll();
         return dataUpdates;
     }
+    
+    @RequestMapping
+    public ResponseEntity<?> addPhotos(@RequestBody List<RestPhoto> photos) {
+        ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
+        
+    	if (photos != null && photos.size() >0) {
+            Photo photo = null;
+
+            for(int i =0 ;i< photos.size(); i++){
+                RestPhoto photoInfo = photos.get(i);
+                IndexAnswer answer = null;
+                
+                if (photoInfo.getAntId() != null) {
+                    answer = addPhotoToAnt(photoInfo);
+                } 
+                else if (photoInfo.getNestId() != null) {
+                    answer = addPhotoToNest(photoInfo);
+                }
+                else if (photoInfo.getDataUpdateId() != null) {
+                    answer = addPhotoToDataUpdate(photoInfo);
+                }
+                else {
+                    
+                }
+            }
+        } else {
+            return null;
+        }
+        return null;
+    }
+
+    private IndexAnswer addPhotoToAnt(RestPhoto photo) {
+        Ant ant = null;
+//        Photo photo = null;
+        IndexAnswer answer = null;
+        try {
+            ant = antRepository.findOne(photo.getAntId());
+            if (ant == null) {
+                throw new Exception();
+            }
+            
+            
+           
+        }
+        catch(Exception e) {
+            answer = new IndexAnswer(Long.MIN_VALUE, "Formiga inválida");
+        } 
+        finally {
+            return answer;
+        }
+    }
+    
+    private IndexAnswer addPhotoToNest(RestPhoto photo) {
+        return null;
+    }
+    
+    private IndexAnswer addPhotoToDataUpdate(RestPhoto photo) {
+        return null;
+    }
+    
+    private boolean saveToDirectoryMultipartImage(RestPhoto photoInfo, String filename) {
+        boolean success = false;
+        try {
+            byte[] bytes = photoInfo.getImageFile().getBytes();
+            BufferedOutputStream buffStream = 
+                    new BufferedOutputStream(new FileOutputStream(new File("C:/catalogacaoLEM/img/" + filename)));
+            buffStream.write(bytes);
+            buffStream.close();
+            success = true;
+        } 
+        catch (Exception e) {
+            success = false;
+        } 
+        finally {
+            return success;
+        }
+    }
+    
+    
+
 }

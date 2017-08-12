@@ -3,6 +3,7 @@ package br.com.jgeniselli.catalogacaoWS.model;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class AntNest implements Serializable {
     private Set<DataUpdateVisit> dataUpdateVisits;
 
     @OneToMany(mappedBy = "antNest")
+    @JsonIgnore
     private Set<Ant> ants;
     
     @OneToMany

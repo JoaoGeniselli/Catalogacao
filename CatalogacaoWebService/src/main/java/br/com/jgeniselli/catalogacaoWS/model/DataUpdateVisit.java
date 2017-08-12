@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,7 @@ public class DataUpdateVisit implements Serializable {
     private String notes;
 
     @ManyToOne
+    @JsonIgnore
     private AntNest nest;
 
     @OneToMany(mappedBy = "visit")
