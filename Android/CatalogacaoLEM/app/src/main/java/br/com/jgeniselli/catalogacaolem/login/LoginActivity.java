@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
+import br.com.jgeniselli.catalogacaolem.main.MainActivity_;
 
 @EActivity
 public class LoginActivity extends AppCompatActivity {
@@ -113,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @UiThread
     void redirectToMain() {
-//        Intent toMain = new Intent(this, MainActivity_.class);
-//        startActivity(toMain);
+        Intent toMain = new Intent(this, MainActivity_.class);
+        startActivity(toMain);
     }
 }

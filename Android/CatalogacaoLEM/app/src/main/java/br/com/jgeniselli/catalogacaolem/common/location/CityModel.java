@@ -2,6 +2,7 @@ package br.com.jgeniselli.catalogacaolem.common.location;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by joaog on 05/08/2017.
@@ -9,7 +10,7 @@ import io.realm.annotations.Index;
 
 public class CityModel extends RealmObject {
 
-    @Index
+    @PrimaryKey
     private Long id;
 
     private String name;

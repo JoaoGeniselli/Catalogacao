@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/default_spacing"
+    android:paddingTop="@dimen/default_spacing">
+
+    <ImageView
+        android:id="@+id/checkboxSelectionIndicator"
+        android:src="@drawable/ic_done_black_24dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="@dimen/default_spacing"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/checkboxTitleLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descrição do item a ser selecionado"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/checkboxSelectionIndicator"
+        android:layout_marginTop="@dimen/default_spacing"
+        android:layout_marginBottom="@dimen/default_spacing"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_marginLeft="@dimen/default_separator_inset"
+        android:layout_below="@id/checkboxTitleLabel"
+        />
+
+</RelativeLayout>

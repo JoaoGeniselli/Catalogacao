@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.util.HashMap;
+import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.BuildConfig;
 import br.com.jgeniselli.catalogacaolem.common.HttpBasicAuthenticatorInterceptor;
@@ -24,5 +25,5 @@ public interface SessionRestClient {
     ResponseEntity validateUser(@Body User user);
 
     @Get("/locationContent")
-    RestCountryModel locationContent();
+    List<RestCountryModel> locationContent();
 }

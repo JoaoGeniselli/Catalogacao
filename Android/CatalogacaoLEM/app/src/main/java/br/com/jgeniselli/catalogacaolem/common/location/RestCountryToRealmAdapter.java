@@ -18,8 +18,6 @@ public class RestCountryToRealmAdapter {
         country.setId(countryModel.getId());
         country.setName(countryModel.getName());
 
-        realm.copyToRealmOrUpdate(country);
-
         final ArrayList<StateModel> states = new ArrayList<>();
         final ArrayList<CityModel> cities = new ArrayList<>();
 
@@ -43,18 +41,21 @@ public class RestCountryToRealmAdapter {
             }
         }
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(country);
+        try {
+            realm.beginTransaction();
 
-                for (StateModel state: states) {
-                    realm.copyToRealmOrUpdate(state);
-                }
-                for (CityModel city : cities) {
-                    realm.copyToRealmOrUpdate(cities);
-                }
+            realm.copyToRealmOrUpdate(country);
+
+            for (StateModel state: states) {
+                realm.copyToRealmOrUpdate(state);
             }
-        });
+            for (CityModel city : cities) {
+                realm.copyToRealmOrUpdate(city);
+            }
+
+            realm.commitTransaction();
+        } finally {
+            realm.close();
+        }
     }
 }

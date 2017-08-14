@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/nest_summary_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_separator_inset"
+        android:layout_marginTop="@dimen/default_spacing"
+        android:text="Summary"
+        android:layout_marginRight="@dimen/default_spacing"
+        android:layout_toLeftOf="@+id/nest_summary_disclosure_indicator" />
+
+    <TextView
+        android:id="@+id/nest_summary_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_separator_inset"
+        android:layout_below="@id/nest_summary_name"
+        android:layout_marginRight="@dimen/default_spacing"
+        android:text="Address"
+        android:layout_toLeftOf="@id/nest_summary_disclosure_indicator" />
+
+    <TextView
+        android:id="@+id/nest_summary_vegetation"
+        android:layout_marginLeft="@dimen/default_separator_inset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_spacing"
+        android:layout_below="@id/nest_summary_address"
+        android:layout_marginRight="@dimen/default_spacing"
+        android:text="Vegetation"
+        android:layout_toLeftOf="@id/nest_summary_disclosure_indicator" />
+
+    <ImageView
+        android:id="@+id/nest_summary_disclosure_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_chevron_right_black_24dp"
+        android:layout_alignParentRight="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_marginLeft="@dimen/default_separator_inset"
+        android:layout_below="@id/nest_summary_vegetation"
+        />
+</RelativeLayout>
