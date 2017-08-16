@@ -170,6 +170,7 @@ Response:
 
 =================================================
 
+STATUS: DESENVOLVIDO
 Nome: Ninhos por cidades
 Método: POST
 URL: <DNS>/catalogacao/v1/nestsByCities
@@ -181,37 +182,43 @@ Request:
 
 Response: 
 [
-	{
-		"id" : 5,
-		"cityId" : 123,
-		"name" : "nest 1",
-		"vegetation" : "vegetation",
-		"lastUpdate" : "20-05-2017"
-		"beginPoint" : {
-			"latitude" : -21.0000,
-			"longitude" : -47.0000
-		},
-		"endingPoint" : {
-			"latitude" : -21.0011,
-			"longitude" : -47.0011
-		},
-	},
-	{
-		"id" : 11,
-		"cityId" : 2,
-		"name" : "nest 1",
-		"vegetation" : "vegetation",
-		"lastUpdate" : "20-05-2017"
-		"beginPoint" : {
-			"latitude" : -21.0000,
-			"longitude" : -47.0000
-		},
-		"endingPoint" : {
-			"latitude" : -21.0011,
-			"longitude" : -47.0011
-		},
-	}
-]self.
+    {
+        "nestId": 4,
+        "city": 5301,
+        "name": "Ninho 2 de santa",
+        "vegetation": "mata atlântica",
+        "dataUpdateVisits": [
+            {
+                "collectionDate": "2017-08-12",
+                "registerDate": "2017-08-12",
+                "collector": 1,
+                "newBeginingPoint": {
+                    "latitude": -22.4574628,
+                    "longitude": -47.5252872
+                },
+                "newEndingPoint": {
+                    "latitude": -22.457468,
+                    "longitude": -47.52528
+                },
+                "notes": "Teste",
+                "ants": [
+					{
+                        "id": 2,
+                        "name": "amostra de formiga nova ninho de santa 1",
+                        "antOrder": "order A",
+                        "antFamily": "family B",
+                        "antSubfamily": "subfamily C",
+                        "antGenus": "genus A",
+                        "antSubgenus": "subgenus C",
+                        "antSpecies": "ant species",
+                        "registerDate": "2017-08-03"
+                    }
+				]
+            }
+        ],
+        "registerDate": "2017-08-12"
+    }
+]
 
 =================================================
 

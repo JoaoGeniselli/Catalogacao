@@ -14,5 +14,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author jgeniselli
  */
 public interface AntNestRepository extends CrudRepository<AntNest, Long> {
-    List<AntNest> findByCityIdIn(List<Integer> citiesIds);
+    List<AntNest> findByCityIdIn(List<Long> citiesIds);
 }
