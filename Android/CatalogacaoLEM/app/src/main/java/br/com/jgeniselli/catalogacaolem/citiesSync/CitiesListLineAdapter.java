@@ -39,11 +39,14 @@ public class CitiesListLineAdapter extends RecyclerView.Adapter<CheckboxViewHold
 
     @Override
     public void onBindViewHolder(CheckboxViewHolder holder, int position) {
+        holder.setTag(position);
         holder.bind(cities.get(position));
     }
 
     @Override
     public int getItemCount() {
+        if (cities == null) return 0;
+
         return cities.size();
     }
 
@@ -56,5 +59,10 @@ public class CitiesListLineAdapter extends RecyclerView.Adapter<CheckboxViewHold
         if (wListener != null) {
             wListener.get().checkboxViewDidChangeSelection(viewHolder);
         }
+    }
+
+    public void setCities(RealmResults<CityModel> cities) {
+        this.cities = cities;
+        notifyDataSetChanged();
     }
 }

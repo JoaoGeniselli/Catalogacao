@@ -12,14 +12,9 @@
     tools:context="br.com.jgeniselli.catalogacaolem.citiesSync.CitySelectionActivity">
 
     <EditText
-        android:id="@+id/stateField"
-        android:text="São Paulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
         android:id="@+id/cityField"
-        android:text="Santa Gertrudes"
+        android:hint="@string/city_name"
+        android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -17,6 +17,7 @@ public class CheckboxViewHolder extends RecyclerView.ViewHolder implements Binda
 
     private TextView titleLabel;
     private ImageView selectionIndicator;
+    private Integer tag;
 
     private boolean selected;
 
@@ -66,5 +67,13 @@ public class CheckboxViewHolder extends RecyclerView.ViewHolder implements Binda
 
     public void setSelectionIndicator(ImageView selectionIndicator) {
         this.selectionIndicator = selectionIndicator;
+    }
+
+    public Integer getTag() {
+        return tag;
+    }
+
+    public void setTag(Integer tag) {
+        this.tag = tag;
     }
 }

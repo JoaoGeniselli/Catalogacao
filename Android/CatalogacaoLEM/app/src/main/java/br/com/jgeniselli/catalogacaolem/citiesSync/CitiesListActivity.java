@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaolem.citiesSync;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -30,6 +32,9 @@ public class CitiesListActivity extends AppCompatActivity implements CheckboxVie
 
     @ViewById
     FloatingActionButton addCityButton;
+
+    @Extra
+    Long addedCityId;
 
     private Realm realm;
 
@@ -68,6 +73,14 @@ public class CitiesListActivity extends AppCompatActivity implements CheckboxVie
 
     @UiThread
     public void redirectToCitySelection() {
-        CitySelectionActivity_.intent(this).start();
+        CitySelectionActivity_.intent(this).startForResult(1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+
+        }
     }
 }

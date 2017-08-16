@@ -17,5 +17,6 @@
 
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
-    <string name="select_it">Selecione: </string>
+    <string name="city_name">Nome da cidade</string>
+
 </resources>
