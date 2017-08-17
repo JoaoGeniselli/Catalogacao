@@ -19,8 +19,10 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import br.com.jgeniselli.catalogacaolem.R;
+import br.com.jgeniselli.catalogacaolem.common.DefaultLineAdapter;
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import io.realm.Case;
 import io.realm.Realm;
@@ -28,7 +30,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 @EActivity
-public class CitySelectionActivity extends AppCompatActivity implements CheckboxViewSelectionListener {
+public class CitySelectionActivity extends AppCompatActivity implements View.OnClickListener {
 
     @ViewById
     EditText cityField;
@@ -50,7 +52,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Checkbox
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         citiesRecycler.setLayoutManager(layoutManager);
 
-        CitiesListLineAdapter adapter = new CitiesListLineAdapter(null, null);
+        DefaultLineAdapter adapter = new DefaultLineAdapter(new ArrayList<String>(), this);
         citiesRecycler.setAdapter(adapter);
 
         cityField.addTextChangedListener(new TextWatcher() {
@@ -78,8 +80,13 @@ public class CitySelectionActivity extends AppCompatActivity implements Checkbox
 
         filteredCities = cities;
 
+        ArrayList<String> citiesNames = new ArrayList<>();
+        for (CityModel city : cities) {
+            citiesNames.add(String.format("%s - %s", city.getState().getInitials(), city.getName()));
+        }
+
         citiesRecycler.removeAllViews();
-        ((CitiesListLineAdapter)citiesRecycler.getAdapter()).setCities(filteredCities);
+        ((DefaultLineAdapter)citiesRecycler.getAdapter()).setValues(citiesNames);
     }
 
     @Override
@@ -99,10 +106,9 @@ public class CitySelectionActivity extends AppCompatActivity implements Checkbox
     }
 
     @Override
-    public void checkboxViewDidChangeSelection(CheckboxViewHolder viewHolder) {
-        Integer position = viewHolder.getTag();
-
-        if (position != null) {
+    public void onClick(View v) {
+        Integer position = citiesRecycler.indexOfChild(v);;
+        if (position != null && position >= 0 && position <= filteredCities.size()) {
             CityModel selectedCity = filteredCities.get(position);
             pushCityIdToPreviousActivity(selectedCity.getId());
         }

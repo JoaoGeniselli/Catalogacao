@@ -19,4 +19,6 @@
     <string name="ok">Ok</string>
     <string name="city_name">Nome da cidade</string>
 
+    <string name="erase_all">Apagar Todos</string>
+
 </resources>

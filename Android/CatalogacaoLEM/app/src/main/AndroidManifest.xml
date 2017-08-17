@@ -9,6 +9,8 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <item android:name="android:statusBarColor">@color/theme_color</item>
+
     <application
         android:name=".common.CatalogacaoLEMApplication"
         android:allowBackup="true"
@@ -41,7 +43,10 @@
             android:name=".main.MainActivity_"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".citiesSync.CitiesListActivity_"></activity>
+        <activity
+            android:name=".citiesSync.CitiesListActivity_"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".citiesSync.CitySelectionActivity_"></activity>
     </application>
 

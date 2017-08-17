@@ -16,9 +16,11 @@ import org.androidannotations.rest.spring.annotations.RestService;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.R;
+import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import br.com.jgeniselli.catalogacaolem.common.location.CountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryToRealmAdapter;
+import br.com.jgeniselli.catalogacaolem.common.location.StateModel;
 import br.com.jgeniselli.catalogacaolem.main.MainActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -50,14 +52,48 @@ public class StartActivity extends AppCompatActivity {
         requestLocationContent();
     }
 
-    @Background
     public void requestLocationContent() {
 
         Realm realm = Realm.getDefaultInstance();
         final RealmResults<CountryModel> countries = realm.where(CountryModel.class).findAll();
         if (countries.size() == 0) {
+
+            // TODO: REMOVER -- Mock mock mock
+            realm.beginTransaction();
+
+            CountryModel country = realm.createObject(CountryModel.class, 1);
+            country.setName("Brasil");
+
+            StateModel state = realm.createObject(StateModel.class, 1);
+            state.setName("São Paulo");
+            state.setInitials("SP");
+            state.setCountry(country);
+
+            CityModel city = realm.createObject(CityModel.class, 1);
+            city.setName("Santa Gertrudes");
+            city.setState(state);
+
+            city = realm.createObject(CityModel.class, 2);
+            city.setName("Rio Claro");
+            city.setState(state);
+
+            city = realm.createObject(CityModel.class, 3);
+            city.setName("Limeira");
+            city.setState(state);
+
+            city = realm.createObject(CityModel.class, 4);
+            city.setName("Piracicaba");
+            city.setState(state);
+
+            realm.commitTransaction();
+
             realm.close();
             updateStatus(getString(R.string.updating_location_content));
+
+            redirectToMain();
+
+            // Implementação original
+            /*
             try {
                 List<RestCountryModel> responseCountry = restClient.locationContent();
                 if (responseCountry.size() > 0) {
@@ -68,6 +104,7 @@ public class StartActivity extends AppCompatActivity {
                 System.out.println("Eita preula\n\n");
                 e.printStackTrace();
             }
+            */
         } else {
             realm.close();
             redirectToMain();

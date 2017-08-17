@@ -7,13 +7,29 @@
     android:layout_height="match_parent"
     tools:context="br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <TextView
         android:id="@+id/lastUpdateLabel"
         android:padding="@dimen/default_spacing"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:gravity="right"
+        android:layout_below="@id/toolbarContainer"
         android:text="Atualizado em: 10/08/2017"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

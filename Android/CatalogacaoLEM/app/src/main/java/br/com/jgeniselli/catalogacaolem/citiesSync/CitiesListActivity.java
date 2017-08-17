@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,12 +38,17 @@ public class CitiesListActivity extends AppCompatActivity implements CheckboxVie
     @Extra
     Long addedCityId;
 
+    @ViewById
+    Toolbar toolbar;
+
     private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cities_list);
+
+        setSupportActionBar(toolbar);
 
         realm = Realm.getDefaultInstance();
         RealmResults<CityModel> cities = realm.where(CityModel.class).findAll();
@@ -58,6 +65,12 @@ public class CitiesListActivity extends AppCompatActivity implements CheckboxVie
                 redirectToCitySelection();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cities_list, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
