@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import io.realm.RealmResults;
 
 /**
  * Created by joaog on 12/08/2017.
@@ -16,10 +17,10 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 
 public class NestSummaryLineAdapter extends RecyclerView.Adapter<NestSummaryViewHolder> {
 
-    private final ArrayList<AntNest> nests;
+    private final RealmResults<AntNest> nests;
     private final View.OnClickListener itemListener;
 
-    public NestSummaryLineAdapter(final ArrayList nests) {
+    public NestSummaryLineAdapter(final RealmResults<AntNest> nests) {
 
         this.nests = nests;
         itemListener = new View.OnClickListener() {

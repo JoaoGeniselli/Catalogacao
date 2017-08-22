@@ -3,7 +3,7 @@
     <string name="ant_nest_register">Novo Ninho</string>
     <string name="default_login_rest_error">Ocorreu um problema ao obter as informações do serviço</string>
     <string name="updating_location_content">Atualizando informações de localização</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Ninhos</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

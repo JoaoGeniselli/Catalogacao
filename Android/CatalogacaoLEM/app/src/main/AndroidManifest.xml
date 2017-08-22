@@ -9,7 +9,9 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <item android:name="android:statusBarColor">@color/theme_color</item>
+    <item android:name="android:statusBarColor">
+        @color/theme_color
+    </item>
 
     <application
         android:name=".common.CatalogacaoLEMApplication"
@@ -45,9 +47,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".citiesSync.CitiesListActivity_"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".citiesSync.CitySelectionActivity_"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".citiesSync.CitySelectionActivity_" />
+        <activity android:name=".common.form.FormActivity_"></activity>
     </application>
 
 </manifest>

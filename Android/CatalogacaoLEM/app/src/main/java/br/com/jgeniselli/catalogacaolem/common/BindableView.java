@@ -5,6 +5,5 @@ package br.com.jgeniselli.catalogacaolem.common;
  */
 
 public interface BindableView {
-
-    public void bind(Object model);
+    void bind(Object model);
 }

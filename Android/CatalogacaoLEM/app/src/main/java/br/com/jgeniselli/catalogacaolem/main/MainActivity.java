@@ -1,10 +1,14 @@
 package br.com.jgeniselli.catalogacaolem.main;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity_;
+import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,12 +19,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @ViewById
+    RecyclerView nestsRecycler;
+
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +58,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        nestsRecycler.setLayoutManager(layoutManager);
+    }
+
+    @AfterViews
+    public void init() {
+        realm = Realm.getDefaultInstance();
+        RealmResults<AntNest> nests = realm.where(AntNest.class).findAllSorted("name");
+        NestSummaryLineAdapter adapter = new NestSummaryLineAdapter(nests);
+        nestsRecycler.setAdapter(adapter);
     }
 
     @Override
@@ -114,5 +136,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
     }
 }

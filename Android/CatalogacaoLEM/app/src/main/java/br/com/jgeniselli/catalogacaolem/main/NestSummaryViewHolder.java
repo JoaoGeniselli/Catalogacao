@@ -28,7 +28,7 @@ public class NestSummaryViewHolder extends RecyclerView.ViewHolder implements Bi
 
     @Override
     public void bind(Object model) {
-        if (model != null || !model.getClass().equals(AntNest.class)) {
+        if (model == null) {
             return;
         }
         AntNest nest = (AntNest)model;

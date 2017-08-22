@@ -13,6 +13,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.R;
@@ -21,6 +22,7 @@ import br.com.jgeniselli.catalogacaolem.common.location.CountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryToRealmAdapter;
 import br.com.jgeniselli.catalogacaolem.common.location.StateModel;
+import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.main.MainActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -77,9 +79,28 @@ public class StartActivity extends AppCompatActivity {
             city.setName("Rio Claro");
             city.setState(state);
 
+            AntNest nest = realm.createObject(AntNest.class, 1);
+            nest.setName("Ninho A");
+            nest.setCity(city);
+            nest.setRegisterDate(new Date());
+            nest.setVegetation("Mata Atlântica");
+
+            nest = realm.createObject(AntNest.class, 2);
+            nest.setName("Ninho B");
+            nest.setCity(city);
+            nest.setRegisterDate(new Date());
+            nest.setVegetation("Mata Atlântica");
+
             city = realm.createObject(CityModel.class, 3);
             city.setName("Limeira");
             city.setState(state);
+
+            nest = realm.createObject(AntNest.class, 3);
+            nest.setName("Ninho C");
+            nest.setCity(city);
+            nest.setRegisterDate(new Date());
+            nest.setVegetation("Mata Atlântica");
+
 
             city = realm.createObject(CityModel.class, 4);
             city.setName("Piracicaba");

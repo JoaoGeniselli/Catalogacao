@@ -33,7 +33,7 @@ public class NestListFragment extends Fragment {
 
         // TODO: FAZER O FETCH DOS NINHOS DISPONÍVEIS
 
-        NestSummaryLineAdapter adapter = new NestSummaryLineAdapter(new ArrayList());
+        NestSummaryLineAdapter adapter = new NestSummaryLineAdapter(null);
         nestRecycler.setAdapter(adapter);
     }
 
