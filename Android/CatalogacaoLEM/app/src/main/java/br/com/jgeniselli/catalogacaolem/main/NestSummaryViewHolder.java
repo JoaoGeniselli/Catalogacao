@@ -12,7 +12,7 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
  * Created by joaog on 12/08/2017.
  */
 
-public class NestSummaryViewHolder extends RecyclerView.ViewHolder implements BindableView {
+public class NestSummaryViewHolder extends RecyclerView.ViewHolder implements BindableView<AntNest> {
 
     public TextView nameLabel;
     public TextView addressLabel;
@@ -27,12 +27,10 @@ public class NestSummaryViewHolder extends RecyclerView.ViewHolder implements Bi
     }
 
     @Override
-    public void bind(Object model) {
-        if (model == null) {
+    public void bind(AntNest nest) {
+        if (nest == null) {
             return;
         }
-        AntNest nest = (AntNest)model;
-
         nameLabel.setText(nest.getName());
         addressLabel.setText(nest.getCompleteAddress());
         vegetationLabel.setText(nest.getVegetation());

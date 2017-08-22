@@ -10,7 +10,7 @@ import br.com.jgeniselli.catalogacaolem.R;
  * Created by jgeniselli on 16/08/17.
  */
 
-public class DefaultLineViewHolder extends RecyclerView.ViewHolder implements BindableView {
+public class DefaultLineViewHolder extends RecyclerView.ViewHolder implements BindableView<String> {
 
     TextView textView;
 
@@ -21,11 +21,10 @@ public class DefaultLineViewHolder extends RecyclerView.ViewHolder implements Bi
     }
 
     @Override
-    public void bind(Object model) {
-        if (model == null || !(model instanceof String)) {
+    public void bind(String content) {
+        if (content == null) {
             return;
         }
-        String content = (String) model;
         textView.setText(content);
     }
 }

@@ -19,4 +19,20 @@ public class FormModel {
         this.description = description;
         this.id = id;
     }
+
+    public ArrayList<FormFieldModel> getFields() {
+        return fields;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

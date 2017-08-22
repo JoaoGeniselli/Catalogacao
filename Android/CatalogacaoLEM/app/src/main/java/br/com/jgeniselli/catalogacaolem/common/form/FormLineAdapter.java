@@ -22,19 +22,24 @@ public class FormLineAdapter extends RecyclerView.Adapter{
         this.form = form;
     }
 
-    private HashMap<FormFieldModelType, Integer> getViewIdsByFieldType() {
-        if (viewIdsByFieldType == null) {
-            viewIdsByFieldType = new HashMap<>();
-            viewIdsByFieldType.put(FormFieldModelType.NONE, 0);
-            viewIdsByFieldType.put(FormFieldModelType.TEXT, 0);
-            viewIdsByFieldType.put(FormFieldModelType.NUMBER, 0);
-            viewIdsByFieldType.put(FormFieldModelType.COORDINATE, 0);
-        }
-        return viewIdsByFieldType;
-    }
+//    private HashMap<FormFieldModelType, FormFieldViewHolder> getViewHolderByFormFieldType() {
+//        if (viewIdsByFieldType == null) {
+//            viewIdsByFieldType = new HashMap<>();
+//
+//            FormFieldViewHolder viewHolder = new TextFormFieldViewHolder();
+//            viewIdsByFieldType.put(FormFieldModelType.NONE, );
+//            viewIdsByFieldType.put(FormFieldModelType.TEXT, 0);
+//            viewIdsByFieldType.put(FormFieldModelType.NUMBER, 0);
+//            viewIdsByFieldType.put(FormFieldModelType.COORDINATE, 0);
+//        }
+//        return viewIdsByFieldType;
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
+
         return null;
     }
 
@@ -43,8 +48,17 @@ public class FormLineAdapter extends RecyclerView.Adapter{
 
     }
 
+//    @Override
+//    public int getItemViewType(int position) {
+//        FormFieldModel model = form.getFields().get(position);
+//        int viewType = getViewIdsByFieldType().get(model.getType());
+//        return viewType;
+//    }
+
     @Override
     public int getItemCount() {
-        return 0;
+        return form.getFields().size();
     }
+
+
 }

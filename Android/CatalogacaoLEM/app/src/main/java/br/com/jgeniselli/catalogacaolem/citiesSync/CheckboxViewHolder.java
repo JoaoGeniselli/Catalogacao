@@ -13,7 +13,7 @@ import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
  * Created by joaog on 12/08/2017.
  */
 
-public class CheckboxViewHolder extends RecyclerView.ViewHolder implements BindableView {
+public class CheckboxViewHolder extends RecyclerView.ViewHolder implements BindableView<CityModel> {
 
     private TextView titleLabel;
     private ImageView selectionIndicator;
@@ -32,12 +32,11 @@ public class CheckboxViewHolder extends RecyclerView.ViewHolder implements Binda
     }
 
     @Override
-    public void bind(Object model) {
-        if (model == null) {
+    public void bind(CityModel city) {
+        if (city == null) {
             return;
         }
         setSelected(false);
-        CityModel city = (CityModel) model;
         titleLabel.setText(city.getState().getInitials() + " - " + city.getName());
     }
 
