@@ -2,6 +2,8 @@ package br.com.jgeniselli.catalogacaolem.common.form;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.HashMap;
  * Created by jgeniselli on 22/08/17.
  */
 
-public class FormLineAdapter extends RecyclerView.Adapter{
+public class FormLineAdapter extends RecyclerView.Adapter<FormFieldViewHolder>{
 
     private Context context;
     private FormModel form;
@@ -22,43 +24,49 @@ public class FormLineAdapter extends RecyclerView.Adapter{
         this.form = form;
     }
 
-//    private HashMap<FormFieldModelType, FormFieldViewHolder> getViewHolderByFormFieldType() {
-//        if (viewIdsByFieldType == null) {
-//            viewIdsByFieldType = new HashMap<>();
-//
-//            FormFieldViewHolder viewHolder = new TextFormFieldViewHolder();
-//            viewIdsByFieldType.put(FormFieldModelType.NONE, );
-//            viewIdsByFieldType.put(FormFieldModelType.TEXT, 0);
-//            viewIdsByFieldType.put(FormFieldModelType.NUMBER, 0);
-//            viewIdsByFieldType.put(FormFieldModelType.COORDINATE, 0);
-//        }
-//        return viewIdsByFieldType;
-//    }
-
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FormFieldViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        FormFieldModelType type = FormFieldModelType.typeForId(viewType);
 
+        View view = LayoutInflater
+                .from(parent.getContext()).inflate(type.getViewId(), parent, false);
 
+        FormFieldViewHolder viewHolder = null;
 
-        return null;
+        switch (type) {
+            case TEXT: {
+                viewHolder = new TextFormFieldViewHolder(view);
+                break;
+            }
+            case NUMBER: {
+                viewHolder = new TextFormFieldViewHolder(view);
+                break;
+            }
+            case COORDINATE: {
+                viewHolder = new TextFormFieldViewHolder(view);
+                break;
+            }
+            default: {
+                viewHolder = new TextFormFieldViewHolder(view);
+            }
+        }
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(FormFieldViewHolder holder, int position) {
+        FormFieldModel model = form.getFields().get(position);
+        holder.bind(model);
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        FormFieldModel model = form.getFields().get(position);
-//        int viewType = getViewIdsByFieldType().get(model.getType());
-//        return viewType;
-//    }
+    @Override
+    public int getItemViewType(int position) {
+        FormFieldModel model = form.getFields().get(position);
+        return model.getType().getId();
+    }
 
     @Override
     public int getItemCount() {
         return form.getFields().size();
     }
-
-
 }

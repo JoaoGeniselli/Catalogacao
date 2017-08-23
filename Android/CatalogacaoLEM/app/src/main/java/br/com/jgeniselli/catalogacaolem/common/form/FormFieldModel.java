@@ -1,10 +1,12 @@
 package br.com.jgeniselli.catalogacaolem.common.form;
 
+import java.io.Serializable;
+
 /**
  * Created by jgeniselli on 22/08/17.
  */
 
-public abstract class FormFieldModel {
+public abstract class FormFieldModel implements Serializable {
 
     private int id;
     private int order;

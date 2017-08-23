@@ -1,12 +1,15 @@
 package br.com.jgeniselli.catalogacaolem.common.form;
 
+import org.androidannotations.annotations.EBean;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by jgeniselli on 22/08/17.
  */
 
-public class FormModel {
+public class FormModel implements Serializable {
 
     private ArrayList<FormFieldModel> fields;
     private String title;

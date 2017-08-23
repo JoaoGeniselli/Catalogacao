@@ -1,6 +1,9 @@
 package br.com.jgeniselli.catalogacaolem.main;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity_;
+import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
+import br.com.jgeniselli.catalogacaolem.common.form.FormFactoryNewNest;
+import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -41,14 +44,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FormModel form = new FormFactoryNewNest().getForm();
+                FormActivity_.intent(view.getContext()).form(form).start();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
