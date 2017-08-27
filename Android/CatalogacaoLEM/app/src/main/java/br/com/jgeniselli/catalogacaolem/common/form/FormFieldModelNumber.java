@@ -6,6 +6,12 @@ package br.com.jgeniselli.catalogacaolem.common.form;
 
 public class FormFieldModelNumber extends FormFieldModel {
 
+    private boolean decimal;
+    private Number value;
+
+    private int intValue;
+    private double doubleValue;
+
     public FormFieldModelNumber(int id, int order, String title) {
         super(id, order, title);
     }
@@ -13,5 +19,29 @@ public class FormFieldModelNumber extends FormFieldModel {
     @Override
     public FormFieldModelType getType() {
         return FormFieldModelType.NUMBER;
+    }
+
+    public boolean isDecimal() {
+        return decimal;
+    }
+
+    public void setDecimal(boolean decimal) {
+        this.decimal = decimal;
+    }
+
+    public Number getValue() {
+        if (decimal) {
+            return doubleValue;
+        } else {
+            return intValue;
+        }
+    }
+
+    public void setValue(Number value) {
+
+    }
+
+    public void setValueFromString(String string) {
+
     }
 }

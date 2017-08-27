@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_layout"
         android:padding="@dimen/default_spacing"
         android:layout_width="match_parent"
+        android:hint="Cidade"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/editText"
+            android:text="SP - Santa Gertrudes"
             android:layout_width="match_parent"
+            android:enabled="false"
             android:layout_height="wrap_content"/>
 
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_gravity="center"
+        android:text="@string/select_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

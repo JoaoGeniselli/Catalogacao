@@ -16,41 +16,20 @@ public class FormLineAdapter extends RecyclerView.Adapter<FormFieldViewHolder>{
 
     private Context context;
     private FormModel form;
+    private FormViewHolderFactory viewHolderFactory;
 
     private HashMap<FormFieldModelType, Integer> viewIdsByFieldType;
 
     public FormLineAdapter(Context context, FormModel form) {
+        this.viewHolderFactory = new FormViewHolderFactory();
         this.context = context;
         this.form = form;
     }
 
     @Override
     public FormFieldViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        FormFieldModelType type = FormFieldModelType.typeForId(viewType);
-
-        View view = LayoutInflater
-                .from(parent.getContext()).inflate(type.getViewId(), parent, false);
-
-        FormFieldViewHolder viewHolder = null;
-
-        switch (type) {
-            case TEXT: {
-                viewHolder = new TextFormFieldViewHolder(view);
-                break;
-            }
-            case NUMBER: {
-                viewHolder = new TextFormFieldViewHolder(view);
-                break;
-            }
-            case COORDINATE: {
-                viewHolder = new TextFormFieldViewHolder(view);
-                break;
-            }
-            default: {
-                viewHolder = new TextFormFieldViewHolder(view);
-            }
-        }
-        return viewHolder;
+        return (FormFieldViewHolder) viewHolderFactory
+                .getRecyclerViewHolderByType(context, parent, FormFieldModelType.typeForId(viewType));
     }
 
     @Override

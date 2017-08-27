@@ -26,6 +26,8 @@ import io.realm.RealmResults;
 @EActivity
 public class CitiesListActivity extends AppCompatActivity implements CheckboxViewSelectionListener {
 
+    public static final int CITY_SELECTION_RESULT_CODE = 1;
+
     @ViewById
     TextView lastUpdateLabel;
 
@@ -86,14 +88,19 @@ public class CitiesListActivity extends AppCompatActivity implements CheckboxVie
 
     @UiThread
     public void redirectToCitySelection() {
-        CitySelectionActivity_.intent(this).startForResult(1);
+        CitySelectionActivity_.intent(this).startForResult(CITY_SELECTION_RESULT_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        if (requestCode == CITY_SELECTION_RESULT_CODE) {
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

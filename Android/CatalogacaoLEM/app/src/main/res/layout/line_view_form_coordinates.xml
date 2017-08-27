@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView"
+        android:padding="@dimen/default_spacing"
+        android:layout_width="match_parent"
+        android:text="Ponto inicial do ninho"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:padding="@dimen/default_spacing"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:hint="@string/latitude"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/latitude_edit_text"
+                android:text="-27.00000"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_weight="1"
+            android:padding="@dimen/default_spacing"
+            android:layout_width="match_parent"
+            android:hint="@string/longitude"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/longitude_edit_text"
+                android:text="-41.00000"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:layout_height="wrap_content"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_gravity="center"
+        android:text="@string/select_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

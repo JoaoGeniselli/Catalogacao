@@ -12,7 +12,8 @@ public enum FormFieldModelType {
     NONE(0, 0),
     TEXT(1, R.layout.line_view_form_text),
     NUMBER(2, R.layout.line_view_form_text),
-    COORDINATE(3, R.layout.line_view_form_text);
+    COORDINATE(3, R.layout.line_view_form_coordinates),
+    CITY(4, R.layout.line_view_form_city);
 
     private int id;
     private int viewId;

@@ -4,6 +4,7 @@
     <string name="default_login_rest_error">Ocorreu um problema ao obter as informações do serviço</string>
     <string name="updating_location_content">Atualizando informações de localização</string>
     <string name="title_activity_main">Ninhos</string>
+    <string name="title_activity_city_selection">Seleção de Cidade</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -20,5 +21,13 @@
     <string name="city_name">Nome da cidade</string>
 
     <string name="erase_all">Apagar Todos</string>
+
+    <string name="select_city">Selecionar Cidade</string>
+    <string name="select_location">Selecionar Localização</string>
+    <string name="title_activity_coordinates_selection">Map</string>
+
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+
 
 </resources>
