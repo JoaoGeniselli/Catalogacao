@@ -25,9 +25,8 @@
 
             <EditText
                 android:id="@+id/latitude_edit_text"
-                android:text="-27.00000"
                 android:layout_width="match_parent"
-                android:enabled="false"
+                android:inputType="numberSigned|numberDecimal"
                 android:layout_height="wrap_content"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -41,9 +40,8 @@
 
             <EditText
                 android:id="@+id/longitude_edit_text"
-                android:text="-41.00000"
                 android:layout_width="match_parent"
-                android:enabled="false"
+                android:inputType="numberSigned|numberDecimal"
                 android:layout_height="wrap_content"/>
 
         </android.support.design.widget.TextInputLayout>
