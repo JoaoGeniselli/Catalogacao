@@ -14,8 +14,8 @@ public class FormFieldModelCity extends FormFieldModel {
 
     private CityModel cityModel;
 
-    public FormFieldModelCity(int id, int order, String title) {
-        super(id, order, title);
+    public FormFieldModelCity(int id, int order, String title, String tag) {
+        super(id, order, title, tag);
     }
 
     @Override
@@ -28,12 +28,26 @@ public class FormFieldModelCity extends FormFieldModel {
     }
 
     public void setCityModel(CityModel cityModel) {
+        if (!isRequired()) {
+            setErrored(false);
+        } else if (cityModel == null) {
+            setErrored(true);
+        }
         this.cityModel = cityModel;
     }
 
     public void requestCity() {
         EventBus.getDefault().register(this);
         EventBus.getDefault().post(new CityRequestEvent());
+    }
+
+    @Override
+    public boolean validate() {
+        if (isRequired() && this.cityModel == null) {
+            setErrored(true);
+            return false;
+        }
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

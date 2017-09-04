@@ -11,14 +11,15 @@ public abstract class FormFieldModel implements Serializable {
     private int id;
     private int order;
     private String title;
-    private FormFieldModelType type;
+    private String tag;
     private boolean required;
+    private boolean errored;
 
-    public FormFieldModel(int id, int order, String title) {
+    public FormFieldModel(int id, int order, String title, String tag) {
         this.id = id;
         this.order = order;
         this.title = title;
-        this.required = false;
+        this.tag = tag;
     }
 
     public abstract FormFieldModelType getType();
@@ -45,5 +46,21 @@ public abstract class FormFieldModel implements Serializable {
 
     public boolean validate() {
         return true;
+    }
+
+    public boolean isErrored() {
+        return errored;
+    }
+
+    public void setErrored(boolean errored) {
+        this.errored = errored;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

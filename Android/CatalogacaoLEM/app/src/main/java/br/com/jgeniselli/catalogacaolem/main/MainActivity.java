@@ -1,14 +1,19 @@
 package br.com.jgeniselli.catalogacaolem.main;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity_;
+import br.com.jgeniselli.catalogacaolem.common.form.AntNestFormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
 import br.com.jgeniselli.catalogacaolem.common.form.FormFactoryNewNest;
 import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity;
+import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +31,9 @@ import android.view.MenuItem;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 @EActivity
 public class MainActivity extends AppCompatActivity
@@ -48,8 +56,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FormModel form = new FormFactoryNewNest().getForm();
-                FormActivity_.intent(view.getContext()).form(form).start();
+                callNewNestForm();
             }
         });
 
@@ -64,6 +71,14 @@ public class MainActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         nestsRecycler.setLayoutManager(layoutManager);
+
+        EventBus.getDefault().register(this);
+    }
+
+    @UiThread
+    public void callNewNestForm() {
+        FormModel form = new FormFactoryNewNest().getForm();
+        FormActivity_.intent(this).form(form).saveStrategy(new MainNewNestSaveStrategy()).start();
     }
 
     @AfterViews
@@ -72,6 +87,7 @@ public class MainActivity extends AppCompatActivity
         RealmResults<AntNest> nests = realm.where(AntNest.class).findAllSorted("name");
         NestSummaryLineAdapter adapter = new NestSummaryLineAdapter(nests);
         nestsRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -100,7 +116,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.action_route_config: {
-                CitiesListActivity_.intent(this).start();
+
                 break;
             }
             case R.id.action_sync: {
@@ -122,17 +138,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        if (id == R.id.nav_download_nests) {
+            CitiesListActivity_.intent(this).start();
+        } else if (id == R.id.nav_sync) {
 
         }
 
@@ -147,6 +155,40 @@ public class MainActivity extends AppCompatActivity
         if (realm != null) {
             realm.close();
             realm = null;
+        }
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNestDetailsRequestEvent(NestDetailsRequestEvent event) {
+        NestDashboardActivity_.intent(this).start();
+    }
+
+    private static class MainNewNestSaveStrategy extends SaveFormStrategy {
+        @Override
+        public void save(FormModel form, Realm realmInstance, SaveStrategyCallback completion) {
+            AntNest nest = new AntNestFormToModelAdapter().modelFromForm(form);
+            try {
+                Number currentIdNum = realmInstance.where(AntNest.class).max("nestId");
+                long nextId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
+                nest.setNestId(nextId);
+                realmInstance.beginTransaction();
+                realmInstance.copyToRealm(nest);
+                realmInstance.commitTransaction();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                nest = null;
+            }
+            finally {
+                if (completion != null) {
+                    if (nest == null) {
+                        completion.onSaveError(R.string.error_saving_form);
+                    } else {
+                        completion.onSaveSuccess();
+                    }
+                }
+            }
         }
     }
 }

@@ -28,6 +28,32 @@
 
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
+    <string name="title_activity_nest_dashboard">NestDashboardActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
+    <string name="nav_title_details">Detalhes</string>
+    <string name="nav_title_data_update">Atualização</string>
+    <string name="nav_title_samples">Amostras</string>
+
+    <string name="my_location">Minha localização</string>
+    <string name="location_long_press_message">
+        Segure e arraste o alfinete para ajustar a localização
+    </string>
+
+    <string name="location_alert">Acesso à localização não permitido.</string>
+
+    <string name="loading_location">Carregando Localização...</string>
+    <string name="required_field_alert">Preencha esse campo</string>
+    <string name="warning">Atenção</string>
+    <string name="error_saving_form">Erro ao salvar informações do formulário</string>
+    <string name="required_city_alert">Selecione uma cidade</string>
+
+    <string name="menu_group_name_communicate">Comunicação</string>
+    <string name="action_sync_pendencies">Sincronizar Pendências</string>
+    <string name="action_download_nests">Baixar Ninhos</string>
+
+    <string name="alert_city_already_added">Cidade já adicionada</string>
 
 </resources>

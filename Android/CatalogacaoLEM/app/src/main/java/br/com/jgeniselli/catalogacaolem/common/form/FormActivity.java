@@ -1,12 +1,20 @@
 package br.com.jgeniselli.catalogacaolem.common.form;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
+import android.support.annotation.UiThread;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -29,8 +37,14 @@ public class FormActivity extends AppCompatActivity {
     @ViewById
     RecyclerView formRecycler;
 
+    @ViewById
+    Toolbar toolbar;
+
     @Extra
     FormModel form;
+
+    @Extra
+    SaveFormStrategy saveStrategy;
 
     Realm realm;
 
@@ -40,6 +54,7 @@ public class FormActivity extends AppCompatActivity {
             return;
         }
         setTitle(form.getTitle());
+        setSupportActionBar(toolbar);
 
         realm = Realm.getDefaultInstance();
 
@@ -50,6 +65,46 @@ public class FormActivity extends AppCompatActivity {
         formRecycler.setAdapter(adapter);
 
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_save: {
+                finishForm();
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        return true;
+    }
+
+    public void finishForm() {
+        if (form.validate()) {
+            if (saveStrategy != null) {
+                saveStrategy.save(form, realm, new SaveFormStrategy.SaveStrategyCallback() {
+                    @Override
+                    public void onSaveSuccess() {
+                        finish();
+                    }
+                    @Override
+                    public void onSaveError(int messageId) {
+                        showAlert(messageId);
+                    }
+                });
+            }
+        } else {
+            formRecycler.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -83,6 +138,7 @@ public class FormActivity extends AppCompatActivity {
             double latitude = data.getDoubleExtra("latitude", 0);
             double longitude = data.getDoubleExtra("longitude", 0);
 
+            EventBus.getDefault().post(new CoordinatesResponseEvent(latitude, longitude));
         }
     }
 
@@ -109,4 +165,30 @@ public class FormActivity extends AppCompatActivity {
     public void onCoordinatesResponseEvent(CoordinatesResponseEvent event) {
         formRecycler.getAdapter().notifyDataSetChanged();
     }
+
+    @UiThread
+    public void showAlert(int messageId) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(R.string.warning)
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+
 }

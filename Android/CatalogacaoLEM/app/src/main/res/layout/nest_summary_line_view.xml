@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -50,4 +51,14 @@
         android:layout_marginLeft="@dimen/default_separator_inset"
         android:layout_below="@id/nest_summary_vegetation"
         />
+
+    <ImageView
+        android:id="@+id/newImageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/ic_new_releases_black_24dp"
+        android:tint="#D00"
+        android:layout_margin="2dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
 </RelativeLayout>

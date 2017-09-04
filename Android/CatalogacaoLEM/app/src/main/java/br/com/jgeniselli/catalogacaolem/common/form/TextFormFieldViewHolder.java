@@ -49,8 +49,9 @@ public class TextFormFieldViewHolder extends FormFieldViewHolder<FormFieldModelT
         inputLayout.setHint(model.getTitle());
         editText.setText(model.getContent());
 
-
-
+        if (model.isErrored()) {
+            editText.setError(editText.getContext().getString(R.string.required_field_alert));
+        }
     }
 
     @Override

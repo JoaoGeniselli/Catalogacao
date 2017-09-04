@@ -15,4 +15,7 @@ public interface MyPreferences {
 
     @DefaultString("")
     String token();
+
+    @DefaultString("")
+    String lastCitiesSynchronization();
 }

@@ -8,8 +8,8 @@ public class FormFieldModelText extends FormFieldModel implements TextContentFor
 
     private String content;
 
-    public FormFieldModelText(int id, int order, String title) {
-        super(id, order, title);
+    public FormFieldModelText(int id, int order, String title, String tag) {
+        super(id, order, title, tag);
     }
 
     @Override
@@ -24,6 +24,20 @@ public class FormFieldModelText extends FormFieldModel implements TextContentFor
 
     @Override
     public void setContent(String content) {
+        if (!isRequired()) {
+            setErrored(false);
+        } else if (content != null && content.length() > 0) {
+            setErrored(false);
+        }
         this.content = content;
+    }
+
+    @Override
+    public boolean validate() {
+        if (this.isRequired() && (content == null || content.length() == 0)) {
+            setErrored(true);
+            return false;
+        }
+        return true;
     }
 }

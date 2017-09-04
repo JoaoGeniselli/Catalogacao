@@ -19,13 +19,17 @@ public class AntNest extends RealmObject implements Serializable {
     private CityModel city;
     private String name;
     private String vegetation;
+    private String address;
+    private Coordinate beginingPoint;
+    private Coordinate endingPoint;
+    private boolean registered;
 
     private RealmList<DataUpdateVisit> dataUpdateVisits;
 
     private Date registerDate;
 
     public AntNest() {
-
+        registered = false;
     }
 
     public boolean isRegistered() {
@@ -84,5 +88,33 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Coordinate getBeginingPoint() {
+        return beginingPoint;
+    }
+
+    public void setBeginingPoint(Coordinate beginingPoint) {
+        this.beginingPoint = beginingPoint;
+    }
+
+    public Coordinate getEndingPoint() {
+        return endingPoint;
+    }
+
+    public void setEndingPoint(Coordinate endingPoint) {
+        this.endingPoint = endingPoint;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
     }
 }

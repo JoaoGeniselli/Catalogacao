@@ -12,8 +12,8 @@ public class FormFieldModelNumber extends FormFieldModel {
     private int intValue;
     private double doubleValue;
 
-    public FormFieldModelNumber(int id, int order, String title) {
-        super(id, order, title);
+    public FormFieldModelNumber(int id, int order, String title, String tag) {
+        super(id, order, title, tag);
     }
 
     @Override
@@ -35,6 +35,11 @@ public class FormFieldModelNumber extends FormFieldModel {
         } else {
             return intValue;
         }
+    }
+
+    @Override
+    public boolean validate() {
+        return super.validate();
     }
 
     public void setValue(Number value) {

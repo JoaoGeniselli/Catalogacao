@@ -43,6 +43,10 @@ public class CityFormFieldViewHolder extends FormFieldViewHolder<FormFieldModelC
         } else {
             editText.get().setText("");
         }
+
+        if (model.isErrored()) {
+            editText.get().setError(editText.get().getContext().getString(R.string.required_city_alert));
+        }
     }
 
     @Override

@@ -72,6 +72,7 @@ public class CitySelectionActivity extends AppCompatActivity implements View.OnC
     }
 
     private void updateRecyclerContent(String searchText) {
+
         RealmResults<CityModel> cities = realm
                 .where(CityModel.class)
                 .contains("name", searchText, Case.INSENSITIVE)
