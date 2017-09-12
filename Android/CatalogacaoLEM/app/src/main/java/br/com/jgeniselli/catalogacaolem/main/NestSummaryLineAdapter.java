@@ -56,5 +56,6 @@ public class NestSummaryLineAdapter extends RecyclerView.Adapter<NestSummaryView
     public int getItemCount() {
         return nests.size();
     }
+
 }
 

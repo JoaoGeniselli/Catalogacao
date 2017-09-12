@@ -14,6 +14,10 @@ public abstract class SaveFormStrategy implements Serializable {
 
     public abstract void save(FormModel form, Realm realmInstance, SaveStrategyCallback completion);
 
+    public void saveBeforeDestroy(FormModel form, Realm realmInstance){
+
+    }
+
     public abstract static class SaveStrategyCallback implements Serializable {
 
         public SaveStrategyCallback() {}

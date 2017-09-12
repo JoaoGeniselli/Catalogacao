@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CatalogacaoLEM</string>
+    <string name="app_name">Cat. LEM</string>
     <string name="ant_nest_register">Novo Ninho</string>
     <string name="default_login_rest_error">Ocorreu um problema ao obter as informações do serviço</string>
     <string name="updating_location_content">Atualizando informações de localização</string>
@@ -28,10 +28,11 @@
 
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-    <string name="title_activity_nest_dashboard">NestDashboardActivity</string>
+    <string name="title_activity_nest_dashboard">Detalhes</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_ants_list">Amostras de Formigas</string>
 
     <string name="nav_title_details">Detalhes</string>
     <string name="nav_title_data_update">Atualização</string>
@@ -55,5 +56,15 @@
     <string name="action_download_nests">Baixar Ninhos</string>
 
     <string name="alert_city_already_added">Cidade já adicionada</string>
+
+    <string name="address">Endereço</string>
+    <string name="city">Cidade</string>
+    <string name="name">Nome</string>
+    <string name="vegetation">Vegetação Predominante</string>
+    <string name="nest_id">Id do Ninho</string>
+    <string name="new_nest">Ninho novo</string>
+    <string name="initial_point">Ponto inicial</string>
+    <string name="final_point">Ponto final</string>
+    <string name="alert_invalid_ant">Amostra de formiga inesistente</string>
 
 </resources>

@@ -2,9 +2,11 @@ package br.com.jgeniselli.catalogacaolem.common.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by joaog on 12/08/2017.
@@ -12,7 +14,11 @@ import io.realm.RealmObject;
 
 public class DataUpdateVisit extends RealmObject implements Serializable {
 
+    private AntNest nest;
+
+    @PrimaryKey
     private Long dataUpdateId;
+
     private Date collectionDate;
     private Date registerDate;
     private Long collector;
@@ -25,7 +31,7 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
     private RealmList<Ant> ants;
 
     public DataUpdateVisit() {
-
+        collectionDate = new Date();
     }
 
     public Long getDataUpdateId() {
@@ -90,5 +96,13 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
 
     public void setAnts(RealmList<Ant> ants) {
         this.ants = ants;
+    }
+
+    public AntNest getNest() {
+        return nest;
+    }
+
+    public void setNest(AntNest nest) {
+        this.nest = nest;
     }
 }

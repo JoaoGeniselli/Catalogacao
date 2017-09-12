@@ -1,5 +1,10 @@
-package br.com.jgeniselli.catalogacaolem.common.form;
+package br.com.jgeniselli.catalogacaolem.common.form.modelAdapters;
 
+import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelCity;
+import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelCoordinate;
+import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelText;
+import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.FormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 
@@ -41,5 +46,17 @@ public class AntNestFormToModelAdapter extends FormToModelAdapter<AntNest> {
         nest.setEndingPoint(position);
 
         return nest;
+    }
+
+    @Override
+    public void updateModelFromForm(AntNest model, FormModel form) {
+        AntNest nest = modelFromForm(form);
+
+        model.setName(nest.getName());
+        model.setCity(nest.getCity());
+        model.setAddress(nest.getAddress());
+        model.setVegetation(nest.getVegetation());
+        model.setEndingPoint(nest.getEndingPoint());
+        model.setBeginingPoint(nest.getBeginingPoint());
     }
 }

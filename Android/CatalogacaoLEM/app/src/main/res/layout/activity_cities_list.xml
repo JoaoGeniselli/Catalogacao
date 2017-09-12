@@ -58,6 +58,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:tint="#FFF"
-        app:srcCompat="@drawable/ic_add_black_36dp" />
+        app:srcCompat="@drawable/ic_add_white_36dp" />
 
 </RelativeLayout>

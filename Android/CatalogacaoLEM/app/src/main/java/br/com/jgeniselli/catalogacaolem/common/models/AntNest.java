@@ -22,6 +22,7 @@ public class AntNest extends RealmObject implements Serializable {
     private String address;
     private Coordinate beginingPoint;
     private Coordinate endingPoint;
+    private Date lastDataUpdateDate;
     private boolean registered;
 
     private RealmList<DataUpdateVisit> dataUpdateVisits;
@@ -116,5 +117,13 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setRegistered(boolean registered) {
         this.registered = registered;
+    }
+
+    public Date getLastDataUpdateDate() {
+        return lastDataUpdateDate;
+    }
+
+    public void setLastDataUpdateDate(Date lastDataUpdateDate) {
+        this.lastDataUpdateDate = lastDataUpdateDate;
     }
 }

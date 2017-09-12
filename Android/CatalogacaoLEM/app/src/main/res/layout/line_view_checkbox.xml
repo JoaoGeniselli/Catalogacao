@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/checkboxSelectionIndicator"
-        android:src="@drawable/ic_done_black_24dp"
+        android:src="@drawable/ic_done_white_24dp"
         android:tint="@color/colorPrimary"
         android:layout_centerVertical="true"
         android:layout_width="20dp"

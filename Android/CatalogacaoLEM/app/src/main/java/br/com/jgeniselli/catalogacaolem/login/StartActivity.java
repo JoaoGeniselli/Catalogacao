@@ -23,6 +23,7 @@ import br.com.jgeniselli.catalogacaolem.common.location.RestCountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryToRealmAdapter;
 import br.com.jgeniselli.catalogacaolem.common.location.StateModel;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.main.MainActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -79,17 +80,29 @@ public class StartActivity extends AppCompatActivity {
             city.setName("Rio Claro");
             city.setState(state);
 
+            Coordinate coordinate1 = realm.createObject(Coordinate.class, 1);
+            coordinate1.setLatitude(-21.00000012345);
+            coordinate1.setLongitude(-47.00000012345);
+
+            Coordinate coordinate2 = realm.createObject(Coordinate.class, 2);
+            coordinate1.setLatitude(-21.00000012345);
+            coordinate1.setLongitude(-47.00000012345);
+
             AntNest nest = realm.createObject(AntNest.class, 1);
             nest.setName("Ninho A");
             nest.setCity(city);
             nest.setRegisterDate(new Date());
             nest.setVegetation("Mata Atlântica");
+            nest.setBeginingPoint(coordinate1);
+            nest.setEndingPoint(coordinate2);
 
             nest = realm.createObject(AntNest.class, 2);
             nest.setName("Ninho B");
             nest.setCity(city);
             nest.setRegisterDate(new Date());
             nest.setVegetation("Mata Atlântica");
+            nest.setBeginingPoint(coordinate1);
+            nest.setEndingPoint(coordinate2);
 
             city = realm.createObject(CityModel.class, 3);
             city.setName("Limeira");
@@ -100,7 +113,8 @@ public class StartActivity extends AppCompatActivity {
             nest.setCity(city);
             nest.setRegisterDate(new Date());
             nest.setVegetation("Mata Atlântica");
-
+            nest.setBeginingPoint(coordinate1);
+            nest.setEndingPoint(coordinate2);
 
             city = realm.createObject(CityModel.class, 4);
             city.setName("Piracicaba");

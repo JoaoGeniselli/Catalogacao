@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by joaog on 12/08/2017.
@@ -11,7 +12,9 @@ import io.realm.RealmObject;
 
 public class Ant extends RealmObject implements Serializable {
 
+    @PrimaryKey
     private Long id;
+
     private String name;
     private String antOrder;
     private String antFamily;
@@ -20,6 +23,7 @@ public class Ant extends RealmObject implements Serializable {
     private String antSubgenus;
     private String antSpecies;
     private Date registerDate;
+    private String notes;
 
     public Ant() {
 
@@ -95,5 +99,24 @@ public class Ant extends RealmObject implements Serializable {
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void updateFrom(Ant ant) {
+        setName(ant.getName());
+        setAntOrder(ant.getAntOrder());
+        setAntFamily(ant.getAntFamily());
+        setAntSubfamily(ant.getAntSubfamily());
+        setAntGenus(ant.getAntGenus());
+        setAntSubgenus(ant.getAntSubgenus());
+        setAntSpecies(ant.getAntSpecies());
+        setNotes(ant.getNotes());
     }
 }

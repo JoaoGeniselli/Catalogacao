@@ -1,13 +1,12 @@
 package br.com.jgeniselli.catalogacaolem.main;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity_;
-import br.com.jgeniselli.catalogacaolem.common.form.AntNestFormToModelAdapter;
-import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
-import br.com.jgeniselli.catalogacaolem.common.form.FormFactoryNewNest;
+import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.AntNestFormToModelAdapter;
+import br.com.jgeniselli.catalogacaolem.common.form.factory.FormFactoryNewNest;
 import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
 import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
-import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -15,7 +14,6 @@ import io.realm.RealmResults;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -71,8 +69,17 @@ public class MainActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         nestsRecycler.setLayoutManager(layoutManager);
+    }
 
-        EventBus.getDefault().register(this);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        nestsRecycler.getAdapter().notifyDataSetChanged();
     }
 
     @UiThread
@@ -156,12 +163,17 @@ public class MainActivity extends AppCompatActivity
             realm.close();
             realm = null;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNestDetailsRequestEvent(NestDetailsRequestEvent event) {
-        NestDashboardActivity_.intent(this).start();
+        NestDashboardActivity_.intent(this).antNestId(event.getNest().getNestId()).start();
     }
 
     private static class MainNewNestSaveStrategy extends SaveFormStrategy {
