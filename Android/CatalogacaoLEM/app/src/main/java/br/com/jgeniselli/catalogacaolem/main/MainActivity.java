@@ -7,6 +7,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
 import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -184,6 +185,14 @@ public class MainActivity extends AppCompatActivity
                 Number currentIdNum = realmInstance.where(AntNest.class).max("nestId");
                 long nextId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
                 nest.setNestId(nextId);
+
+                currentIdNum = realmInstance.where(Coordinate.class).max("id");
+                long nextCoordinateId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
+                nest.getBeginingPoint().setId(nextCoordinateId);
+
+                nextCoordinateId++;
+                nest.getEndingPoint().setId(nextCoordinateId);
+                
                 realmInstance.beginTransaction();
                 realmInstance.copyToRealm(nest);
                 realmInstance.commitTransaction();

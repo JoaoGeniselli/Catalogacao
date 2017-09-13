@@ -3,9 +3,11 @@ package br.com.jgeniselli.catalogacaolem.citiesSync;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -42,8 +44,10 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     private GoogleMap mMap;
     private boolean markerAdded = false;
     private LatLng latLng;
+    private LatLng serviceLatLng;
 
-    private LocationManager mLocationManager;
+    private LocationManager locationManager;
+    private String provider;
 
     @AfterViews
     public void init() {
@@ -54,7 +58,11 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+
         startUpdatingLocation();
     }
 
@@ -69,6 +77,14 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (locationManager != null) {
+            locationManager.removeUpdates(this);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_reset, menu);
         return true;
@@ -79,7 +95,9 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
         int id = item.getItemId();
         switch (id) {
             case R.id.action_reset: {
-                setLatLng(null);
+                if (locationManager != null) {
+                    setLatLng(serviceLatLng);
+                }
                 break;
             }
             case R.id.action_save: {
@@ -111,7 +129,7 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     private void addMarker(GoogleMap map, LatLng position) {
         if (!markerAdded) {
             markerAdded = true;
-            map.addMarker(new MarkerOptions().position(position).title("Marker in Sydney").draggable(true));
+            map.addMarker(new MarkerOptions().position(position).draggable(true));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 100));
         }
     }
@@ -142,7 +160,7 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int result : grantResults) {
-            if (result != RESULT_OK) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, R.string.location_alert, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -158,11 +176,12 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
                     1);
             return;
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 15, this);
+        locationManager.requestLocationUpdates(provider, 1000, 15, this);
 
-        Location lastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
         if (lastKnownLocation != null) {
             setLatLng(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()));
+            serviceLatLng = latLng;
         }
     }
 
@@ -170,6 +189,9 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     public void onLocationChanged(Location location) {
         if (location.getAccuracy() <= MINIMAL_ACCURACY && latLng == null) {
             setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+            serviceLatLng = latLng;
+        } else {
+            serviceLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         }
     }
 

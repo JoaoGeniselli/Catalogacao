@@ -58,7 +58,7 @@ public class NestDashboardActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_dashboard:
                     if (!(fragment instanceof FormFragment_)) {
-                        DashboardSaveFormStrategy strategy = new DashboardSaveFormStrategy(dataUpdateVisit);
+                        DashboardSaveFormStrategy strategy = new DashboardSaveFormStrategy(dataUpdateVisit.getDataUpdateId());
                         FormFragment fragment = FormFragment_
                                 .builder()
                                 .hidesSave(true)
@@ -159,10 +159,10 @@ public class NestDashboardActivity extends AppCompatActivity {
 
     public static class DashboardSaveFormStrategy extends SaveFormStrategy {
 
-        private WeakReference<DataUpdateVisit> dataUpdateVisit;
+        private long dataUpdateVisitId;
 
-        public DashboardSaveFormStrategy(DataUpdateVisit dataUpdateVisit) {
-            this.dataUpdateVisit = new WeakReference<DataUpdateVisit>(dataUpdateVisit);
+        public DashboardSaveFormStrategy(Long dataUpdateVisitId) {
+            this.dataUpdateVisitId = dataUpdateVisitId;
         }
 
         @Override
@@ -174,14 +174,16 @@ public class NestDashboardActivity extends AppCompatActivity {
         public void saveBeforeDestroy(FormModel form, Realm realmInstance) {
             super.saveBeforeDestroy(form, realmInstance);
 
-            if (dataUpdateVisit.get() != null) {
+            DataUpdateVisit dataUpdateVisit = realmInstance
+                    .where(DataUpdateVisit.class)
+                    .equalTo("dataUpdateId", dataUpdateVisitId)
+                    .findFirst();
+
+            if (dataUpdateVisit != null) {
                 DataUpdateFormToModelAdapter modelAdapter = new DataUpdateFormToModelAdapter();
-
-                DataUpdateVisit unmanagedVisit = modelAdapter.modelFromForm(form);
-
-
-
-                modelAdapter.updateModelFromForm(dataUpdateVisit.get(), form);
+                realmInstance.beginTransaction();
+                modelAdapter.updateModelFromForm(dataUpdateVisit, form);
+                realmInstance.commitTransaction();
             }
         }
     }
