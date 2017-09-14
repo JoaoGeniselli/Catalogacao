@@ -17,9 +17,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
-import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
-import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
+import br.com.jgeniselli.catalogacaolem.common.form.activity.FormActivity_;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.form.factory.FormFactoryAnt;
 import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.AntFormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;

@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.BindableViewHolder;
+import br.com.jgeniselli.catalogacaolem.common.view.BindableViewHolder;
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;
 
 /**

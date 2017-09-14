@@ -1,10 +1,9 @@
 package br.com.jgeniselli.catalogacaolem.common.form.modelAdapters;
 
-import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelCity;
-import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelCoordinate;
-import br.com.jgeniselli.catalogacaolem.common.form.FormFieldModelText;
-import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
-import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.FormToModelAdapter;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelCity;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelCoordinate;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelText;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 

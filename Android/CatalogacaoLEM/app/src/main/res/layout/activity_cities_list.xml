@@ -60,4 +60,11 @@
         android:tint="#FFF"
         app:srcCompat="@drawable/ic_add_white_36dp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

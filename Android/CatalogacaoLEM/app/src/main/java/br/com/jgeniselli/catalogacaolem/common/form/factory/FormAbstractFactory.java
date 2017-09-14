@@ -1,6 +1,6 @@
 package br.com.jgeniselli.catalogacaolem.common.form.factory;
 
-import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 
 /**
  * Created by jgeniselli on 22/08/17.

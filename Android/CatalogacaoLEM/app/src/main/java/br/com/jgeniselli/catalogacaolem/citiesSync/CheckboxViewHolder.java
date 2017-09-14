@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.BindableView;
+import br.com.jgeniselli.catalogacaolem.common.view.BindableView;
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 
 /**

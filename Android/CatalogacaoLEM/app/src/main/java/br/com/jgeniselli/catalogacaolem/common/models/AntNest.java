@@ -16,6 +16,9 @@ public class AntNest extends RealmObject implements Serializable {
 
     @PrimaryKey
     private Long nestId;
+
+    private Long registerId;
+
     private CityModel city;
     private String name;
     private String vegetation;
@@ -49,6 +52,14 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setNestId(Long nestId) {
         this.nestId = nestId;
+    }
+
+    public Long getRegisterId() {
+        return registerId;
+    }
+
+    public void setRegisterId(Long registerId) {
+        this.registerId = registerId;
     }
 
     public CityModel getCity() {
@@ -113,10 +124,6 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setEndingPoint(Coordinate endingPoint) {
         this.endingPoint = endingPoint;
-    }
-
-    public void setRegistered(boolean registered) {
-        this.registered = registered;
     }
 
     public Date getLastDataUpdateDate() {

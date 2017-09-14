@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.BindableViewHolder;
+import br.com.jgeniselli.catalogacaolem.common.view.BindableViewHolder;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 
 /**

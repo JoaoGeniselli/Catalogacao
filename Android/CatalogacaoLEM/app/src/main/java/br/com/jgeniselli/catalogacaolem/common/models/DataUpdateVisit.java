@@ -19,6 +19,8 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
     @PrimaryKey
     private Long dataUpdateId;
 
+    private Long registerId;
+
     private Date collectionDate;
     private Date registerDate;
     private Long collector;
@@ -36,6 +38,14 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
 
     public Long getDataUpdateId() {
         return dataUpdateId;
+    }
+
+    public Long getRegisterId() {
+        return registerId;
+    }
+
+    public void setRegisterId(Long registerId) {
+        this.registerId = registerId;
     }
 
     public void setDataUpdateId(Long dataUpdateId) {

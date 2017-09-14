@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.lang.ref.WeakReference;
 
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.BindableView;
+import br.com.jgeniselli.catalogacaolem.common.view.BindableView;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 
 /**

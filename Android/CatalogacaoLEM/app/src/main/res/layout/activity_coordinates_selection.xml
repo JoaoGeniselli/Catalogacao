@@ -33,7 +33,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="br.com.jgeniselli.catalogacaolem.citiesSync.CoordinatesSelectionActivity" />
+                tools:context="br.com.jgeniselli.catalogacaolem.common.form.activity.CoordinatesSelectionActivity" />
         </FrameLayout>
 
         <TextView

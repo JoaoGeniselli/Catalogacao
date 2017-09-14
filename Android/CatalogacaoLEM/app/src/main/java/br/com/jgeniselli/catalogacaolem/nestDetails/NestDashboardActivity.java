@@ -14,14 +14,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
-import java.lang.ref.WeakReference;
-
 import br.com.jgeniselli.catalogacaolem.R;
-import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
-import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
+import br.com.jgeniselli.catalogacaolem.common.form.activity.FormFragment_;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.form.factory.FormFactoryDataUpdateVisit;
-import br.com.jgeniselli.catalogacaolem.common.form.FormFragment;
-import br.com.jgeniselli.catalogacaolem.common.form.FormFragment_;
+import br.com.jgeniselli.catalogacaolem.common.form.activity.FormFragment;
 import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.DataUpdateFormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;

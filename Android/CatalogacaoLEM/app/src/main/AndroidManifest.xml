@@ -51,7 +51,7 @@
             android:name=".citiesSync.CitiesListActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".common.form.FormActivity_"
+            android:name=".common.form.activity.FormActivity_"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -66,11 +66,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".citiesSync.CoordinatesSelectionActivity_"
+            android:name=".common.form.activity.CoordinatesSelectionActivity_"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_coordinates_selection" />
         <activity
-            android:name=".citiesSync.CitySelectionActivity_"
+            android:name=".common.form.activity.CitySelectionActivity_"
             android:label="@string/title_activity_city_selection" />
         <activity
             android:name=".nestDetails.NestDashboardActivity_"

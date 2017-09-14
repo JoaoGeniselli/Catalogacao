@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="br.com.jgeniselli.catalogacaolem.common.form.FormActivity">
+    tools:context="br.com.jgeniselli.catalogacaolem.common.form.activity.FormActivity">
 
     <!--
     <android.support.design.widget.AppBarLayout

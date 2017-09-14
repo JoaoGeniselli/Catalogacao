@@ -1,11 +1,11 @@
 package br.com.jgeniselli.catalogacaolem.main;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.citiesSync.CitiesListActivity_;
+import br.com.jgeniselli.catalogacaolem.common.form.activity.FormActivity_;
 import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.AntNestFormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.form.factory.FormFactoryNewNest;
-import br.com.jgeniselli.catalogacaolem.common.form.FormModel;
-import br.com.jgeniselli.catalogacaolem.common.form.FormActivity_;
-import br.com.jgeniselli.catalogacaolem.common.form.SaveFormStrategy;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;

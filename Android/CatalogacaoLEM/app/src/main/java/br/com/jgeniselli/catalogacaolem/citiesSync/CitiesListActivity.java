@@ -3,17 +3,20 @@ package br.com.jgeniselli.catalogacaolem.citiesSync;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
@@ -21,13 +24,21 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
+import br.com.jgeniselli.catalogacaolem.common.form.activity.CitySelectionActivity_;
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import br.com.jgeniselli.catalogacaolem.common.location.CitySynchronization;
+import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.service.NestSyncController;
+import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -54,6 +65,12 @@ public class CitiesListActivity extends AppCompatActivity {
     @Pref
     MyPreferences_ prefs;
 
+    @Bean
+    NestSyncController nestSyncController;
+
+    @ViewById
+    ProgressBar progressBar;
+
     private Realm realm;
 
     @AfterViews
@@ -69,11 +86,7 @@ public class CitiesListActivity extends AppCompatActivity {
         CitiesListLineAdapter adapter = new CitiesListLineAdapter(cities);
         citiesRecycler.setAdapter(adapter);
 
-        if (prefs.lastCitiesSynchronization().get().length() > 0) {
-            lastUpdateLabel.setText(prefs.lastCitiesSynchronization().get());
-        } else {
-            lastUpdateLabel.setVisibility(View.GONE);
-        }
+        setupUpdateLabel();
 
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +163,50 @@ public class CitiesListActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.alert_city_already_added, Toast.LENGTH_LONG).show();
                 }
             }
+        }
+    }
+
+    @Background
+    private void startSync() {
+        if (!nestSyncController.isLoading()) {
+            startLoading();
+            RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class)
+                    .findAll();
+
+            nestSyncController.syncCities(cities, realm, new ServiceCallback<List<AntNest>>() {
+                @Override
+                public void onFinish(List<AntNest> response, Error error) {
+                    stopLoading();
+                    if (error != null) {
+
+                    }
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    prefs.lastCitiesSynchronization().put(format.format(new Date()));
+                    setupUpdateLabel();
+                    citiesRecycler.getAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    @UiThread
+    private void startLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    @UiThread
+    private void stopLoading() {
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void setupUpdateLabel() {
+        if (prefs.lastCitiesSynchronization().get().length() > 0) {
+            lastUpdateLabel.setText(prefs.lastCitiesSynchronization().get());
+        } else {
+            lastUpdateLabel.setVisibility(View.GONE);
         }
     }
 
