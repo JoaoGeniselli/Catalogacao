@@ -71,7 +71,7 @@ public class NestSyncController {
     }
 
     @Background
-    private void saveNests(List<AntNest> nests, Realm realmInstance) {
+    public void saveNests(List<AntNest> nests, Realm realmInstance) {
         try {
             Number currentIdNum = realmInstance.where(AntNest.class).max("nestId");
             long nextNestId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;

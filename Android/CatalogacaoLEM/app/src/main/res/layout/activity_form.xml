@@ -37,7 +37,7 @@
 
         <fragment
             android:id="@+id/formFragment"
-            class="br.com.jgeniselli.catalogacaolem.common.form.FormFragment_"
+            class="br.com.jgeniselli.catalogacaolem.common.form.activity.FormFragment_"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

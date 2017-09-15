@@ -60,9 +60,6 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-
         startUpdatingLocation();
     }
 
@@ -169,6 +166,9 @@ public class CoordinatesSelectionActivity extends AppCompatActivity implements O
     }
 
     public void startUpdatingLocation() {
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,

@@ -167,7 +167,7 @@ public class CitiesListActivity extends AppCompatActivity {
     }
 
     @Background
-    private void startSync() {
+    public void startSync() {
         if (!nestSyncController.isLoading()) {
             startLoading();
             RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class)
@@ -190,14 +190,14 @@ public class CitiesListActivity extends AppCompatActivity {
     }
 
     @UiThread
-    private void startLoading() {
+    public void startLoading() {
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @UiThread
-    private void stopLoading() {
+    public void stopLoading() {
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
