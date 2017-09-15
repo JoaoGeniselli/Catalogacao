@@ -3,7 +3,11 @@ package br.com.jgeniselli.catalogacaolem.common.form.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +28,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import br.com.jgeniselli.catalogacaolem.R;
+import br.com.jgeniselli.catalogacaolem.common.form.event.ImageRequestEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormLineAdapter;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
@@ -43,6 +48,7 @@ public class FormFragment extends Fragment {
 
     public static final int CITY_SELECTION_RESULT_ID = 5;
     public static final int COORDINATES_SELECTION_RESULT_ID = 10;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @ViewById
     RecyclerView formRecycler;
@@ -162,11 +168,16 @@ public class FormFragment extends Fragment {
             EventBus.getDefault().post(new CityResponseEvent(city));
 
         } else if (requestCode == COORDINATES_SELECTION_RESULT_ID) {
-
             double latitude = data.getDoubleExtra("latitude", 0);
             double longitude = data.getDoubleExtra("longitude", 0);
 
             EventBus.getDefault().post(new CoordinatesResponseEvent(latitude, longitude));
+
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+
         }
     }
 
@@ -192,6 +203,15 @@ public class FormFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCoordinatesResponseEvent(CoordinatesResponseEvent event) {
         formRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void onImageRequestEvent(ImageRequestEvent event) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        PackageManager packageManager = getContext().getPackageManager();
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @UiThread

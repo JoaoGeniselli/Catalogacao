@@ -67,4 +67,6 @@
     <string name="final_point">Ponto final</string>
     <string name="alert_invalid_ant">Amostra de formiga inesistente</string>
 
+    <string name="select_file">Selecione</string>
+
 </resources>

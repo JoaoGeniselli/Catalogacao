@@ -20,4 +20,12 @@ public class FormFieldModelImageList extends FormFieldModel {
     public FormFieldModelType getType() {
         return FormFieldModelType.IMAGE_LIST;
     }
+
+    public ArrayList<PhotoModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<PhotoModel> images) {
+        this.images = images;
+    }
 }

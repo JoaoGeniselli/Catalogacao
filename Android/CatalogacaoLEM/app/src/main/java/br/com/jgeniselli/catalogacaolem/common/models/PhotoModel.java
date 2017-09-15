@@ -1,5 +1,8 @@
 package br.com.jgeniselli.catalogacaolem.common.models;
 
+import org.greenrobot.eventbus.EventBus;
+
+import br.com.jgeniselli.catalogacaolem.common.form.event.PhotoModelRemovalRequest;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -50,5 +53,9 @@ public class PhotoModel extends RealmObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void requestRemoval() {
+        EventBus.getDefault().post(new PhotoModelRemovalRequest(this));
     }
 }
