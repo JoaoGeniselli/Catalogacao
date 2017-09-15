@@ -23,6 +23,7 @@ public class RestAntNest implements Serializable {
     private Long cityId;
     private String name;
     private Long collectorId;
+    private String address;
     
     private String token;
     
@@ -73,5 +74,13 @@ public class RestAntNest implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

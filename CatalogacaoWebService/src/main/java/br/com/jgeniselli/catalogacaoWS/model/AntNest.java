@@ -38,8 +38,11 @@ public class AntNest implements Serializable {
     @OneToOne
     private City city;
     
+    private String address;
+    
     private String name;
     private String vegetation;
+    
     
     @OneToMany(mappedBy = "nest")
     private Set<DataUpdateVisit> dataUpdateVisits;
@@ -114,7 +117,11 @@ public class AntNest implements Serializable {
         return nestId;
     }
 
-    
-    
-    
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

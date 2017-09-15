@@ -19,6 +19,7 @@ import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAnt;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestPhoto;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.RestResponseAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.User;
 import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
@@ -110,6 +111,7 @@ public class AntNestController extends BaseController {
         nest.setCity(city);
         nest.setName(nestInfo.getName());
         nest.setVegetation(nestInfo.getVegetation());
+        nest.setAddress(nestInfo.getAddress());
         
         nestRepository.save(nest);
         coordinateRepository.save(nestInfo.getBeginingPoint());
@@ -207,7 +209,7 @@ public class AntNestController extends BaseController {
     }
     
     @RequestMapping(method = POST, path = "/addAnts")
-    public ResponseEntity<?> addAnts(@RequestBody List<RestAnt> antInfos) {
+    public List<IndexAnswer> addAnts(@RequestBody List<RestAnt> antInfos) {
 
         ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
         for(int i = 0; i < antInfos.size(); i++) {
@@ -251,14 +253,11 @@ public class AntNestController extends BaseController {
                 }
             }
         }
-
-        HashMap<String, ArrayList> map = new HashMap<>();
-        map.put("indices", indexAnswers);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return indexAnswers;
     }
 
     @RequestMapping(method=POST, path="/nestsByCities")
-    public ArrayList<AntNest> nestsByCities(
+    public ArrayList<RestResponseAntNest> nestsByCities(
             @RequestBody CitiesListRequest body) {
         
         ArrayList<Long> cities = (ArrayList<Long>) body.cities;
@@ -267,12 +266,18 @@ public class AntNestController extends BaseController {
             return new ArrayList<>();
         }
         
-        ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository.findByCityIdIn(cities);
-        
+        ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository
+                .findByCityIdIn(cities);
         if (nests == null) {
             nests = new ArrayList<>();
         }
-        return nests;
+        
+        ArrayList<RestResponseAntNest> responseAntNests;
+        responseAntNests = new ArrayList<>();
+        for (AntNest nest : nests) {
+            responseAntNests.add(new RestResponseAntNest(nest));
+        }
+        return responseAntNests;
     }
     
     @RequestMapping(method=POST, path="/addNewDataUpdateVisit")
@@ -375,7 +380,4 @@ public class AntNestController extends BaseController {
             return success;
         }
     }
-    
-    
-
 }
