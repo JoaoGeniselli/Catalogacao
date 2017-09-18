@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.R;
@@ -119,6 +120,7 @@ public class NestSyncController {
                     @Override
                     public void execute(Realm realm) {
                         nest.setRegisterId(response.getId());
+                        nest.setRegisterDate(new Date());
                     }
                 };
                 realmInstance.executeTransaction(transaction);

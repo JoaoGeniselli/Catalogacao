@@ -69,4 +69,17 @@
 
     <string name="select_file">Selecione</string>
 
+    <string name="not_synchronized_nests">Ninhos não sincronizados</string>
+    <string name="not_synchronized_ants">Amostras de formigas não sincronizadas</string>
+    <string name="not_synchronized_data_updates">Atualizações de dados não sincronizadas</string>
+    <string name="not_syncronized_photos">Fotos não sincronizadas</string>
+
+    <string name="sync_success">Sincronização concluída com sucesso</string>
+    <string name="sync_error">Erro ao sincronizar dados</string>
+
+    <string name="city_has_not_synchronized_nests_alert">
+        Essa cidade não pode ser apagada pois possui ninhos / atualizações de dados
+        que não foram sincronizadas
+    </string>
+
 </resources>

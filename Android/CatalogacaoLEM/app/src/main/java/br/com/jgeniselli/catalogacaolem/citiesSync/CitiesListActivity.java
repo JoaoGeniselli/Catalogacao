@@ -1,7 +1,11 @@
 package br.com.jgeniselli.catalogacaolem.citiesSync;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +42,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.activity.CitySelectionActivi
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import br.com.jgeniselli.catalogacaolem.common.location.CitySynchronization;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.NestSyncController;
 import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
 import io.realm.Realm;
@@ -218,13 +224,52 @@ public class CitiesListActivity extends AppCompatActivity {
     @Subscribe
     public void onSyncCityRemoveRequestEvent(SyncCityRemoveRequestEvent event) {
         if (event.getCitySynchronization() != null) {
-            realm.beginTransaction();
-            event.getCitySynchronization().deleteFromRealm();
-            realm.commitTransaction();
 
-            CitiesListLineAdapter adapter = (CitiesListLineAdapter) citiesRecycler.getAdapter();
-            RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class).findAll();
-            adapter.setCities(cities);
+            RealmResults<AntNest> nestResults = realm
+                    .where(AntNest.class)
+                    .equalTo("city.id", event.getCitySynchronization().getCity().getId())
+                    .isNull("registerId")
+                    .findAll();
+
+            ArrayList<Long> nestIds = new ArrayList<>();
+            for (AntNest nest : nestResults) {
+                nestIds.add(nest.getNestId());
+            }
+
+            RealmResults<DataUpdateVisit> dataUpdateResults = realm
+                    .where(DataUpdateVisit.class)
+                    .in("nest.id", (Long[]) nestIds.toArray())
+                    .isNull("registerId")
+                    .findAll();
+
+            if (nestResults.size() > 0 || dataUpdateResults.size() > 0) {
+                showAlert(R.string.city_has_not_synchronized_nests_alert);
+            } else {
+                realm.beginTransaction();
+                event.getCitySynchronization().deleteFromRealm();
+                realm.commitTransaction();
+
+                CitiesListLineAdapter adapter = (CitiesListLineAdapter) citiesRecycler.getAdapter();
+                RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class).findAll();
+                adapter.setCities(cities);
+            }
+
         }
     }
+
+    @UiThread
+    public void showAlert(int messageId) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(R.string.warning)
+                .setMessage(messageId)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 }
