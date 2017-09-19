@@ -33,22 +33,22 @@ public class SyncService {
 
     }
 
-    @Background
+
     public void syncNests() {
 
     }
 
-    @Background
+
     public void syncDataUpdates() {
 
     }
 
-    @Background
+
     public void syncAnts() {
 
     }
 
-    @Background
+
     public void syncPhotos() {
 
     }

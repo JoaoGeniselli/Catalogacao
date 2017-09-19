@@ -6,6 +6,8 @@ import org.androidannotations.rest.spring.annotations.Rest;
 import org.androidannotations.rest.spring.api.RestClientErrorHandling;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.BuildConfig;
@@ -23,7 +25,7 @@ import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 public interface NestSyncRestClient extends RestClientErrorHandling {
 
     @Post("/nestsByCities")
-    List<AntNest> nestsByCities(@Body List<Long> citiesIds);
+    List<AntNest> nestsByCities(@Body HashMap<String, List<Long>> citiesIds);
 
     @Post("/addNewNest")
     ModelResponse addNewNest(@Body AntNest nest);

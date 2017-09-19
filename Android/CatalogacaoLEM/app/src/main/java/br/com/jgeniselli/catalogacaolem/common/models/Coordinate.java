@@ -1,6 +1,7 @@
 package br.com.jgeniselli.catalogacaolem.common.models;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -52,5 +53,14 @@ public class Coordinate extends RealmObject implements Serializable {
     public void updateFrom(Coordinate unmanagedCoordinate) {
         setLatitude(unmanagedCoordinate.getLatitude());
         setLongitude(unmanagedCoordinate.getLongitude());
+    }
+
+    public HashMap<String, Double> toHashMap() {
+        HashMap hashmap = new HashMap();
+
+        hashmap.put("latitude", latitude);
+        hashmap.put("longitude", longitude);
+
+        return hashmap;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -22,61 +22,77 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_below="@+id/toolbarContainer"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
-            android:id="@+id/nestPendenciesView"
-            app:title="@string/not_synchronized_nests"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-        </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
-
-
-        <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
-            android:id="@+id/dataUpdatePendenciesView"
-            app:title="@string/not_synchronized_nests"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-        </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
-
-
-        <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
-            android:id="@+id/antPendenciesView"
-            app:title="@string/not_synchronized_nests"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-        </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
-
-        <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
-            android:id="@+id/photoPendenciesView"
-            app:title="@string/not_synchronized_nests"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-        </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_above="@+id/sync_button"
-        android:layout_centerHorizontal="true"
+    <TextView
+        android:id="@+id/statusTextView"
+        android:gravity="center"
         android:visibility="gone"
-        android:layout_width="28dp"
-        android:layout_height="28dp" />
-
-    <Button
-        android:id="@+id/sync_button"
-        android:layout_alignParentBottom="true"
-        android:text="@string/action_sync"
+        android:text="Status: atualizando"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:padding="@dimen/default_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
+                android:id="@+id/nestPendenciesView"
+                app:title="@string/not_synchronized_nests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
+
+
+            <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
+                android:id="@+id/dataUpdatePendenciesView"
+                app:title="@string/not_synchronized_data_updates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
+
+
+            <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
+                android:id="@+id/antPendenciesView"
+                app:title="@string/not_synchronized_ants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
+
+            <br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView
+                android:id="@+id/photoPendenciesView"
+                app:title="@string/not_syncronized_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </br.com.jgeniselli.catalogacaolem.pendenciesSync.RightDetailView>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_above="@+id/sync_button"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+
+        <Button
+            android:id="@+id/sync_button"
+            android:layout_alignParentBottom="true"
+            android:text="@string/action_sync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

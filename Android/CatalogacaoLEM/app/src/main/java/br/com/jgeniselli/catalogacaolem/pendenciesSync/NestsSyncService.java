@@ -1,5 +1,7 @@
 package br.com.jgeniselli.catalogacaolem.pendenciesSync;
 
+
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;
@@ -7,7 +9,10 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.service.ModelResponse;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -16,19 +21,18 @@ import retrofit2.http.POST;
 
 public interface NestsSyncService {
 
-    @POST("/nestsByCities")
-    Call<List<AntNest>> nestsByCities(List<Long> citiesIds);
+    @POST("nestsByCities")
+    Call<List<AntNest>> nestsByCities(@Body HashMap citiesIds);
 
-    @POST("/addNewNest")
-    Call<ModelResponse> addNewNest(AntNest nest);
+    @POST("addNewNest")
+    Call<ModelResponse> addNewNest(@Body RestAntNest nest);
 
+    @POST("addDataUpdate")
+    Call<ModelResponse> addNewDataUpdate(@Body RestDataUpdateVisit dataUpdateVisit);
 
-    @POST("/addNewDataUpdate")
-    Call<ModelResponse> addNewDataUpdate(DataUpdateVisit dataUpdateVisit);
+    @POST("addAnts")
+    Call<List<ModelResponse>> addAnts(@Body List<Ant> ants);
 
-    @POST("/addAnts")
-    Call<List<ModelResponse>> addAnts(List<Ant> ants);
-
-    @POST("/addPhotos")
-    Call<List<ModelResponse>> addPhotos(List<PhotoModel> photos);
+    @POST("addPhotos")
+    Call<List<ModelResponse>> addPhotos(@Body List<PhotoModel> photos);
 }

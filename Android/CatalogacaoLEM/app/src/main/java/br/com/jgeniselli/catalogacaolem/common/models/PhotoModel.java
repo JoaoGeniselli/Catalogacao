@@ -15,6 +15,8 @@ public class PhotoModel extends RealmObject {
     @PrimaryKey
     private Long photoId;
 
+    private Long registerId;
+
     private String filePath;
     private String thumbnailFilePath;
     private String description;
@@ -29,6 +31,14 @@ public class PhotoModel extends RealmObject {
 
     public void setPhotoId(Long photoId) {
         this.photoId = photoId;
+    }
+
+    public Long getRegisterId() {
+        return registerId;
+    }
+
+    public void setRegisterId(Long registerId) {
+        this.registerId = registerId;
     }
 
     public String getFilePath() {

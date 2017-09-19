@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -23,9 +26,11 @@ import java.util.HashMap;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
+import br.com.jgeniselli.catalogacaolem.common.Utils;
+import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
 import br.com.jgeniselli.catalogacaolem.main.MainActivity_;
 
-@EActivity
+@EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
 
     @Pref
@@ -33,28 +38,22 @@ public class LoginActivity extends AppCompatActivity {
 
     @ViewById(R.id.username_field)
     public EditText usernameField;
+
+    @ViewById(R.id.password_field)
     public EditText passwordField;
+
+    @ViewById(R.id.enter_btn)
+    public Button sendButton;
 
     @RestService
     SessionRestClient restClient;
 
-    public Button sendButton;
+    @Bean
+    SessionController sessionController;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        usernameField = (EditText) findViewById(R.id.username_field);
-        passwordField = (EditText) findViewById(R.id.password_field);
-        sendButton = (Button)findViewById(R.id.enter_btn);
-
-        sendButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
+    @Click(R.id.enter_btn)
+    public void onSendButtonClick() {
+        signUp();
     }
 
     public void signUp() {
@@ -69,52 +68,46 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     @Background
     void validateUser(String userId, String password) {
-        User user = new User(userId, password);
-        try {
-            ResponseEntity<HashMap> response = restClient.validateUser(user);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-
-                HashMap responseBody = (HashMap) response.getBody();
-
-                String username = (String) responseBody.get("username");
-                String token = (String) responseBody.get("token");
-
-                prefs.name().put(username);
-                prefs.token().put(token);
-
-                redirectToMain();
-            } else if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-                HashMap responseBody = (HashMap) response.getBody();
-                String message = (String) responseBody.get("msg");
-
-                showErrorAlert(message);
-            }
-        } catch (RestClientException e) {
-            showErrorAlert(getString(R.string.default_login_rest_error));
-        }
-    }
-
-    @UiThread
-    void showErrorAlert(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage(R.string.default_login_rest_error);
-        builder.setCancelable(true);
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        final User user = new User(userId, password);
+        sessionController.validateUser(user, new ServiceCallback<HashMap>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onFinish(HashMap response, Error error) {
+                if (error != null) {
+                    showAlert(error.getMessage());
+                } else {
+                    String username = (String) response.get("username");
+                    String token = (String) response.get("token");
 
+                    user.setName(username);
+                    user.setToken(token);
+                    updateSharedUser(user);
+
+                    redirectToStart();
+                }
             }
         });
-        builder.create().show();
     }
 
     @UiThread
-    void redirectToMain() {
-        Intent toMain = new Intent(this, MainActivity_.class);
-        startActivity(toMain);
+    public void updateSharedUser(User user) {
+        User.setSharedUser(user, this);
+    }
+
+    @UiThread
+    public void showAlert(String message) {
+        Utils.showAlert("Atenção", message, LoginActivity.this);
+    }
+
+    @UiThread
+    public void redirectToStart() {
+        StartActivity_.intent(this).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

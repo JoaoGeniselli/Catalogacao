@@ -37,6 +37,7 @@ public abstract class PendenciesState {
         @Override
         public void startSynchronizing(NestSyncController syncController, PendenciesActivity context) {
             context.startLoading();
+            context.startNestsSynchronization();
             context.setState(nextState());
         }
 

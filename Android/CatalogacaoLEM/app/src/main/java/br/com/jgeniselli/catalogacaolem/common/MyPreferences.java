@@ -18,4 +18,13 @@ public interface MyPreferences {
 
     @DefaultString("")
     String lastCitiesSynchronization();
+
+    @DefaultString("")
+    String user_name();
+
+    @DefaultString("")
+    String user_id();
+
+    @DefaultString("")
+    String user_token();
 }

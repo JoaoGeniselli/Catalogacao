@@ -13,6 +13,6 @@ public class BaseErrorHandler  implements RestErrorHandler {
 
     @Override
     public void onRestClientExceptionThrown(NestedRuntimeException e) {
-
+        e.printStackTrace();
     }
 }

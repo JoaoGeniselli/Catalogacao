@@ -36,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.com.jgeniselli.catalogacaolem.BuildConfig;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
+import br.com.jgeniselli.catalogacaolem.common.Utils;
 import br.com.jgeniselli.catalogacaolem.common.form.activity.CitySelectionActivity_;
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import br.com.jgeniselli.catalogacaolem.common.location.CitySynchronization;
@@ -45,8 +47,10 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.NestSyncController;
 import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
+import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Retrofit;
 
 @EActivity(R.layout.activity_cities_list)
 public class CitiesListActivity extends AppCompatActivity {
@@ -78,6 +82,8 @@ public class CitiesListActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     private Realm realm;
+
+
 
     @AfterViews
     public void afterViews() {
@@ -124,6 +130,7 @@ public class CitiesListActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_sync: {
+                startSync();
                 break;
             }
             case R.id.action_erase_all: {
@@ -176,6 +183,8 @@ public class CitiesListActivity extends AppCompatActivity {
     public void startSync() {
         if (!nestSyncController.isLoading()) {
             startLoading();
+            Realm realm = Realm.getDefaultInstance();
+
             RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class)
                     .findAll();
 
@@ -183,13 +192,21 @@ public class CitiesListActivity extends AppCompatActivity {
                 @Override
                 public void onFinish(List<AntNest> response, Error error) {
                     stopLoading();
-                    if (error != null) {
 
+                    if (error != null) {
+                        Utils.showAlert(
+                                "Atenção",
+                                "Ocorreu um erro ao obter informações das cidades",
+                                CitiesListActivity.this
+                        );
                     }
                     DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     prefs.lastCitiesSynchronization().put(format.format(new Date()));
                     setupUpdateLabel();
-                    citiesRecycler.getAdapter().notifyDataSetChanged();
+
+                    if (response != null) {
+                        reloadData();
+                    }
                 }
             });
         }
@@ -208,7 +225,13 @@ public class CitiesListActivity extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    private void setupUpdateLabel() {
+    @UiThread
+    public void reloadData() {
+        citiesRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+    @UiThread
+    public void setupUpdateLabel() {
         if (prefs.lastCitiesSynchronization().get().length() > 0) {
             lastUpdateLabel.setText(prefs.lastCitiesSynchronization().get());
         } else {

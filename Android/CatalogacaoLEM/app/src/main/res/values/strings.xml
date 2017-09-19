@@ -40,7 +40,7 @@
 
     <string name="my_location">Minha localização</string>
     <string name="location_long_press_message">
-        Segure e arraste o alfinete para ajustar a localização
+        Segure e arraste o marcador para ajustar a localização
     </string>
 
     <string name="location_alert">Acesso à localização não permitido.</string>
@@ -81,5 +81,7 @@
         Essa cidade não pode ser apagada pois possui ninhos / atualizações de dados
         que não foram sincronizadas
     </string>
+
+    <string name="last_update">Última atualização: </string>
 
 </resources>

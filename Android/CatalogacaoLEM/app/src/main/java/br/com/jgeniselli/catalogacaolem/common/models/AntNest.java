@@ -1,9 +1,12 @@
 package br.com.jgeniselli.catalogacaolem.common.models;
 
+import org.parceler.Parcel;
+
 import java.io.Serializable;
 import java.util.Date;
 
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
+import io.realm.AntNestRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

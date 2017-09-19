@@ -15,6 +15,8 @@ public class Ant extends RealmObject implements Serializable {
     @PrimaryKey
     private Long id;
 
+    private Long registerId;
+
     private String name;
     private String antOrder;
     private String antFamily;
@@ -107,6 +109,14 @@ public class Ant extends RealmObject implements Serializable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Long getRegisterId() {
+        return registerId;
+    }
+
+    public void setRegisterId(Long registerId) {
+        this.registerId = registerId;
     }
 
     public void updateFrom(Ant ant) {

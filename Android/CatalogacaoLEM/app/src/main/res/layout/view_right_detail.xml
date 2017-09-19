@@ -17,6 +17,7 @@
         android:id="@+id/detailView"
         android:text="detail"
         android:layout_weight="0.75"
+        android:layout_gravity="center_vertical"
         android:gravity="right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

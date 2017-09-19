@@ -9,6 +9,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
+import br.com.jgeniselli.catalogacaolem.pendenciesSync.PendenciesActivity_;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            // do nothing
         }
     }
 
@@ -113,31 +114,6 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_route_config: {
-
-                break;
-            }
-            case R.id.action_sync: {
-                break;
-            }
-            case R.id.action_settings: {
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -149,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_download_nests) {
             CitiesListActivity_.intent(this).start();
         } else if (id == R.id.nav_sync) {
-
+            PendenciesActivity_.intent(this).start();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
