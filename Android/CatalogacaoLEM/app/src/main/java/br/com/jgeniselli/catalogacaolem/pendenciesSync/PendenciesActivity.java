@@ -136,7 +136,7 @@ public class PendenciesActivity extends AppCompatActivity {
 
     public void startAntsSynchronization() {
 
-        nestSyncController.synchronizeNewAnts(new ServiceCallback<List<Ant>>() {
+        nestSyncController.synchronizeNewAnts(this, new ServiceCallback<List<Ant>>() {
             @Override
             public void onFinish(List<Ant> response, Error error) {
 

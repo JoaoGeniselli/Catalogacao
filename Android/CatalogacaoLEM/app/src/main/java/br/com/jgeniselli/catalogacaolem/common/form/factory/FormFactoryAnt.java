@@ -3,6 +3,7 @@ package br.com.jgeniselli.catalogacaolem.common.form.factory;
 import java.util.ArrayList;
 
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelText;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;
@@ -29,6 +30,8 @@ public class FormFactoryAnt extends FormAbstractFactory<Ant> {
         }
 
         fields.add(new FormFieldModelText(8, 8, "Observações", "notes"));
+
+        fields.add(new FormFieldModelImageList(9, 9, "Fotos", "photos"));
 
         FormModel formModel = new FormModel(1, "Nova Formiga", "Formulário de cadastro de nova amostra de formiga", fields);
         return formModel;

@@ -5,6 +5,7 @@
     <string name="updating_location_content">Atualizando informações de localização</string>
     <string name="title_activity_main">Ninhos</string>
     <string name="title_activity_city_selection">Seleção de Cidade</string>
+    <string name="title_activity_sync">Sincronização</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -83,5 +84,7 @@
     </string>
 
     <string name="last_update">Última atualização: </string>
+    <string name="file_not_supported_alert">Arquivo não suportado</string>
+    <string name="description">Descrição</string>
 
 </resources>

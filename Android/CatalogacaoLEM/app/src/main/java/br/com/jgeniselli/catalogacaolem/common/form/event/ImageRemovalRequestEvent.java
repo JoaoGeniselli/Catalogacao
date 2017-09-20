@@ -6,11 +6,11 @@ import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
  * Created by jgeniselli on 15/09/17.
  */
 
-public class PhotoModelRemovalRequest {
+public class ImageRemovalRequestEvent {
 
     private PhotoModel photoModel;
 
-    public PhotoModelRemovalRequest(PhotoModel photoModel) {
+    public ImageRemovalRequestEvent(PhotoModel photoModel) {
         this.photoModel = photoModel;
     }
 

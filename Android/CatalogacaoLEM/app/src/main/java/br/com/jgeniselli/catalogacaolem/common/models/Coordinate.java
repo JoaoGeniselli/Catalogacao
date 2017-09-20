@@ -63,4 +63,8 @@ public class Coordinate extends RealmObject implements Serializable {
 
         return hashmap;
     }
+
+    public boolean zeroCoordinates() {
+        return latitude == 0.0 && longitude == 0.0;
+    }
 }

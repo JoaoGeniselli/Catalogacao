@@ -26,6 +26,7 @@ import br.com.jgeniselli.catalogacaolem.common.models.Ant;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
@@ -182,6 +183,10 @@ public class NestSyncController {
         Error error = null;
 
         for (final DataUpdateVisit dataUpdate : dataUpdateVisits) {
+            if (dataUpdate.isEmpty()) {
+                continue;
+            }
+
             try {
                 RestDataUpdateVisit restDataUpdateVisit = new RestDataUpdateVisit(dataUpdate, context);
                 Call<ModelResponse> call = syncService.addNewDataUpdate(restDataUpdateVisit);
@@ -217,7 +222,7 @@ public class NestSyncController {
     }
 
 
-    public void synchronizeNewAnts(ServiceCallback<List<Ant>> callback) {
+    public void synchronizeNewAnts(Context context, ServiceCallback<List<Ant>> callback) {
         loading = true;
 
         Realm realm = Realm.getDefaultInstance();
@@ -226,11 +231,12 @@ public class NestSyncController {
                 .isNotNull("registerId")
                 .findAll();
 
-        List<Ant> ants = new ArrayList<>();
+        List<RestAnt> ants = new ArrayList<>();
         for (DataUpdateVisit dataUpdateVisit : results) {
             for (Ant ant : dataUpdateVisit.getAnts()) {
                 if (ant.getRegisterId() == null) {
-                    ants.add(ant);
+                    RestAnt restAnt = new RestAnt(ant, context);
+                    ants.add(restAnt);
                 }
             }
         }
@@ -245,7 +251,7 @@ public class NestSyncController {
 
                 for (int i = 0; i < response.body().size(); i++) {
                     ModelResponse modelResponse = response.body().get(i);
-                    final Ant ant = ants.get(i);
+                    final Ant ant = ants.get(i).getAntReference();
 
                     if (modelResponse.getId() == 0) {
                         Realm.Transaction transaction = new Realm.Transaction() {

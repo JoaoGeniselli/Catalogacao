@@ -1,8 +1,10 @@
 package br.com.jgeniselli.catalogacaolem.common.models;
 
+import android.net.Uri;
+
 import org.greenrobot.eventbus.EventBus;
 
-import br.com.jgeniselli.catalogacaolem.common.form.event.PhotoModelRemovalRequest;
+import br.com.jgeniselli.catalogacaolem.common.form.event.ImageRemovalRequestEvent;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -16,9 +18,7 @@ public class PhotoModel extends RealmObject {
     private Long photoId;
 
     private Long registerId;
-
     private String filePath;
-    private String thumbnailFilePath;
     private String description;
 
     public PhotoModel() {
@@ -45,18 +45,6 @@ public class PhotoModel extends RealmObject {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getThumbnailFilePath() {
-        return thumbnailFilePath;
-    }
-
-    public void setThumbnailFilePath(String thumbnailFilePath) {
-        this.thumbnailFilePath = thumbnailFilePath;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -66,6 +54,21 @@ public class PhotoModel extends RealmObject {
     }
 
     public void requestRemoval() {
-        EventBus.getDefault().post(new PhotoModelRemovalRequest(this));
+        EventBus.getDefault().post(new ImageRemovalRequestEvent(this));
+    }
+
+    public Uri getFileURI() {
+        Uri uri = null;
+        try {
+            uri = Uri.parse(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            uri = null;
+        }
+        return uri;
+    }
+
+    public void setFileURI(Uri uri) {
+        filePath = uri.toString();
     }
 }

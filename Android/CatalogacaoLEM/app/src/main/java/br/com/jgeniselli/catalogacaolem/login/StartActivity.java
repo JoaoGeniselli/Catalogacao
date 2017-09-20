@@ -51,11 +51,13 @@ public class StartActivity extends AppCompatActivity {
     @AfterViews
     public void afterViews() {
         User sharedUser = User.shared(this);
-        if (sharedUser.getToken() == null || sharedUser.getToken().length() == 0) {
-            redirectToLogin();
-        } else {
+
+        // TODO: REMOVER MOCK
+//        if (sharedUser.getToken() == null || sharedUser.getToken().length() == 0) {
+//            redirectToLogin();
+//        } else {
             requestLocationContent();
-        }
+//        }
     }
 
     public void requestLocationContent() {
@@ -63,20 +65,22 @@ public class StartActivity extends AppCompatActivity {
         final RealmResults<CountryModel> countries = realm.where(CountryModel.class).findAll();
         if (countries.size() == 0) {
             // TODO: REMOVER MOCK
-            //mockData(realm);
+            mockData(realm);
+            redirectToMain();
 
             realm.close();
 
-            sessionController.requestLocationContent(new ServiceCallback<String>() {
-                @Override
-                public void onFinish(String response, Error error) {
-                    if (error != null) {
-                        Utils.showAlert("Atenção", error.getMessage(), StartActivity.this);
-                    } else {
-                        redirectToMain();
-                    }
-                }
-            });
+            // TODO: IMPLEMENTAÇÃO ORIGINAL - DESCOMENTAR
+//            sessionController.requestLocationContent(new ServiceCallback<String>() {
+//                @Override
+//                public void onFinish(String response, Error error) {
+//                    if (error != null) {
+//                        Utils.showAlert("Atenção", error.getMessage(), StartActivity.this);
+//                    } else {
+//                        redirectToMain();
+//                    }
+//                }
+//            });
         } else {
             realm.close();
             redirectToMain();
@@ -164,7 +168,10 @@ public class StartActivity extends AppCompatActivity {
 
         realm.commitTransaction();
 
-        realm.close();
-        updateStatus(getString(R.string.updating_location_content));
+        User user = new User("joao", null);
+        user.setName("João");
+        user.setToken("1234-1234");
+
+        User.setSharedUser(user, this);
     }
 }

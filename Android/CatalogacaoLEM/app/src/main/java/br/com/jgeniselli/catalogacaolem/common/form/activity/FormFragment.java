@@ -1,15 +1,18 @@
 package br.com.jgeniselli.catalogacaolem.common.form.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.UiThread;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +23,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,6 +34,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.form.event.ImageRequestEvent;
+import br.com.jgeniselli.catalogacaolem.common.form.event.ImageResponseEvent;
+import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormLineAdapter;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
@@ -37,6 +44,8 @@ import br.com.jgeniselli.catalogacaolem.common.form.event.CityResponseEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.event.CoordinatesRequestEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.event.CoordinatesResponseEvent;
 import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
+import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import io.realm.Realm;
 
 /**
@@ -48,7 +57,7 @@ public class FormFragment extends Fragment {
 
     public static final int CITY_SELECTION_RESULT_ID = 5;
     public static final int COORDINATES_SELECTION_RESULT_ID = 10;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 15;
 
     @ViewById
     RecyclerView formRecycler;
@@ -61,6 +70,9 @@ public class FormFragment extends Fragment {
     SaveFormStrategy saveStrategy;
 
     Realm realm;
+
+    @Bean
+    ChooseFileManager chooseFileManager;
 
     @FragmentArg
     boolean hidesSave;
@@ -159,6 +171,13 @@ public class FormFragment extends Fragment {
         }
 
         if (requestCode == CITY_SELECTION_RESULT_ID) {
+
+        }
+    }
+
+    @OnActivityResult(CITY_SELECTION_RESULT_ID)
+    public void onCitySelectionResult(int resultCode, Intent data) {
+        if (data != null && resultCode == Activity.RESULT_OK) {
             Long cityId = data.getLongExtra("addedCityId", 0);
 
             CityModel city = null;
@@ -166,18 +185,37 @@ public class FormFragment extends Fragment {
                 city = realm.where(CityModel.class).equalTo("id", cityId).findFirst();
             }
             EventBus.getDefault().post(new CityResponseEvent(city));
+        }
+    }
 
-        } else if (requestCode == COORDINATES_SELECTION_RESULT_ID) {
+    @OnActivityResult(COORDINATES_SELECTION_RESULT_ID)
+    public void onCoordinatesSelectionResult (int resultCode, Intent data) {
+        if (data != null && resultCode == Activity.RESULT_OK) {
             double latitude = data.getDoubleExtra("latitude", 0);
             double longitude = data.getDoubleExtra("longitude", 0);
-
             EventBus.getDefault().post(new CoordinatesResponseEvent(latitude, longitude));
+        }
+    }
 
-        } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+    @OnActivityResult(REQUEST_IMAGE_CAPTURE)
+    public void onRequestImageCaptureResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri fileSelected = chooseFileManager.getSelectedFile(data);
 
+            if (chooseFileManager.isSupportedFile(getContext(), fileSelected)) {
+                Number currentIdNum = realm.where(PhotoModel.class).max("photoId");
+                long nextId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
 
+                PhotoModel photo = new PhotoModel();
+                photo.setFileURI(fileSelected);
+                photo.setPhotoId(nextId);
+
+                realm.beginTransaction();
+                photo = realm.copyToRealm(photo);
+                realm.commitTransaction();
+
+                EventBus.getDefault().post(new ImageResponseEvent(photo));
+            }
         }
     }
 
@@ -205,13 +243,27 @@ public class FormFragment extends Fragment {
         formRecycler.getAdapter().notifyDataSetChanged();
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onImageRequestEvent(ImageRequestEvent event) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        PackageManager packageManager = getContext().getPackageManager();
-        if (takePictureIntent.resolveActivity(packageManager) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        requestStoragePermissionToAndroidM();
+
+        if (haveStoragePermission()) {
+            startActivityForResult(
+                    chooseFileManager.buildIntentFileOrTakePicture(getContext()),
+                    REQUEST_IMAGE_CAPTURE);
         }
+
+
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        PackageManager packageManager = getContext().getPackageManager();
+//        if (takePictureIntent.resolveActivity(packageManager) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImageResponseEvent(ImageResponseEvent event) {
+        formRecycler.getAdapter().notifyDataSetChanged();
     }
 
     @UiThread
@@ -237,5 +289,20 @@ public class FormFragment extends Fragment {
                                     @FragmentArg SaveFormStrategy saveStrategy) {
         this.form = form;
         this.saveStrategy = saveStrategy;
+    }
+
+    private void requestStoragePermissionToAndroidM(){
+        if (!haveStoragePermission()){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+        }
+    }
+
+    private boolean haveStoragePermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==  PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
     }
 }

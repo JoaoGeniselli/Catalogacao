@@ -1,5 +1,7 @@
 package br.com.jgeniselli.catalogacaolem.common.models;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -114,5 +116,11 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
 
     public void setNest(AntNest nest) {
         this.nest = nest;
+    }
+
+    public boolean isEmpty() {
+        return (StringUtils.isEmpty(notes) &&
+                newBeginingPoint.zeroCoordinates() &&
+                newEndingPoint.zeroCoordinates());
     }
 }

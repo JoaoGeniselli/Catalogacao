@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import br.com.jgeniselli.catalogacaolem.common.form.view.CityFormFieldViewHolder;
 import br.com.jgeniselli.catalogacaolem.common.form.view.CoordinatesFormFieldViewHolder;
+import br.com.jgeniselli.catalogacaolem.common.form.view.ImageListFormFieldViewHolder;
 import br.com.jgeniselli.catalogacaolem.common.form.view.TextFormFieldViewHolder;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelType;
 
@@ -22,12 +23,12 @@ public class FormViewHolderFactory {
         switch (type) {
             case TEXT:
                 return new TextFormFieldViewHolder(view);
-            case NUMBER:
-                return new TextFormFieldViewHolder(view); // TODO: MUDAR
             case COORDINATE:
                 return new CoordinatesFormFieldViewHolder(view);
             case CITY:
                 return new CityFormFieldViewHolder(view);
+            case IMAGE_LIST:
+                return new ImageListFormFieldViewHolder(view);
             default:
                 return new TextFormFieldViewHolder(view);
         }

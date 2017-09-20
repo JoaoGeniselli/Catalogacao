@@ -44,6 +44,7 @@
         <activity android:name=".login.StartActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -79,7 +80,10 @@
         <activity
             android:name=".nestDetails.NestDashboardActivity_"
             android:label="@string/title_activity_nest_dashboard" />
-        <activity android:name=".pendenciesSync.PendenciesActivity_"></activity>
+        <activity
+            android:name=".pendenciesSync.PendenciesActivity_"
+            android:label="@string/title_activity_sync" />
+        <activity android:name=".main.ImageDetailActivity_"></activity>
     </application>
 
 </manifest>

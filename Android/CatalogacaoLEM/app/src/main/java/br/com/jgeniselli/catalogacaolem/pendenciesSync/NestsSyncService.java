@@ -9,8 +9,10 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.service.ModelResponse;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhoto;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -31,8 +33,8 @@ public interface NestsSyncService {
     Call<ModelResponse> addNewDataUpdate(@Body RestDataUpdateVisit dataUpdateVisit);
 
     @POST("addAnts")
-    Call<List<ModelResponse>> addAnts(@Body List<Ant> ants);
+    Call<List<ModelResponse>> addAnts(@Body List<RestAnt> ants);
 
     @POST("addPhotos")
-    Call<List<ModelResponse>> addPhotos(@Body List<PhotoModel> photos);
+    Call<List<ModelResponse>> addPhotos(@Body List<RestPhoto> photos);
 }
