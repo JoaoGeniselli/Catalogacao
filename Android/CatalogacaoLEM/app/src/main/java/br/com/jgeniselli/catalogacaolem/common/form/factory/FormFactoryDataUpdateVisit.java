@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelCoordinate;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelText;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
@@ -20,9 +21,13 @@ public class FormFactoryDataUpdateVisit extends FormAbstractFactory<DataUpdateVi
 
         fields.add(new FormFieldModelCoordinate(1, 1, "Novo ponto inicial do ninho", "beginingPoint"));
         fields.add(new FormFieldModelCoordinate(2, 2, "Novo ponto final do ninho", "endingPoint"));
-        fields.add(new FormFieldModelText(1, 1, "Observações", "notes"));
+        fields.add(new FormFieldModelText(3, 3, "Observações", "notes"));
+        fields.add(new FormFieldModelImageList(4, 4, "Fotos Relevantes", "photos"));
 
         FormModel formModel = new FormModel(1, "Atualização de dados", "Formulário de atualização de dados de um ninho existente para análises", fields);
+
+
+
         return formModel;
     }
 

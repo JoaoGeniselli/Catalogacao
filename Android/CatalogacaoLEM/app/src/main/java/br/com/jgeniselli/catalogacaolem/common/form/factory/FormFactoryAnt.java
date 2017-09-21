@@ -31,7 +31,7 @@ public class FormFactoryAnt extends FormAbstractFactory<Ant> {
 
         fields.add(new FormFieldModelText(8, 8, "Observações", "notes"));
 
-        fields.add(new FormFieldModelImageList(9, 9, "Fotos", "photos"));
+        fields.add(new FormFieldModelImageList(9, 9, "Fotos da Amostra", "photos"));
 
         FormModel formModel = new FormModel(1, "Nova Formiga", "Formulário de cadastro de nova amostra de formiga", fields);
         return formModel;

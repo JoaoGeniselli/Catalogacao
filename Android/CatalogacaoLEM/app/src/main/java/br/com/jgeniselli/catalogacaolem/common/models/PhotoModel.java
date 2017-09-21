@@ -53,10 +53,6 @@ public class PhotoModel extends RealmObject {
         this.description = description;
     }
 
-    public void requestRemoval() {
-        EventBus.getDefault().post(new ImageRemovalRequestEvent(this));
-    }
-
     public Uri getFileURI() {
         Uri uri = null;
         try {

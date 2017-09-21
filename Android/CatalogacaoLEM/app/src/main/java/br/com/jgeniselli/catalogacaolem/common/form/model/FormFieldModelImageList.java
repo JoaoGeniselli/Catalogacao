@@ -64,6 +64,6 @@ public class FormFieldModelImageList extends FormFieldModel {
         } catch (Exception e ) {
             e.printStackTrace();
         }
-        EventBus.getDefault().post(new ImageRemovalRequestEvent(image));
+        EventBus.getDefault().post(new ImageRemovalRequestEvent(image, this));
     }
 }

@@ -19,8 +19,8 @@ import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
 
 public class ThumbnailUtil {
 
-    private static final int WIDTH = 45;
-    private static final int HEIGHT = 45;
+    private static final int WIDTH = 72;
+    private static final int HEIGHT = 72;
     private static final int ROUND = 8;
     private static String[] imagesExtensionsAllow = new String[]{"jpg", "png", "gif", "jpeg"};
 

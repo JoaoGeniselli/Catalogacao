@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import br.com.jgeniselli.catalogacaolem.R;
+import br.com.jgeniselli.catalogacaolem.common.form.event.ImageRemovalRequestEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.event.ImageRequestEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.event.ImageResponseEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
@@ -253,7 +254,6 @@ public class FormFragment extends Fragment {
                     REQUEST_IMAGE_CAPTURE);
         }
 
-
 //        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        PackageManager packageManager = getContext().getPackageManager();
 //        if (takePictureIntent.resolveActivity(packageManager) != null) {
@@ -264,6 +264,18 @@ public class FormFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onImageResponseEvent(ImageResponseEvent event) {
         formRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImageRemovalRequestEvent(ImageRemovalRequestEvent event) {
+        if (event.getFormModel() != null) {
+            FormLineAdapter adapter = (FormLineAdapter) formRecycler.getAdapter();
+            int index = this.form.getFields().indexOf(event.getFormModel());
+
+            if (index >= 0 && index < this.form.getFields().size()) {
+                adapter.notifyItemChanged(index);
+            }
+        }
     }
 
     @UiThread

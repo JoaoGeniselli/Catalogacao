@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,6 +23,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageLis
 public class ImageListFormFieldViewHolder extends FormFieldViewHolder<FormFieldModelImageList> {
 
     private RecyclerView recyclerView;
+    private TextView titleView;
     private ImageButton takePhotoButton;
     private WeakReference<FormFieldModelImageList> weakModel;
 
@@ -30,6 +32,7 @@ public class ImageListFormFieldViewHolder extends FormFieldViewHolder<FormFieldM
 
         takePhotoButton = (ImageButton) itemView.findViewById(R.id.takePhotoButton);
         recyclerView = (RecyclerView) itemView.findViewById(R.id.imageRecycler);
+        titleView = (TextView) itemView.findViewById(R.id.titleView);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 itemView.getContext(),
@@ -51,6 +54,7 @@ public class ImageListFormFieldViewHolder extends FormFieldViewHolder<FormFieldM
     @Override
     public void bind(FormFieldModelImageList model) {
         weakModel = new WeakReference<>(model);
+        titleView.setText(model.getTitle());
         ThumbnailLineAdapter adapter = (ThumbnailLineAdapter) recyclerView.getAdapter();
         adapter.setFormModel(model);
         adapter.notifyDataSetChanged();
