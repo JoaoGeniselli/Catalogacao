@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -29,6 +30,22 @@ public class SiteNestsController extends BaseSiteController {
                 .findAll();
         model.addAttribute("nests", nests);
         return "home";
+    }
+    
+    @RequestMapping("blank")
+    public String teste() {
+        return "header";
+    }
+    
+    @RequestMapping("/nestDetails.html")
+    public String nestDetails(@RequestParam(name = "nestId") Long nestId, Model model) {
+        AntNest nest = antNestRepository.findOne(nestId);
+        if (nest != null) {
+            model.addAttribute("nest", nest);
+        }
+        
+        nest.getDataUpdateVisits().size()
+        return "details";
     }
     
     

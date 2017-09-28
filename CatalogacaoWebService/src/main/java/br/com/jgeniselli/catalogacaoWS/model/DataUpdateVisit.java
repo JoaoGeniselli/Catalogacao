@@ -123,8 +123,12 @@ public class DataUpdateVisit implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-    
-    
-    
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 }

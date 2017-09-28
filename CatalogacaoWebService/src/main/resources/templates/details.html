@@ -45,7 +45,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ninhos</h1>
+                    <h1 th:text="${nest.name}" class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -53,7 +53,23 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Lista de Ninhos Disponíveis
+                        Dados do ninho
+                    </div>
+                    <!-- /.panel-heading -->
+
+                    <div class="panel-body h-100">
+                        <p><strong>Cidade: </strong><span th:text="${nest.city.name}"></span>/<span th:text="${nest.city.state.initials}"></span> - <span th:text="${nest.city.state.country.name}"></span></p>
+                        <p><strong>Endereço: </strong><span th:text="${nest.address}"></span></p>
+                        <p><strong>Data de cadastro: </strong><span th:text="${#dates.format(nest.registerDate, 'dd/MM/yyyy')}"></span></p>
+                        <p><strong>Vegetação Predominante: </strong><span th:text="${nest.vegetation}"></span></p>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Atualizações de dados
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body h-100">
@@ -62,18 +78,16 @@
                                 <tr>
                                     <th></th>
                                     <th>Id</th>
-                                    <th>Nome</th>
-                                    <th>Endereço</th>
-                                    <th>Última Atualização</th>
+                                    <th>Coletor</th>
+                                    <th>Data</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX" th:each="nest : ${nests}">
-                                    <td><a th:href="@{/web/nestDetails.html(nestId=${nest.nestId})}">Detalhes</a></td>
-                                    <td th:text="${nest.nestId}"></td>
-                                    <td th:text="${nest.name}"></td>
-                                    <td th:text="${nest.address}"></td>
-                                    <td th:text="${(nest.dataUpdateVisits.size() > 0)? #dates.format(nest.dataUpdateVisits[(nest.dataUpdateVisits.size()-1)].collectionDate, 'dd/MM/yyyy') : '-' }"></td>
+                                <tr class="odd gradeX" th:each="update : ${nest.dataUpdateVisits}">
+                                    <td><span class="fa fa-plus"></span></td>
+                                    <td th:text="${update.id}"></td>
+                                    <td th:text="${update.collector.userId}"></td>
+                                    <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
                                 </tr>
                             </tbody>
                         </table>
