@@ -62,6 +62,16 @@ public class User implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+    
+    
     
     
 }

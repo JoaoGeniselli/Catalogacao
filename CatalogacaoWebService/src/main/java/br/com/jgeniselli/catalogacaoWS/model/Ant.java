@@ -136,7 +136,8 @@ public class Ant implements Serializable {
     public Long getId() {
         return id;
     }
-    
-    
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 }

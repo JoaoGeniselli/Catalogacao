@@ -48,7 +48,6 @@ public class AntNest implements Serializable {
     private Set<DataUpdateVisit> dataUpdateVisits;
 
     @OneToMany(mappedBy = "antNest")
-    @JsonIgnore
     private Set<Ant> ants;
     
     @OneToMany

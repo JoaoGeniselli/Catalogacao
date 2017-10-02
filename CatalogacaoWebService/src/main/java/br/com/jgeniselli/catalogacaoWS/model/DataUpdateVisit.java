@@ -131,4 +131,15 @@ public class DataUpdateVisit implements Serializable {
     public List<Photo> getPhotos() {
         return photos;
     }
+    
+    public void getFormatedAntNames() {
+        ArrayList<Ant> antList = (ArrayList<Ant>) this.getAnts();
+        String antNames = "";
+
+        for (Ant ant : antList) {
+            if (ant.getName() != null) {
+                antNames = antNames.concat(ant.getName() + "; ");
+            }
+        }
+    }
 }

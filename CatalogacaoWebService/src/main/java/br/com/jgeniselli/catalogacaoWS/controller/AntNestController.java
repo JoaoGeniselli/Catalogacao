@@ -13,6 +13,7 @@ import br.com.jgeniselli.catalogacaoWS.model.CoordinateRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
 import br.com.jgeniselli.catalogacaoWS.model.Photo;
+import br.com.jgeniselli.catalogacaoWS.model.PhotoRepository;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.CitiesListRequest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.IndexAnswer;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAnt;
@@ -24,9 +25,11 @@ import br.com.jgeniselli.catalogacaoWS.model.User;
 import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
+import br.com.jgeniselli.catalogacaoWS.util.ImageUtil;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +53,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class AntNestController extends BaseController {
     
+    public static final String IMAGES_PATH = "~/Desktop/images/";
+    
     @Autowired
     private AntNestRepository nestRepository;
     
@@ -67,6 +72,9 @@ public class AntNestController extends BaseController {
     
     @Autowired
     private CoordinateRepository coordinateRepository;
+    
+    @Autowired
+    private PhotoRepository photoRepository;
 
     @RequestMapping(method=POST, path="/addNewNest")
     public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
@@ -304,11 +312,12 @@ public class AntNestController extends BaseController {
         return dataUpdates;
     }
     
-    @RequestMapping
+    @RequestMapping(path = "/addPhotos")
     public ResponseEntity<?> addPhotos(@RequestBody List<RestPhoto> photos) {
         ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
+        ResponseEntity response;
         
-    	if (photos != null && photos.size() >0) {
+    	if (photos != null && photos.size() > 0) {
             Photo photo = null;
 
             for(int i =0 ;i< photos.size(); i++){
@@ -324,60 +333,106 @@ public class AntNestController extends BaseController {
                 else if (photoInfo.getDataUpdateId() != null) {
                     answer = addPhotoToDataUpdate(photoInfo);
                 }
-                else {
-                    
-                }
+                
+                indexAnswers.add(answer);
             }
+            response = new ResponseEntity(indexAnswers, HttpStatus.OK);
         } else {
-            return null;
+            response = new ResponseEntity("Lista vazia", HttpStatus.OK);
         }
-        return null;
+        return response;
     }
 
-    private IndexAnswer addPhotoToAnt(RestPhoto photo) {
-        Ant ant = null;
-//        Photo photo = null;
+    private IndexAnswer addPhotoToAnt(RestPhoto restPhoto) {
+        Ant ant;
+        Photo photo;
         IndexAnswer answer = null;
         try {
-            ant = antRepository.findOne(photo.getAntId());
+            ant = antRepository.findOne(restPhoto.getAntId());
             if (ant == null) {
                 throw new Exception();
             }
             
+            String filepath = ImageUtil.generateImageFilename("ant-", null);
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
+
+            photo = new Photo();
+            photo.setDescription(restPhoto.getDescription());
+            photo.setRegisterDate(new Date());
+            photo.setFilepath(filepath);
+
+            photoRepository.save(photo);
             
-           
+            ant.addPhoto(photo);
+            antRepository.save(ant);
+            
+            answer = new IndexAnswer(photo.getId(), "Imagem salva com sucesso");
         }
         catch(Exception e) {
-            answer = new IndexAnswer(Long.MIN_VALUE, "Formiga inválida");
+            answer = new IndexAnswer(Long.MIN_VALUE, "Erro ao salvar imagem");
         } 
-        finally {
-            return answer;
-        }
+        return answer;
     }
     
-    private IndexAnswer addPhotoToNest(RestPhoto photo) {
-        return null;
-    }
-    
-    private IndexAnswer addPhotoToDataUpdate(RestPhoto photo) {
-        return null;
-    }
-    
-    private boolean saveToDirectoryMultipartImage(RestPhoto photoInfo, String filename) {
-        boolean success = false;
+    private IndexAnswer addPhotoToNest(RestPhoto restPhoto) {
+        AntNest antNest;
+        Photo photo;
+        IndexAnswer answer = null;
         try {
-            byte[] bytes = photoInfo.getImageFile().getBytes();
-            BufferedOutputStream buffStream = 
-                    new BufferedOutputStream(new FileOutputStream(new File("C:/catalogacaoLEM/img/" + filename)));
-            buffStream.write(bytes);
-            buffStream.close();
-            success = true;
-        } 
-        catch (Exception e) {
-            success = false;
-        } 
-        finally {
-            return success;
+            antNest = nestRepository.findOne(restPhoto.getNestId());
+            if (antNest == null) {
+                throw new Exception();
+            }
+            
+            String filepath = ImageUtil.generateImageFilename("nest-", null);
+            ImageUtil.saveMultipartFile(restPhoto.getImageFile(), filepath);
+
+            photo = new Photo();
+            photo.setDescription(restPhoto.getDescription());
+            photo.setRegisterDate(new Date());
+            photo.setFilepath(filepath);
+
+            photoRepository.save(photo);
+            
+            antNest.addPhoto(photo);
+            nestRepository.save(antNest);
+            
+            answer = new IndexAnswer(photo.getId(), "Imagem salva com sucesso");
         }
+        catch(Exception e) {
+            answer = new IndexAnswer(Long.MIN_VALUE, "Erro ao salvar imagem");
+        } 
+        return answer;
+    }
+    
+    private IndexAnswer addPhotoToDataUpdate(RestPhoto restPhoto) {
+        DataUpdateVisit dataUpdate;
+        Photo photo;
+        IndexAnswer answer = null;
+        try {
+            dataUpdate = dataUpdateVisitRepository.findOne(restPhoto.getDataUpdateId());
+            if (dataUpdate == null) {
+                throw new Exception();
+            }
+            
+            String filepath = ImageUtil.generateImageFilename("data-update-", null);
+            ImageUtil.saveMultipartFile(restPhoto.getImageFile(), filepath);
+
+            photo = new Photo();
+            photo.setDescription(restPhoto.getDescription());
+            photo.setRegisterDate(new Date());
+            photo.setFilepath(filepath);
+
+            photoRepository.save(photo);
+            
+            dataUpdate.addPhoto(photo);
+            dataUpdateVisitRepository.save(dataUpdate);
+            
+            answer = new IndexAnswer(photo.getId(), "Imagem salva com sucesso");
+        }
+        catch(Exception e) {
+            answer = new IndexAnswer(Long.MIN_VALUE, "Erro ao salvar imagem");
+        } 
+        return answer;
     }
 }

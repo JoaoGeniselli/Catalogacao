@@ -23,6 +23,7 @@ public class RestPhoto {
     private Long antId;
     private Long nestId;
     private Long dataUpdateId;
+    private String description;
     
     private String base64Photo;
     private MultipartFile imageFile;
@@ -79,10 +80,7 @@ public class RestPhoto {
         // write the image to a file
         File outputfile = new File("image.png");
         ImageIO.write(image, "png", outputfile);
-        
-        
-        
-        
+
         return null;
     }
 
@@ -93,4 +91,14 @@ public class RestPhoto {
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
 }

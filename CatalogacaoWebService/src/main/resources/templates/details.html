@@ -50,54 +50,116 @@
                 <!-- /.col-lg-12 -->
             </div>
             
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Dados do ninho
-                    </div>
-                    <!-- /.panel-heading -->
+            <div class="row" >
+                <div class="col-lg-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Dados do ninho
+                        </div>
+                        <!-- /.panel-heading -->
 
-                    <div class="panel-body h-100">
-                        <p><strong>Cidade: </strong><span th:text="${nest.city.name}"></span>/<span th:text="${nest.city.state.initials}"></span> - <span th:text="${nest.city.state.country.name}"></span></p>
-                        <p><strong>Endereço: </strong><span th:text="${nest.address}"></span></p>
-                        <p><strong>Data de cadastro: </strong><span th:text="${#dates.format(nest.registerDate, 'dd/MM/yyyy')}"></span></p>
-                        <p><strong>Vegetação Predominante: </strong><span th:text="${nest.vegetation}"></span></p>
+                        <div class="panel-body h-100">
+                            <p><strong>Cidade: </strong><span th:text="${nest.city.name}"></span>/<span th:text="${nest.city.state.initials}"></span> - <span th:text="${nest.city.state.country.name}"></span></p>
+                            <p><strong>Endereço: </strong><span th:text="${nest.address}"></span></p>
+                            <p><strong>Data de cadastro: </strong><span th:text="${#dates.format(nest.registerDate, 'dd/MM/yyyy')}"></span></p>
+                            <p><strong>Vegetação Predominante: </strong><span th:text="${nest.vegetation}"></span></p>
+                        </div>
+                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel-body -->
+                    <!-- /.panel -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Atualizações de dados
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body h-100">
+                            <table width="100%" class="display table table-striped table-bordered table-hover" id="data-updates-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Id</th>
+                                        <th>Coletor</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX" th:each="update : ${nest.dataUpdateVisits}">
+                                        <td class="details-control" orderable="false"><span class="fa fa-plus"></span></td>
+                                        <td th:text="${update.id}"></td>
+                                        <td th:text="${update.collector.userId}"></td>
+                                        <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
                 </div>
-                <!-- /.panel -->
+                <!-- /.col-lg-8 -->
                 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Atualizações de dados
+                <div class="col-lg-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Extensão atual
+                        </div>
+                        <!-- /.panel-heading -->
+
+                        <div class="panel-body h-100" id="map" style="min-height: 300px">
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                        
+                        <div class="panel-footer">Pontos obtidos na última atualização de dados do ninho</div>
                     </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body h-100">
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Id</th>
-                                    <th>Coletor</th>
-                                    <th>Data</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="odd gradeX" th:each="update : ${nest.dataUpdateVisits}">
-                                    <td><span class="fa fa-plus"></span></td>
-                                    <td th:text="${update.id}"></td>
-                                    <td th:text="${update.collector.userId}"></td>
-                                    <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.panel-body -->
+                    <!-- /.panel -->
                 </div>
-                <!-- /.panel -->
+                <!-- /.col-lg-8 -->
+                
             </div>
-            <!-- /.col-lg-12 -->
+            <!-- /.row -->
+                
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Amostras de Formigas
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body h-100">
+                            <table width="100%" class="display table table-striped table-bordered table-hover" id="ants-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Id</th>
+                                        <th>Nome</th>
+                                        <th>Espécie</th>
+                                        <th>Coletor</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX" th:each="ant : ${nest.ants}">
+                                        <td class="details-control" orderable="false"><span class="fa fa-plus"></span></td>
+                                        <td th:text="${ant.id}"></td>
+                                        <td th:text="${ant.name}"></td>
+                                        <td th:text="${ant.antSpecies}"></td>
+                                        <td th:text="${ant.visit.collector.userId}"></td>
+                                        <td th:text="${#dates.format(ant.registerDate, 'dd/MM/yyyy')}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -117,19 +179,252 @@
     <script src="/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="/theme/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
+    <script th:inline="javascript">
+        function midpoint(lat1, long1, lat2, long2, per) {
+            return [lat1 + (lat2 - lat1) * per, long1 + (long2 - long1) * per];
+        }
+
+        function initMap() {
+          /*<![CDATA[*/
+          var nest = /*[[${nest}]]*/ 'test';
+          var dataUpdate = nest['dataUpdateVisits'][nest['dataUpdateVisits'].length-1];
+          /*]]>*/
+          var initialLatLng = {lat: dataUpdate['newBeginingPoint']['latitude'], lng: dataUpdate['newBeginingPoint']['longitude']};
+          var finalLatLng = {lat: dataUpdate['newEndingPoint']['latitude'], lng: dataUpdate['newEndingPoint']['longitude']};
+
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: initialLatLng
+          });
+
+          var initialMarker = new google.maps.Marker({
+            position: initialLatLng,
+            map: map,
+            title: 'Ponto inicial'
+          });
+
+          var finalMarker = new google.maps.Marker({
+            position: finalLatLng,
+            map: map,
+            title: 'Ponto final'
+          });
+
+        }
+    </script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfxcsuqxcorv1q5NHX8vNvg7bt5GTqiTQ&callback=initMap"
+    async defer></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="/theme/dist/js/sb-admin-2.js"></script>
+    
+    <script th:inline="javascript">
+        
+        function formatAnt ( d ) {
+            /*<![CDATA[*/
+            var nest = /*[[${nest}]]*/ 'test';
+            var dataUpdateList = nest['dataUpdateVisits'];
+            /*]]>*/
+            
+            var dataUpdate = dataUpdateList[d.index()];
+            var antList = dataUpdate['ants'];
+            
+            var index;
+            var antNames = '';
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
+            for (index in antList) {
+                if (antList[index]['name'] !== null) {
+                    antNames = antNames + antList[index]['name'] + "; ";
+                }
+            }
+            
+            antNames = antNames.trim();
+            if (antNames === null || antNames.localeCompare('') === 0) {
+                antNames = '-';
+            }
+            
+            return '<p><strong class="col-md-2 text-right">Ponto Inicial: </strong> Lat ' + dataUpdate['newBeginingPoint']['latitude'] + " Lon " + dataUpdate['newBeginingPoint']['longitude'] + '</p>' +
+                   '<p><strong class="col-md-2 text-right">Ponto Final: </strong> Lat ' + dataUpdate['newEndingPoint']['latitude'] + " Lon " + dataUpdate['newEndingPoint']['longitude'] + '</p>' +
+                   '<p><strong class="col-md-2 text-right">Amostras: </strong> ' + antNames + '</p><br/>' +
+                   '<p><strong class="col-md-2 text-right">Comentários: </strong> ' + dataUpdate['notes'] + '</p><br/>';
+        }
+
         $(document).ready(function() {
-            $('#dataTables-example').DataTable({
+            var dt = $('#data-updates-table').DataTable( {
                 responsive: true,
                 "language": {
                     "url": "/theme/vendor/datatables/lang/portuguese-brasil.lang"
                 }
-            });
-        });
+            } );
+
+            // Array to track the ids of the details displayed rows
+            var detailUpdateRows = [];
+
+            $('#data-updates-table tbody').on( 'click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = dt.row( tr );
+                var idx = $.inArray( tr.attr('id'), detailUpdateRows );
+
+                if ( row.child.isShown() ) {
+                    tr.removeClass( 'details' );
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailUpdateRows.splice( idx, 1 );
+                }
+                else {
+                    tr.addClass( 'details' );
+                    row.child( formatAnt( row ) ).show();
+
+                    // Add to the 'open' array
+                    if ( idx === -1 ) {
+                        detailUpdateRows.push( tr.attr('id') );
+                    }
+                }
+            } );
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on( 'draw', function () {
+                $.each( detailUpdateRows, function ( i, id ) {
+                    $('#'+id+' td.details-control').trigger( 'click' );
+                } );
+            } );
+            
+            
+        } );
+        
+    </script>
+    
+    <script th:inline="javascript">
+        
+        function buildSliderForPhotoList(photoList) {
+            /*<![CDATA[*/
+            var context = /*[[@{/}]]*/ '';
+            /*]]>*/
+            
+            var html = '<render>' +
+                    '<div id="myCarousel" class="carousel slide" style="height:100%;" data-ride="carousel">' + 
+                    '<div class="carousel-inner" role="listbox">';
+            
+            html = html + '<ol class="carousel-indicators">';
+            for (var index in photoList) {
+                if (index === "0") {
+                    html = html + '<li data-target="#myCarousel" data-slide-to="' + index + '" class="active"></li>';
+                } else {
+                    html = html + '<li data-target="#myCarousel" data-slide-to="' + index + '"></li>';
+                }
+            }
+            html = html + '</ol>'; // end of ol
+
+            for (var index in photoList) {
+                var photo = photoList[index];
+
+                var div;
+                if (index === "0") {
+                    div = '<div class="item active">';
+                } else {
+                    div = '<div class="item">';
+                }
+                
+                div = div + '<img src="' + context + photo['filepath'] +'"/>';
+                div = div + '</div>'; // end of item
+                
+                html = html + div;
+            }
+            
+            html = html + '</div>'; // end of list box
+                    
+            html = html +
+                    '<a class="left carousel-control" href="#myCarousel" data-slide="prev">' +
+                        '<span class="glyphicon glyphicon-chevron-left"></span>' +
+                        '<span class="sr-only">Previous</span>' +
+                    '</a>' +
+                    '<a class="right carousel-control" href="#myCarousel" data-slide="next">' +
+                        '<span class="glyphicon glyphicon-chevron-right"></span>' +
+                        '<span class="sr-only">Next</span>' +
+                    '</a>' +
+              '</div></render>'; // end of myCarousel
+            return html;
+        }
+        
+        
+        function format ( d ) {
+            /*<![CDATA[*/
+            var nest = /*[[${nest}]]*/ 'test';
+            var antList = nest["ants"];
+            var ant = antList[d.index()];
+            
+            /*]]>*/
+            
+            var html = 
+            
+            '<div class="row">' +
+                '<div class="col-md-8">' +
+                    '<p><strong class="col-md-3 text-right">Ordem: </strong> ' + ant["antOrder"] + '</p>' +
+                    '<p><strong class="col-md-3 text-right">Família: </strong> ' + ant["antFamily"] + '</p>' +
+                    '<p><strong class="col-md-3 text-right">Sub-família:</strong> ' + ant["antSubfamily"] + '</p>' +
+                    '<p><strong class="col-md-3 text-right">Gênero: </strong> ' + ant["antGenus"] + '</p>' +
+                    '<p><strong class="col-md-3 text-right">Sub-gênero: </strong> ' + ant["antSubgenus"] + '</p>' +
+                    '<p><strong class="col-md-3 text-right">Espécie: </strong> ' + ant["antSpecies"] + '</p>' +
+                '</div>' +
+                '<div class="col-md-4">';
+                
+            var carousel = buildSliderForPhotoList(ant['photos']);
+            
+            html = html + carousel;
+            
+            html = html +
+                    '<div th:replace="slider :: image-slider"></div>' +
+                '</div>' +
+            '</div>';
+
+            return html;
+        }
+
+        $(document).ready(function() {
+            var dt = $('#ants-table').DataTable( {
+                responsive: true,
+                "language": {
+                    "url": "/theme/vendor/datatables/lang/portuguese-brasil.lang"
+                }
+            } );
+
+            // Array to track the ids of the details displayed rows
+            var detailRows = [];
+
+            $('#ants-table tbody').on( 'click', 'tr td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = dt.row( tr );
+                var idx = $.inArray( tr.attr('id'), detailRows );
+
+                if ( row.child.isShown() ) {
+                    tr.removeClass( 'details' );
+                    row.child.hide();
+
+                    // Remove from the 'open' array
+                    detailRows.splice( idx, 1 );
+                }
+                else {
+                    tr.addClass( 'details' );
+                    /*<![CDATA[*/
+                    row.child( format( row ) ).show();
+                    /*]]>*/
+                    
+                    // Add to the 'open' array
+                    if ( idx === -1 ) {
+                        detailRows.push( tr.attr('id') );
+                    }
+                }
+            } );
+
+            // On each draw, loop over the `detailRows` array and show any child rows
+            dt.on( 'draw', function () {
+                $.each( detailRows, function ( i, id ) {
+                    $('#'+id+' td.details-control').trigger( 'click' );
+                } );
+            } );
+        } );
+        
     </script>
 
 </body>

@@ -43,8 +43,6 @@ public class SiteNestsController extends BaseSiteController {
         if (nest != null) {
             model.addAttribute("nest", nest);
         }
-        
-        nest.getDataUpdateVisits().size()
         return "details";
     }
     

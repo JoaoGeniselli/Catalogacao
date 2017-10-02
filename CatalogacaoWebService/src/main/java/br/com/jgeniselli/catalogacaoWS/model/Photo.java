@@ -55,4 +55,10 @@ public class Photo implements Serializable {
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    
 }
