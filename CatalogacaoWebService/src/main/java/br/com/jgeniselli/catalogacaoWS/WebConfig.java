@@ -30,8 +30,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
       super.addResourceHandlers(registry);
-      registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-      registry.addResourceHandler("/theme/**").addResourceLocations("classpath:/theme/");
+      registry.addResourceHandler("/catalogacao/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+      registry.addResourceHandler("/catalogacao/theme/**").addResourceLocations("/theme/");
   }
   
   private ApplicationContext applicationContext;

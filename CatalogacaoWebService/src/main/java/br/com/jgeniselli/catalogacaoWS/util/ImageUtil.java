@@ -60,6 +60,6 @@ public class ImageUtil {
         if (sufix != null) {
             filename = String.format("%s%s", filename, sufix);
         }
-        return "/Users/jgeniselli/Desktop/images/" + filename + ".png";
+        return filename + ".png";
     }
 }

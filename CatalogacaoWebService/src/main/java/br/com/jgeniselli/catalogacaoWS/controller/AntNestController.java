@@ -26,25 +26,20 @@ import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
 import br.com.jgeniselli.catalogacaoWS.util.ImageUtil;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -75,6 +70,9 @@ public class AntNestController extends BaseController {
     
     @Autowired
     private PhotoRepository photoRepository;
+
+    @Value("${server.imagesPath}")
+    private String imagesPath;
 
     @RequestMapping(method=POST, path="/addNewNest")
     public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
@@ -353,13 +351,14 @@ public class AntNestController extends BaseController {
                 throw new Exception();
             }
             
-            String filepath = ImageUtil.generateImageFilename("ant-", null);
+            String imageName = ImageUtil.generateImageFilename("ant-", null);
+            String filepath = imagesPath + imageName;
             ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-            photo.setFilepath(filepath);
+            photo.setFilepath(imageName);
 
             photoRepository.save(photo);
             
@@ -384,13 +383,14 @@ public class AntNestController extends BaseController {
                 throw new Exception();
             }
             
-            String filepath = ImageUtil.generateImageFilename("nest-", null);
-            ImageUtil.saveMultipartFile(restPhoto.getImageFile(), filepath);
+            String imageName = ImageUtil.generateImageFilename("nest-", null);
+            String filepath = imagesPath + imageName;
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-            photo.setFilepath(filepath);
+            photo.setFilepath(imageName);
 
             photoRepository.save(photo);
             
@@ -415,13 +415,14 @@ public class AntNestController extends BaseController {
                 throw new Exception();
             }
             
-            String filepath = ImageUtil.generateImageFilename("data-update-", null);
-            ImageUtil.saveMultipartFile(restPhoto.getImageFile(), filepath);
+            String imageName = ImageUtil.generateImageFilename("data-update-", null);
+            String filepath = imagesPath + imageName;
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-            photo.setFilepath(filepath);
+            photo.setFilepath(imageName);
 
             photoRepository.save(photo);
             
