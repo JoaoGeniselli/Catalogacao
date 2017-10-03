@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author jgeniselli
  */
-@RequestMapping(path = "web")
+@RequestMapping(path = "catalogacao/web")
 public class BaseSiteController {
     
 }

@@ -123,4 +123,8 @@ public class AntNest implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 }
