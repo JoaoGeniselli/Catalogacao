@@ -10,6 +10,7 @@ import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
 import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class SiteNestsController extends BaseSiteController {
+    
+    private static final String GOOGLE_MAPS_API_URL_MASK = "https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap";
+    
+    @Value("${server.googleMapsAPIKey}")
+    private String googleMapsAPIKey;
     
     @Autowired
     AntNestRepository antNestRepository;
@@ -47,6 +53,11 @@ public class SiteNestsController extends BaseSiteController {
         if (nest != null) {
             model.addAttribute("nest", nest);
         }
+        model.addAttribute(
+                "maps_api_url", 
+                String.format(GOOGLE_MAPS_API_URL_MASK, googleMapsAPIKey)
+        );
+        
         return "details";
     }
 }
