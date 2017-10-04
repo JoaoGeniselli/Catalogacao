@@ -11,22 +11,22 @@
     <title>Catalogação LEM</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/theme/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/theme/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="/theme/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link th:href="@{/theme/vendor/metisMenu/metisMenu.min.css}" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="/theme/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link th:href="@{/theme/vendor/datatables-plugins/dataTables.bootstrap.css}" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="/theme/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link th:href="@{/theme/vendor/datatables-responsive/dataTables.responsive.css}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/theme/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link th:href="@{/theme/local/css/sb-admin-2.css}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/theme/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/theme/vendor/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -90,29 +90,32 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="/theme/vendor/jquery/jquery.min.js"></script>
+    <script th:src="@{/theme/vendor/jquery/jquery.min.js}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/theme/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/theme/vendor/bootstrap/js/bootstrap.min.js}"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="/theme/vendor/metisMenu/metisMenu.min.js"></script>
+    <script th:src="@{/theme/vendor/metisMenu/metisMenu.min.js}"></script>
 
     <!-- DataTables JavaScript -->
-    <script src="/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="/theme/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script th:src="@{/theme/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+    <script th:src="@{/theme/vendor/datatables-responsive/dataTables.responsive.js}"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="/theme/dist/js/sb-admin-2.js"></script>
+    <script th:src="@{/theme/local/js/sb-admin-2.js}"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var langUrl = /*[[@{/theme/vendor/datatables/lang/portuguese-brasil.lang}]]*/ '';
+        /*]]>*/
         $(document).ready(function() {
             $('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {
-                    "url": "/theme/vendor/datatables/lang/portuguese-brasil.lang"
+                    "url": langUrl
                 }
             });
         });

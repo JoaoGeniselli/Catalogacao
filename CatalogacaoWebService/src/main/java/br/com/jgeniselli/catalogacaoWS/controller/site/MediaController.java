@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MediaController extends BaseSiteController {
     
-    @Value("${server.googleMapsAPIKey}")
+    @Value("${server.imagesPath}")
     private String imagesPath;
     
     @RequestMapping("/image/{imageId}")
