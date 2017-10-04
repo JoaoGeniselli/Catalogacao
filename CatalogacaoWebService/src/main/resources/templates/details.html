@@ -179,18 +179,18 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="/theme/vendor/jquery/jquery.min.js"></script>
+    <script th:src="@{/theme/vendor/jquery/jquery.min.js}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/theme/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script th:src="@{/theme/vendor/bootstrap/js/bootstrap.min.js}"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="/theme/vendor/metisMenu/metisMenu.min.js"></script>
+    <script th:src="@{/theme/vendor/metisMenu/metisMenu.min.js}"></script>
 
     <!-- DataTables JavaScript -->
-    <script src="/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="/theme/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script th:src="@{/theme/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+    <script th:src="@{/theme/vendor/datatables-responsive/dataTables.responsive.js}"></script>
 
     <script th:inline="javascript">
         function midpoint(lat1, long1, lat2, long2, per) {
@@ -224,13 +224,16 @@
         }
     </script>
     
-    <script src="/integration/googleMapsApiSrc" async defer></script>
+    <script th:src="@{/integration/googleMapsApiSrc}" async defer></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="/theme/local/js/sb-admin-2.js"></script>
+    <script th:src="@{/theme/local/js/sb-admin-2.js}"></script>
+    
+    <!-- Image Carousel Builder -->
+    <script th:inline="javascript" th:src="@{/theme/local/js/carousel-build.js}"></script>
     
     <!-- Row Details Builders -->
-    <script th:inline="javascript" src="/theme/local/js/row-details-build.js"></script>
+    <script th:inline="javascript" th:src="@{/theme/local/js/row-details-build.js}"></script>
 
     <!--Ant Carousel Replacing-->
     <script th:inline="javascript">

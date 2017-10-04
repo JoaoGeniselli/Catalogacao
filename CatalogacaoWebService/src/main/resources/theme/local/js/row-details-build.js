@@ -1,5 +1,3 @@
-import {buildSliderForPhotoList} from 'carousel-build';
-
 function  formatAntDetail(d) {
   /*<![CDATA[*/
   var nest = /*[[${nest}]]*/ 'test';
