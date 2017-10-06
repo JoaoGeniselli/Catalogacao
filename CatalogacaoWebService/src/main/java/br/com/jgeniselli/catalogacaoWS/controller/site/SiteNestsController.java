@@ -8,7 +8,7 @@ package br.com.jgeniselli.catalogacaoWS.controller.site;
 import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
 import br.com.jgeniselli.catalogacaoWS.model.form.AntReportForm;
-import br.com.jgeniselli.catalogacaoWS.model.form.NestForm;
+import br.com.jgeniselli.catalogacaoWS.model.form.NestReportForm;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -34,6 +34,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -88,7 +89,7 @@ public class SiteNestsController extends BaseSiteController {
     @RequestMapping("/nestReports.html")
     public String nestReports(Model model) {
         model.addAttribute("title", "Gerar Relatório de Ninhos");
-        NestForm form = new NestForm("");
+        NestReportForm form = new NestReportForm(null);
         model.addAttribute("form", form);
         return "reportForm";
     }
@@ -96,7 +97,7 @@ public class SiteNestsController extends BaseSiteController {
     @RequestMapping("/antReports.html")
     public String antReports(Model model) {
         model.addAttribute("title", "Gerar Relatório de Formigas");
-        AntReportForm form = new AntReportForm("");
+        AntReportForm form = new AntReportForm(null);
         model.addAttribute("form", form);
         return "reportForm";
     }
@@ -137,10 +138,8 @@ public class SiteNestsController extends BaseSiteController {
         return "";
     }
 
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-          .setType(EmbeddedDatabaseType.HSQL)
-          .addScript("classpath:employee-schema.sql")
-          .build();
+    @RequestMapping("/editDataUpdate/{dataUpdateId}")
+    public void editDataUpdate(@PathVariable String dataUpdateId) {
+    
     }
 }

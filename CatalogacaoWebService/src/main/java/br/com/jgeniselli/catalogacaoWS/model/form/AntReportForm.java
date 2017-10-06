@@ -5,6 +5,7 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.form;
 
+import br.com.jgeniselli.catalogacaoWS.model.Ant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,21 +13,21 @@ import java.util.List;
  *
  * @author jgeniselli
  */
-public class AntReportForm extends Form {
+public class AntReportForm extends Form<Ant> {
     
-    private FormField name;
-    private FormField order;
-    private FormField family;
-    private FormField subfamily;
-    private FormField genus;
-    private FormField subgenus;
-    private FormField species;
-    private FormField notes;
-    private FormField initialDate;
-    private FormField finalDate;
+    private final FormField name;
+    private final FormField order;
+    private final FormField family;
+    private final FormField subfamily;
+    private final FormField genus;
+    private final FormField subgenus;
+    private final FormField species;
+    private final FormField notes;
+    private final FormField initialDate;
+    private final FormField finalDate;
 
-    public AntReportForm(String title) {
-        super(title);
+    public AntReportForm(Ant commandObject) {
+        super(commandObject);
         
         name = new FormField("name", "text", "Nome da Amostra");
         name.setWhereClauseMask("name like %s%%");
@@ -72,5 +73,13 @@ public class AntReportForm extends Form {
         return fields;
     }
 
-    
+    @Override
+    public String getActionURI() {
+        return "/web/generateAntRport";
+    }
+
+    @Override
+    public String getTitle() {
+        return "Relatório de Formigas";
+    }
 }

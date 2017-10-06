@@ -11,17 +11,13 @@ import java.util.List;
  *
  * @author jgeniselli
  */
-public class Form {
+public abstract class Form<T> {
     
-    private String title;
     private List<FormField> fields;
+    private T commandObject;
 
-    public Form(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
+    public Form(T commandObject) {
+        this.commandObject = commandObject;
     }
 
     public List<FormField> getFields() {
@@ -40,4 +36,13 @@ public class Form {
         return where;
     }
 
+    public T getCommandObject() {
+        return commandObject;
+    }
+
+    public void setCommandObject(T commandObject) {
+        this.commandObject = commandObject;
+    }
+    public abstract String getTitle();
+    public abstract String getActionURI();
 }

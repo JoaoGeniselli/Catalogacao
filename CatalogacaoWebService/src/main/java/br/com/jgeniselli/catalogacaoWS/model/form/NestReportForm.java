@@ -5,6 +5,7 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.form;
 
+import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,23 +13,23 @@ import java.util.List;
  *
  * @author jgeniselli
  */
-public class NestForm extends Form{
+public class NestReportForm extends Form<AntNest> {
     
-    private FormField name;
-    private FormField cityName;
-    private FormField vegetation;
-    private FormField address;
-    private FormField collector;
-    private FormField initialDate;
-    private FormField finalDate;
-    private FormField notes;
-    private FormField initialCoordinate;
-    private FormField finalCoordinate;
+    private final FormField name;
+    private final FormField cityName;
+    private final FormField vegetation;
+    private final FormField address;
+    private final FormField collector;
+    private final FormField initialDate;
+    private final FormField finalDate;
+    private final FormField notes;
+    private final FormField initialCoordinate;
+    private final FormField finalCoordinate;
 
-    public NestForm(String title) {
-        super(title);
+    public NestReportForm(AntNest commandObject) {
+        super(commandObject);
         
-        name    = new FormField("name", "text", "Nome do Ninho");
+        name = new FormField("name", "text", "Nome do Ninho");
         cityName = new FormField("cityName", "text", "Cidade");
         vegetation = new FormField("vegetation", "text", "Vegetação");
         address = new FormField("address", "text", "Endereço");
@@ -60,4 +61,13 @@ public class NestForm extends Form{
         return fields;
     }
 
+    @Override
+    public String getActionURI() {
+        return "/web/generateNestReport";
+    }
+
+    @Override
+    public String getTitle() {
+        return "Relatório de Ninhos";
+    }
 }
