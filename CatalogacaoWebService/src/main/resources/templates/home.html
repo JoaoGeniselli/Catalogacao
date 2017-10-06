@@ -69,7 +69,7 @@
                             </thead>
                             <tbody>
                                 <tr class="odd gradeX" th:each="nest : ${nests}">
-                                    <td><a th:href="@{/web/nestDetails.html(nestId=${nest.nestId})}">Detalhes</a></td>
+                                    <td><a th:href="@{/web/nestDetails.html(nestId=${nest.nestId})}" target="_blank">Detalhes</a></td>
                                     <td th:text="${nest.nestId}"></td>
                                     <td th:text="${nest.name}"></td>
                                     <td th:text="${nest.address}"></td>

@@ -45,7 +45,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 th:text="${nest.name}" class="page-header"></h1>
+                    <h1 th:text="${title}" class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -54,25 +54,28 @@
                 <div class="col-lg-9">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Dados do ninho
+                            Insira os filtros para os dados do relatório
                         </div>
                         <!-- /.panel-heading -->
 
-                        <div class="panel-body h-100">
-                            <p><strong>Cidade: </strong><span th:text="${nest.city.name}"></span>/<span th:text="${nest.city.state.initials}"></span> - <span th:text="${nest.city.state.country.name}"></span></p>
-                            <p><strong>Endereço: </strong><span th:text="${nest.address}"></span></p>
-                            <p><strong>Data de cadastro: </strong><span th:text="${#dates.format(nest.registerDate, 'dd/MM/yyyy')}"></span></p>
-                            <p><strong>Vegetação Predominante: </strong><span th:text="${nest.vegetation}"></span></p>
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group" th:object="${form}" th:each="field,row : ${form.fields}">
+                                  <label for="${field.tag}" th:text="${field.label}"></label>
+                                  <input th:pattern="${field.pattern}" th:type="${field.htmlInputType}" class="form-control" th:field="${form.fields[__${row.index}__].content}">
+                                </div>
+                                <input type="submit" class="btn btn-default"></button>
+                            </form>
                         </div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
 
-                    <div class="panel panel-default">
+<!--                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Atualizações de dados
                         </div>
-                        <!-- /.panel-heading -->
+                         /.panel-heading 
                         <div class="panel-body h-100">
                             <table width="100%" class="display table table-striped table-bordered table-hover" id="data-updates-table">
                                 <thead>
@@ -92,55 +95,55 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- /.table-responsive -->
+                             /.table-responsive 
                         </div>
-                        <!-- /.panel-body -->
+                         /.panel-body 
                     </div>
-                    <!-- /.panel -->
+                     /.panel 
                 </div>
-                <!-- /.col-lg-8 -->
+                 /.col-lg-8 -->
                 
-                <div class="col-lg-3">
+<!--                <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Extensão atual
                         </div>
-                        <!-- /.panel-heading -->
+                         /.panel-heading 
 
                         <div class="panel-body h-100" id="map" style="min-height: 200px">
                             
                         </div>
-                        <!-- /.panel-body -->
+                         /.panel-body 
                         
                         <div class="panel-footer">Pontos obtidos na última atualização de dados do ninho</div>
                     </div>
-                    <!-- /.panel -->
+                     /.panel 
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Fotos do ninho
                         </div>
-                        <!-- /.panel-heading -->
+                         /.panel-heading 
 
                         <div class="panel-body h-100" id="slider-container" style="min-height: 200px">
-<!--                            <div th:replace="slider :: image-slider(images = ${nest.photos})"></div>-->
+                            <div th:replace="slider :: image-slider(images = ${nest.photos})"></div>
                         </div>
-                        <!-- /.panel-body -->
+                         /.panel-body 
                     </div>
-                    <!-- /.panel -->
+                     /.panel 
                 </div>
-                <!-- /.col-lg-8 -->
+                 /.col-lg-8 
                 
             </div>
-            <!-- /.row -->
+             /.row -->
                 
-            <div class="row">
+<!--            <div class="row">
                 <div class="col-lg-9">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Amostras de Formigas
                         </div>
-                        <!-- /.panel-heading -->
+                         /.panel-heading 
                         <div class="panel-body h-100">
                             <table width="100%" class="display table table-striped table-bordered table-hover" id="ants-table">
                                 <thead>
@@ -164,15 +167,15 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- /.table-responsive -->
+                             /.table-responsive 
                         </div>
-                        <!-- /.panel-body -->
+                         /.panel-body 
                     </div>
-                    <!-- /.panel -->
+                     /.panel 
                 </div>
-                <!-- /.col-lg-8 -->
+                 /.col-lg-8 
             </div>
-            <!-- /.row -->
+             /.row -->
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -223,174 +226,14 @@
           });
         }
     </script>
-    
-    <script th:src="${maps_api_url}" async defer></script>
 
     <!-- Custom Theme JavaScript -->
     <script th:src="@{/theme/local/js/sb-admin-2.js}"></script>
-    
-    <script th:src="@{/theme/local/js/carousel-build.js}"></script>
-    
-    <!-- Row Details Builders -->
+
+    <!-- Date Formatter -->
     <script th:inline="javascript">
-        /*<![CDATA[*/
-        var datatablesLangURL = /*[[@{/theme/vendor/datatables/lang/portuguese-brasil.lang}]]*/ 'test';
-        /*]]>*/
-        
-        function  formatAntDetail(d) {
-            /*<![CDATA[*/
-            var nest = /*[[${nest}]]*/ 'test';
-            var antList = nest["ants"];
-            var ant = antList[d.index()];
-            /*]]>*/
-
-            var html =
-            '<div class="row">' +
-              '<div class="col-md-8">' +
-                '<p><strong class="col-md-3 text-right">Ordem: </strong> ' + ant["antOrder"] + '</p>' +
-                '<p><strong class="col-md-3 text-right">Família: </strong> ' + ant["antFamily"] + '</p>' +
-                '<p><strong class="col-md-3 text-right">Sub-família:</strong> ' + ant["antSubfamily"] + '</p>' +
-                '<p><strong class="col-md-3 text-right">Gênero: </strong> ' + ant["antGenus"] + '</p>' +
-                '<p><strong class="col-md-3 text-right">Sub-gênero: </strong> ' + ant["antSubgenus"] + '</p>' +
-                '<p><strong class="col-md-3 text-right">Espécie: </strong> ' + ant["antSpecies"] + '</p>' +
-              '</div>' +
-            '<div class="col-md-4">';
-
-            var carousel = buildSliderForPhotoList(ant['photos']);
-
-            html = html + carousel;
-
-            html = html +
-            '<div th:replace="slider :: image-slider"></div>' +
-            '</div>' +
-            '</div>';
-
-            return html;
-          }
-
-          $(document).ready(function() {
-            var dt = $('#ants-table').DataTable( {
-              responsive: true,
-              "language": {
-                "url": datatablesLangURL
-              }
-            } );
-
-            // Array to track the ids of the details displayed rows
-            var antDetailRows = [];
-
-            $('#ants-table tbody').on( 'click', 'tr td.details-control', function () {
-              var tr = $(this).closest('tr');
-              var row = dt.row( tr );
-              var idx = $.inArray( tr.attr('id'), antDetailRows );
-
-              if ( row.child.isShown() ) {
-                tr.removeClass( 'details' );
-                row.child.hide();
-
-                // Remove from the 'open' array
-                antDetailRows.splice( idx, 1 );
-              }
-              else {
-                tr.addClass( 'details' );
-
-                row.child(formatAntDetail(row)).show();
-
-                // Add to the 'open' array
-                if ( idx === -1 ) {
-                  antDetailRows.push( tr.attr('id') );
-                }
-              }
-            } );
-
-            // On each draw, loop over the `detailRows` array and show any child rows
-            dt.on( 'draw', function () {
-              $.each( detailRows, function ( i, id ) {
-                $('#'+id+' td.details-control').trigger( 'click' );
-              } );
-            } );
-          });
-
-          function formatDataUpdate(d) {
-            /*<![CDATA[*/
-            var nest = /*[[${nest}]]*/ 'test';
-            var dataUpdateList = nest['dataUpdateVisits'];
-            /*]]>*/
-
-            var dataUpdate = dataUpdateList[d.index()];
-            var antList = dataUpdate['ants'];
-
-            var index;
-            var antNames = '';
-
-            for (index in antList) {
-              if (antList[index]['name'] !== null) {
-                antNames = antNames + antList[index]['name'] + "; ";
-              }
-            }
-
-            antNames = antNames.trim();
-            if (antNames === null || antNames.localeCompare('') === 0) {
-              antNames = '-';
-            }
-
-            return '<p><strong class="col-md-2 text-right">Ponto Inicial: </strong> Lat ' + dataUpdate['newBeginingPoint']['latitude'] + " Lon " + dataUpdate['newBeginingPoint']['longitude'] + '</p>' +
-            '<p><strong class="col-md-2 text-right">Ponto Final: </strong> Lat ' + dataUpdate['newEndingPoint']['latitude'] + " Lon " + dataUpdate['newEndingPoint']['longitude'] + '</p>' +
-            '<p><strong class="col-md-2 text-right">Amostras: </strong> ' + antNames + '</p><br/>' +
-            '<p><strong class="col-md-2 text-right">Comentários: </strong> ' + dataUpdate['notes'] + '</p><br/>';
-          }
-
-          $(document).ready(function() {
-            var dt = $('#data-updates-table').DataTable( {
-              responsive: true,
-              "language": {
-                "url": datatablesLangURL
-              }
-            } );
-
-            // Array to track the ids of the details displayed rows
-            var detailUpdateRows = [];
-
-            $('#data-updates-table tbody').on( 'click', 'tr td.details-control', function () {
-              var tr = $(this).closest('tr');
-              var row = dt.row( tr );
-              var idx = $.inArray( tr.attr('id'), detailUpdateRows );
-
-              if ( row.child.isShown() ) {
-                tr.removeClass( 'details' );
-                row.child.hide();
-
-                // Remove from the 'open' array
-                detailUpdateRows.splice( idx, 1 );
-              }
-              else {
-                tr.addClass( 'details' );
-                row.child( formatDataUpdate( row ) ).show();
-
-                // Add to the 'open' array
-                if ( idx === -1 ) {
-                  detailUpdateRows.push( tr.attr('id') );
-                }
-              }
-            } );
-
-            // On each draw, loop over the `detailRows` array and show any child rows
-            dt.on( 'draw', function () {
-              $.each( detailUpdateRows, function ( i, id ) {
-                $('#'+id+' td.details-control').trigger( 'click' );
-              } );
-            } );
-          } );
-    </script>
-
-    <!--Ant Carousel Replacing-->
-    <script th:inline="javascript">
-        $(document).ready(function() {
-            /*<![CDATA[*/
-            var nest = /*[[${nest}]]*/ 'test';
-            /*]]>*/
-
-            $('#slider-container').append(buildSliderForPhotoList(nest['photos']));
+        $(document).ready(function(){
+            $('.date-input').mask('00-00-0000');
         });
     </script>
 </body>

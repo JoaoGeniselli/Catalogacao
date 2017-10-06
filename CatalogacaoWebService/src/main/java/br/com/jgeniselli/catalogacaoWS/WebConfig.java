@@ -46,6 +46,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
         registry.addResourceHandler("/theme/**").addResourceLocations("classpath:/theme/");
+        registry.addResourceHandler("/reports/**").addResourceLocations("classpath:/reports/");
     } 
   
     @Override
