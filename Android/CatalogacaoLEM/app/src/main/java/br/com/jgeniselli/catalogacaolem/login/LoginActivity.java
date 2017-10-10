@@ -18,6 +18,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.rest.spring.annotations.RestService;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
@@ -70,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void validateUser(String userId, String password) {
-
-        final User user = new User(userId, password);
+        String cryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        final User user = new User(userId, cryptedPassword);
         sessionController.validateUser(user, new ServiceCallback<HashMap>() {
             @Override
             public void onFinish(HashMap response, Error error) {

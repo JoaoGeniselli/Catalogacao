@@ -211,7 +211,7 @@ Response:
 
 Nome: Login
 Método: POST
-URL: <DNS>/catalogacao/api/v1/loginMobile
+URL: <DNS>/catalogacao/api/v1/validateUser
 
 Request:
 {
@@ -225,3 +225,17 @@ ou Sucesso:
 {
 	"token" : "asdfhasdofasidufhasdufido"
 }
+
+=================================================
+
+Nome: Login
+Método: POST
+URL: <DNS>/catalogacao/api/v1/logoutMobileUser
+
+Request:
+{
+	"token" : "asdfhasdofasidufhasdufido"
+}
+
+Response:
+"OK | Usuário não logado"

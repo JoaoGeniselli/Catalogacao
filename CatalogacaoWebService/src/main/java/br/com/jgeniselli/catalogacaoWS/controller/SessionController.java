@@ -5,6 +5,8 @@
  */
 package br.com.jgeniselli.catalogacaoWS.controller;
 
+import br.com.jgeniselli.catalogacaoWS.model.MobileToken;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.AuthenticatedRestModel;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestUser;
 import br.com.jgeniselli.catalogacaoWS.model.Role;
 import br.com.jgeniselli.catalogacaoWS.model.RoleRepository;
@@ -35,8 +37,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SessionController extends BaseController {
     
-    @Value("${server.bCryptEncoderStrength}")
-    private Integer bCryptEncoderStrength;
+    @Value("${server.tokenGenerationKey}")
+    private Integer tokenGenerationKey;
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -63,8 +65,15 @@ public class SessionController extends BaseController {
         
         if (user.getPassword().equals(fetchedUser.getPassword())) {
             String token = generateToken(user.getUsername());
+            
+            MobileToken mobileToken = new MobileToken();
+            mobileToken.setToken(token);
+            mobileToken.setUser(user);
+            mobileTokenRepository.save(mobileToken);
+
             HashMap<String, String> map = new HashMap<>();
             map.put("token", token);
+            map.put("username", user.getName());
             return new ResponseEntity<>(map, HttpStatus.OK);
         } else {
             String message = "Senha inválida";
@@ -104,10 +113,18 @@ public class SessionController extends BaseController {
         return new ResponseEntity<>(user.getName() + ": Salvo", HttpStatus.CREATED);
     }
     
+    public ResponseEntity<String> logoutMobileUser(@RequestBody AuthenticatedRestModel body) {
+        
+        List<MobileToken> tokens = mobileTokenRepository.findByToken(body.getToken());
+        if (!tokens.isEmpty()) {
+            mobileTokenRepository.delete(tokens);
+        }
+        return new ResponseEntity<>("Ok", HttpStatus.OK);
+    }
+    
     public String generateToken(String userId) {
         Date now = new Date();
-        String systemKey = "c4t4l0g4c40";
-        String hashSpec = systemKey + userId + now.toString();
+        String hashSpec = tokenGenerationKey + userId + now.toString();
                 
         MessageDigest m;
         try {
