@@ -268,19 +268,21 @@ public class AntNestController extends BaseController {
     }
 
     @RequestMapping(method=POST, path="/nestsByCities")
-    public ArrayList<RestResponseAntNest> nestsByCities(
-            @RequestBody CitiesListRequest body) {
+    public ResponseEntity<?> nestsByCities(@RequestBody CitiesListRequest body) {
         
         try {
             validateTokenString(body);
         } catch (InvalidTokenException ex) {
-            return new ArrayList<>();
+            String message = ex.getMessage();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
         }
-        
+
         ArrayList<Long> cities = (ArrayList<Long>) body.cities;
         
         if (cities == null) {
-            return new ArrayList<>();
+            return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
         }
         
         ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository
@@ -294,7 +296,7 @@ public class AntNestController extends BaseController {
         for (AntNest nest : nests) {
             responseAntNests.add(new RestResponseAntNest(nest));
         }
-        return responseAntNests;
+        return new ResponseEntity<>(responseAntNests, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/addPhotos")
