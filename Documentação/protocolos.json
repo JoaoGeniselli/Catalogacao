@@ -1,10 +1,10 @@
 
 STATUS: DESENVOLVIDO
-Nome: Carga de localizações (cidades, estados, países) 
+Nome: Carga de localizações (cidades, estados, países)
 Método: GET
-URL: <DNS>/catalogacao/v1/locationContent
+URL: <DNS>/catalogacao/api/v1/locationContent
 
-Response: 
+Response:
 [
 	"id" : 1,
 	"name" : "Brasil",
@@ -29,13 +29,14 @@ Response:
 
 =================================================
 
-STATUS: DESENVOLVIDO
+STATUS: OK SERVER
 Nome: Novo Ninho
 Método: POST
-URL: <DNS>/catalogacao/v1/addNewNest
+URL: <DNS>/catalogacao/api/v1/addNewNest
 
 Request:
 {
+	"token" : "1234a5sd6fasdfa1s2f3asdfa5s6df4s",
 	"cityId" : 123,
 	"name" : "nest 1",
 	"collectorId" : 3,
@@ -51,7 +52,7 @@ Request:
 	},
 }
 
-Response: 
+Response:
 {
 	"id" : 123
 	"message" : "salvo | erro"
@@ -59,13 +60,14 @@ Response:
 
 =================================================
 
-STATUS: NOVAS MODIFICAÇÕES NÃO DESENVOLVIDAS
+STATUS: OK SERVER
 Nome: Nova atualização de dados
 Método: POST
-URL: <DNS>/catalogacao/v1/addDataUpdate
+URL: <DNS>/catalogacao/api/v1/addDataUpdate
 
 Request:
 {
+	"token" : "1234a5sd6fasdfa1s2f3asdfa5s6df4s",
 	"nestId" : 123,
 	"collectionDate" : "20-05-2017",
 	"collectorId" : 12,
@@ -77,10 +79,10 @@ Request:
 		"latitude" : -21.0011,
 		"longitude" : -47.0011
 	},
-	"notes" : "text text text",	
+	"notes" : "text text text",
 }
 
-Response: 
+Response:
 {
 	"id" : 10,
 	"message" : "salvo | erro"
@@ -91,31 +93,34 @@ Response:
 STATUS: NOVAS MODIFICAÇÕES NÃO DESENVOLVIDAS
 Nome: Novas formigas
 Método: POST
-URL: <DNS>/catalogacao/v1/addAnts
+URL: <DNS>/catalogacao/api/v1/addAnts
 
 Request:
-[
-	{
-		"name" : "ant A",
-		"order" : "order A",
-		"family" : "family B",
-		"subfamily" : "subfamily C",
-		"genus" : "genus A",
-		"subgenus" : "subgenus C",
-		"species" : "ant species",
-		"dataUpdateId" : 10
-	},
-	{
-		"name" : "ant A",
-		"order" : "order A",
-		"family" : "family B",
-		"subfamily" : "subfamily C",
-		"genus" : "genus A",
-		"subgenus" : "subgenus C",
-		"species" : "ant species",
-		"dataUpdateId" : 10
-	}
-]
+{
+	"token" : "1234a5sd6fasdfa1s2f3asdfa5s6df4s",
+	"ants" : [
+		{
+			"name" : "ant A",
+			"order" : "order A",
+			"family" : "family B",
+			"subfamily" : "subfamily C",
+			"genus" : "genus A",
+			"subgenus" : "subgenus C",
+			"species" : "ant species",
+			"dataUpdateId" : 10
+		},
+		{
+			"name" : "ant A",
+			"order" : "order A",
+			"family" : "family B",
+			"subfamily" : "subfamily C",
+			"genus" : "genus A",
+			"subgenus" : "subgenus C",
+			"species" : "ant species",
+			"dataUpdateId" : 10
+		}
+	]
+}
 
 Response:
 [
@@ -133,25 +138,28 @@ Response:
 
 Nome: Novas fotos
 Método: POST
-URL: <DNS>/catalogacao/v1/addPhotos
+URL: <DNS>/catalogacao/api/v1/addPhotos
 
 Request:
-[
-	{
-		"antId" : 12,
-		"nestId" : 0,
-		"dataUpdateId" : 0,
-		"image" : "base64 encoded image",
-		"description" : "text text text"
-	},
-	{
-		"antId" : 0,
-		"nestId" : 0,
-		"dataUpdateId" : 10,
-		"image" : "base64 encoded image",
-		"description" : "text text text"
-	}
-]
+{
+	"token" : "1234a5sd6fasdfa1s2f3asdfa5s6df4s",
+	"photos" : [
+		{
+			"antId" : 12,
+			"nestId" : 0,
+			"dataUpdateId" : 0,
+			"image" : "base64 encoded image",
+			"description" : "text text text"
+		},
+		{
+			"antId" : 0,
+			"nestId" : 0,
+			"dataUpdateId" : 10,
+			"image" : "base64 encoded image",
+			"description" : "text text text"
+		}
+	]
+}
 
 Response:
 [
@@ -170,39 +178,50 @@ Response:
 STATUS: NOVAS MODIFICAÇÕES NÃO DESENVOLVIDAS
 Nome: Ninhos por cidades
 Método: POST
-URL: <DNS>/catalogacao/v1/nestsByCities
+URL: <DNS>/catalogacao/api/v1/nestsByCities
 
 Request:
 {
+	"token" : "1234a5sd6fasdfa1s2f3asdfa5s6df4s",
 	"cities" : [ 1, 2, 5, 9, 13 ]
 }
 
-Response: 
+Response:
 [
     {
         "registerId": 4,
         "city": 5301,
         "name": "Ninho 2 de santa",
-		"vegetation": "mata atlântica",
-		"address" : "rua dois",
-		"beginingPoint": {
-			"latitude": -22.4574628,
-			"longitude": -47.5252872
-		},
-		"endingPoint": {
-			"latitude": -22.457468,
-			"longitude": -47.52528
-		},
-		"lastDataUpdateDate": "2017-08-12",
-        "registerDate": "2017-08-12"
-    }
+				"vegetation": "mata atlântica",
+				"address" : "rua dois",
+				"beginingPoint": {
+					"latitude": -22.4574628,
+					"longitude": -47.5252872
+				},
+				"endingPoint": {
+					"latitude": -22.457468,
+					"longitude": -47.52528
+				},
+				"lastDataUpdateDate": "2017-08-12",
+		        "registerDate": "2017-08-12"
+	    }
 ]
 
 =================================================
 
-Nome: Checar versão da carga de localizações 
-Método: GET
-URL: <DNS>/catalogacao/v1/locationContentVersion
+Nome: Login
+Método: POST
+URL: <DNS>/catalogacao/api/v1/loginMobile
 
-Response: 
-3
+Request:
+{
+	"username" : "joao",
+	"password" : "123456"
+}
+
+Response:
+Erro: 403: UNAUTHORIZED
+ou Sucesso:
+{
+	"token" : "asdfhasdofasidufhasdufido"
+}

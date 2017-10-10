@@ -14,8 +14,10 @@ import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
 import br.com.jgeniselli.catalogacaoWS.model.Photo;
 import br.com.jgeniselli.catalogacaoWS.model.PhotoRepository;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.AntListRequest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.CitiesListRequest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.IndexAnswer;
+import br.com.jgeniselli.catalogacaoWS.model.Rest.PhotoListRequest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAnt;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestAntNest;
 import br.com.jgeniselli.catalogacaoWS.model.Rest.RestDataUpdateVisit;
@@ -31,6 +33,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -61,10 +65,7 @@ public class AntNestController extends BaseController {
     
     @Autowired
     private CityRepository cityRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
-    
+
     @Autowired
     private CoordinateRepository coordinateRepository;
     
@@ -76,16 +77,13 @@ public class AntNestController extends BaseController {
 
     @RequestMapping(method=POST, path="/addNewNest")
     public ResponseEntity<?> addNewNest(@RequestBody RestAntNest nestInfo) {
-        
+
         User user;
         try {
-            user = userRepository.findOne(nestInfo.getCollectorId());
-            
-            if (user == null) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            String message = "Operação não autorizada";
+            user = getUser(nestInfo.getCollectorId());
+            validateTokenString(nestInfo);
+        } catch (InvalidUserException | InvalidTokenException e) {
+            String message = e.getMessage();
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
             return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
@@ -153,12 +151,10 @@ public class AntNestController extends BaseController {
     public ResponseEntity<?> addDataUpdateToNest(@RequestBody RestDataUpdateVisit dataUpdateInfo) {
         User user;
         try {
-            user = userRepository.findOne(dataUpdateInfo.getCollectorId());
-            if (user == null) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            String message = "Operação não autorizada";
+            user = getUser(dataUpdateInfo.getCollectorId());
+            validateTokenString(dataUpdateInfo);
+        } catch (InvalidUserException | InvalidTokenException e) {
+            String message = e.getMessage();
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
             return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
@@ -215,11 +211,20 @@ public class AntNestController extends BaseController {
     }
     
     @RequestMapping(method = POST, path = "/addAnts")
-    public List<IndexAnswer> addAnts(@RequestBody List<RestAnt> antInfos) {
+    public ResponseEntity<?> addAnts(@RequestBody AntListRequest request) {
+        
+        try {
+            validateTokenString(request);
+        } catch (InvalidTokenException ex) {
+            String message = ex.getMessage();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+        }
 
         ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
-        for(int i = 0; i < antInfos.size(); i++) {
-            RestAnt antInfo = antInfos.get(i);
+        for(int i = 0; i < request.getAnts().size(); i++) {
+            RestAnt antInfo = request.getAnts().get(i);
             
             DataUpdateVisit dataUpdate = null;
             try {
@@ -259,12 +264,18 @@ public class AntNestController extends BaseController {
                 }
             }
         }
-        return indexAnswers;
+        return new ResponseEntity<>(indexAnswers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method=POST, path="/nestsByCities")
     public ArrayList<RestResponseAntNest> nestsByCities(
             @RequestBody CitiesListRequest body) {
+        
+        try {
+            validateTokenString(body);
+        } catch (InvalidTokenException ex) {
+            return new ArrayList<>();
+        }
         
         ArrayList<Long> cities = (ArrayList<Long>) body.cities;
         
@@ -285,41 +296,27 @@ public class AntNestController extends BaseController {
         }
         return responseAntNests;
     }
-    
-    @RequestMapping(method=POST, path="/addNewDataUpdateVisit")
-    public String addNewDataUpdateVisit(@RequestBody DataUpdateVisit visit) {
-        visit.setRegisterDate(new Date());
-        
-        for(Ant ant : visit.getAnts()) {
-            ant.setVisit(visit);
-        }
-        dataUpdateVisitRepository.save(visit);
 
-        return "Salvo com sucesso";
-    }
-
-    @RequestMapping(method=GET, path="/allNests")
-    public ArrayList<AntNest> allNests () {
-        ArrayList<AntNest> nests = (ArrayList<AntNest>) nestRepository.findAll();
-        return nests;
-    }
-    
-    @RequestMapping(method=GET, path="/allDataUpdates")
-    public ArrayList<DataUpdateVisit> allDataUpdates() {
-        ArrayList<DataUpdateVisit> dataUpdates = (ArrayList<DataUpdateVisit>) dataUpdateVisitRepository.findAll();
-        return dataUpdates;
-    }
-    
     @RequestMapping(path = "/addPhotos")
-    public ResponseEntity<?> addPhotos(@RequestBody List<RestPhoto> photos) {
+    public ResponseEntity<?> addPhotos(@RequestBody PhotoListRequest request) {
+        
+        try {
+            validateTokenString(request);
+        } catch (InvalidTokenException ex) {
+            String message = ex.getMessage();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("msg", message);
+            return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+        }
+
         ArrayList<IndexAnswer> indexAnswers = new ArrayList<>();
         ResponseEntity response;
         
-    	if (photos != null && photos.size() > 0) {
+    	if (request.getPhotos() != null && request.getPhotos().size() > 0) {
             Photo photo = null;
 
-            for(int i =0 ;i< photos.size(); i++){
-                RestPhoto photoInfo = photos.get(i);
+            for(int i =0 ;i< request.getPhotos().size(); i++){
+                RestPhoto photoInfo = request.getPhotos().get(i);
                 IndexAnswer answer = null;
                 
                 if (photoInfo.getAntId() != null) {

@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author joaog
  */
-public class RestDataUpdateVisit {
+public class RestDataUpdateVisit extends AuthenticatedRestModel {
     private Long nestId;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

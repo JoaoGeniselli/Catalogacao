@@ -6,19 +6,12 @@
 package br.com.jgeniselli.catalogacaoWS.model.Rest;
 
 import br.com.jgeniselli.catalogacaoWS.model.Coordinate;
-import br.com.jgeniselli.catalogacaoWS.model.User;
-import br.com.jgeniselli.catalogacaoWS.model.location.City;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import java.io.Serializable;
 
 /**
  *
  * @author joaog
  */
-public class RestAntNest implements Serializable {
+public class RestAntNest extends AuthenticatedRestModel {
 
     private Long cityId;
     private String name;

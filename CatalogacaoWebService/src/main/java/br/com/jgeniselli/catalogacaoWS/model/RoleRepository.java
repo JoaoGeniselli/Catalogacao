@@ -4,14 +4,11 @@
  * and open the template in the editor.
  */
 package br.com.jgeniselli.catalogacaoWS.model;
-
-import java.util.List;
 import org.springframework.data.repository.CrudRepository;
-
 /**
  *
- * @author joaog
+ * @author jgeniselli
  */
-public interface UserRepository extends CrudRepository<User, Long> {
-    List<User> findByUsername(String username);
+public interface RoleRepository extends CrudRepository<Role, Long>{
+    Role findByRole(String role);
 }

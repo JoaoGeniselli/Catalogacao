@@ -5,11 +5,13 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.Rest;
 
+import java.io.Serializable;
+
 /**
  *
  * @author joaog
  */
-public class RestAnt {
+public class RestAnt implements Serializable {
 
     private String name; 
     private String order; 

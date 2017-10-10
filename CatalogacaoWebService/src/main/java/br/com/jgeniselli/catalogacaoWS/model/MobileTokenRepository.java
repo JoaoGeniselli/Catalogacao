@@ -10,8 +10,8 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- * @author joaog
+ * @author jgeniselli
  */
-public interface UserRepository extends CrudRepository<User, Long> {
-    List<User> findByUsername(String username);
+public interface MobileTokenRepository extends CrudRepository<MobileToken, Long> {
+    List<MobileToken> findByToken(String token);
 }

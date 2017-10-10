@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author joaog
  */
-public class CitiesListRequest implements Serializable {
+public class CitiesListRequest extends AuthenticatedRestModel {
     
    public ArrayList<Long> cities;
 

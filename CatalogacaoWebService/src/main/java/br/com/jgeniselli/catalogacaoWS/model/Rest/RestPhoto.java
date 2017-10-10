@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author joaog
  */
-public class RestPhoto {
+public class RestPhoto implements Serializable {
     
     private Long antId;
     private Long nestId;

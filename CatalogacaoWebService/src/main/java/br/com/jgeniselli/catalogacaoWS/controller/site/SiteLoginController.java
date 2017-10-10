@@ -32,11 +32,11 @@ public class SiteLoginController extends BaseSiteController {
         return "login";
     }
     
-    @PostMapping(path = "/login.html/validateUser")
+//    @PostMapping(path = "/login/validateUser")
     public String validateSiteUser(@ModelAttribute RestUser user, Model model) {
         
         ArrayList<User> users = (ArrayList) userRepository
-                .findByUserId(user.getUserId());
+                .findByUsername(user.getUserId());
         
         String targetHtml = "home";
         try {
@@ -57,5 +57,12 @@ public class SiteLoginController extends BaseSiteController {
         }
         return targetHtml;
     }
+    
+    @RequestMapping(path = "/register.html")
+    public String register(Model model) {
+        return "register";
+    }
+    
+    
     
 }

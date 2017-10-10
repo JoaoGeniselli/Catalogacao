@@ -7,10 +7,16 @@ package br.com.jgeniselli.catalogacaoWS.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,30 +28,15 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private Boolean active;
+    private Boolean enable;
     
-    private String userId;
+    private String username;
     private String password;
     
-    @JsonIgnore
-    private String token;
+    private String name;
 
-    public User() {
-        active = true;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public User(String userId, String password) {
-        this.userId = userId;
-        this.password = password;
-    }
-    
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    @ManyToMany
+    private List<Role> roles;
 
     public String getPassword() {
         return password;
@@ -55,23 +46,41 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public Boolean getActive() {
-        return active;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
-    
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     
     
 }

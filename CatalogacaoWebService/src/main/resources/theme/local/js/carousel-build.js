@@ -27,7 +27,8 @@ function buildSliderForPhotoList(photoList) {
             div = '<div class="item" style="height:200px">';
         }
 
-        div = div + '<img style="height: auto; width: auto" src="' + context + photo['filepath'] +'"/>';
+        var source = context + photo['filepath'];
+        div = div + '<a target="_blank" href="' + source + '"><img style="height: auto; width: auto" src="' + source +'"/></a>';
         div = div + '</div>'; // end of item
 
         html = html + div;
