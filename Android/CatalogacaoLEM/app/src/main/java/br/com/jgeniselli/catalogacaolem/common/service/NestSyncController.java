@@ -27,6 +27,7 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntListRequest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
@@ -231,29 +232,35 @@ public class NestSyncController {
                 .isNotNull("registerId")
                 .findAll();
 
+        final HashMap<RestAnt, Ant> antsByRestAnts = new HashMap<>();
+
         List<RestAnt> ants = new ArrayList<>();
         for (DataUpdateVisit dataUpdateVisit : results) {
             for (Ant ant : dataUpdateVisit.getAnts()) {
                 if (ant.getRegisterId() == null) {
-                    RestAnt restAnt = new RestAnt(ant, context);
+                    RestAnt restAnt = new RestAnt(ant, dataUpdateVisit.getDataUpdateId(), context);
                     ants.add(restAnt);
+
+                    antsByRestAnts.put(restAnt, ant);
                 }
             }
         }
 
         Error error = null;
 
+        RestAntListRequest requestBody = new RestAntListRequest(context, ants);
+
         try {
-            Call<List<ModelResponse>> call = syncService.addAnts(ants);
+            Call<List<ModelResponse>> call = syncService.addAnts(requestBody);
             Response<List<ModelResponse>> response = call.execute();
 
-            if (response.code() == HttpStatus.OK.value()) {
+            if (response.code() == HttpStatus.CREATED.value()) {
 
                 for (int i = 0; i < response.body().size(); i++) {
                     ModelResponse modelResponse = response.body().get(i);
-                    final Ant ant = ants.get(i).getAntReference();
+                    final Ant ant = antsByRestAnts.get(ants.get(i));
 
-                    if (modelResponse.getId() == 0) {
+                    if (modelResponse.getId() != 0) {
                         Realm.Transaction transaction = new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {

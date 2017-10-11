@@ -87,7 +87,7 @@
                                     <tr class="odd gradeX" th:each="update : ${nest.dataUpdateVisits}">
                                         <td class="details-control" orderable="false"><span class="fa fa-plus"></span></td>
                                         <td th:text="${update.id}"></td>
-                                        <td th:text="${update.collector.userId}"></td>
+                                        <td th:text="${update.collector.username}"></td>
                                         <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
                                     </tr>
                                 </tbody>
@@ -159,7 +159,7 @@
                                         <td th:text="${ant.id}"></td>
                                         <td th:text="${ant.name}"></td>
                                         <td th:text="${ant.antSpecies}"></td>
-                                        <td th:text="${ant.visit.collector.userId}"></td>
+                                        <td th:text="${ant.visit.collector.username}"></td>
                                         <td th:text="${#dates.format(ant.registerDate, 'dd/MM/yyyy')}"></td>
                                     </tr>
                                 </tbody>

@@ -14,7 +14,7 @@ import br.com.jgeniselli.catalogacaolem.login.User;
  * Created by jgeniselli on 19/09/17.
  */
 
-public class RestDataUpdateVisit {
+public class RestDataUpdateVisit extends AuthenticatedRestModel {
 
     private long nestId;
     private String collectionDate;
@@ -26,6 +26,8 @@ public class RestDataUpdateVisit {
     private String notes;
 
     public RestDataUpdateVisit(DataUpdateVisit dataUpdateVisit, Context context) {
+        super(context);
+
         nestId = dataUpdateVisit.getNest().getNestId();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         if (dataUpdateVisit.getCollectionDate() != null) {
