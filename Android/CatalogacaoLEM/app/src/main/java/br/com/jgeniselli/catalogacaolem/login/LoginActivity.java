@@ -58,21 +58,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signUp() {
-        String userId = usernameField.getText().toString();
+        String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
 
-        if (userId.length() == 0 || password.length() == 0) {
+        if (username.length() == 0 || password.length() == 0) {
             usernameField.setError("Insira seu nome de usuário");
             passwordField.setError("Insira sua senha");
         } else {
-            validateUser(userId, password);
+            validateUser(username, password);
         }
     }
 
     @Background
     void validateUser(String userId, String password) {
-        String cryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        final User user = new User(userId, cryptedPassword);
+        final User user = new User(userId, password);
         sessionController.validateUser(user, new ServiceCallback<HashMap>() {
             @Override
             public void onFinish(HashMap response, Error error) {

@@ -52,12 +52,11 @@ public class StartActivity extends AppCompatActivity {
     public void afterViews() {
         User sharedUser = User.shared(this);
 
-        // TODO: REMOVER MOCK
-//        if (sharedUser.getToken() == null || sharedUser.getToken().length() == 0) {
-//            redirectToLogin();
-//        } else {
+        if (sharedUser.getToken() == null || sharedUser.getToken().length() == 0) {
+            redirectToLogin();
+        } else {
             requestLocationContent();
-//        }
+        }
     }
 
     public void requestLocationContent() {
@@ -65,22 +64,21 @@ public class StartActivity extends AppCompatActivity {
         final RealmResults<CountryModel> countries = realm.where(CountryModel.class).findAll();
         if (countries.size() == 0) {
             // TODO: REMOVER MOCK
-            mockData(realm);
-            redirectToMain();
-
-            realm.close();
+            //mockData(realm);
+            //redirectToMain();
+            //realm.close();
 
             // TODO: IMPLEMENTAÇÃO ORIGINAL - DESCOMENTAR
-//            sessionController.requestLocationContent(new ServiceCallback<String>() {
-//                @Override
-//                public void onFinish(String response, Error error) {
-//                    if (error != null) {
-//                        Utils.showAlert("Atenção", error.getMessage(), StartActivity.this);
-//                    } else {
-//                        redirectToMain();
-//                    }
-//                }
-//            });
+            sessionController.requestLocationContent(new ServiceCallback<String>() {
+                @Override
+                public void onFinish(String response, Error error) {
+                    if (error != null) {
+                        Utils.showAlert("Atenção", error.getMessage(), StartActivity.this);
+                    } else {
+                        redirectToMain();
+                    }
+                }
+            });
         } else {
             realm.close();
             redirectToMain();

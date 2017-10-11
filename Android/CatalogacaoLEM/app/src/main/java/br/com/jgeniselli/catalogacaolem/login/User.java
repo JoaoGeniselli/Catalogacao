@@ -20,7 +20,7 @@ public class User {
 
 
     private String name;
-    private String userId;
+    private String username;
     private String password;
     private String token;
     private long registerId;
@@ -28,14 +28,14 @@ public class User {
     public User() {
     }
 
-    public User(String userId, String password) {
-        this.userId = userId;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public User(String name, String userId, String password, String token) {
+    public User(String name, String username, String password, String token) {
         this.name = name;
-        this.userId = userId;
+        this.username = username;
         this.password = password;
         this.token = token;
     }
@@ -44,8 +44,8 @@ public class User {
         return name;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
     public long getRegisterId() {
@@ -80,7 +80,7 @@ public class User {
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(pref_key_user_name, StringUtils.defaultIfEmpty(user.getName(), ""));
-        editor.putString(pref_key_user_id, StringUtils.defaultIfEmpty(user.getUserId(), ""));
+        editor.putString(pref_key_user_id, StringUtils.defaultIfEmpty(user.getUsername(), ""));
         editor.putString(pref_key_user_token, StringUtils.defaultIfEmpty(user.getToken(), ""));
         editor.putLong(pref_key_user_register_id, user.getRegisterId());
         editor.commit();
@@ -94,7 +94,7 @@ public class User {
         SharedPreferences sharedPref = context
                 .getSharedPreferences(userPrefsId, Context.MODE_PRIVATE);
 
-        sharedUser.userId = sharedPref.getString(pref_key_user_id, "");
+        sharedUser.username = sharedPref.getString(pref_key_user_id, "");
         sharedUser.name = sharedPref.getString(pref_key_user_name, "");
         sharedUser.token = sharedPref.getString(pref_key_user_token, "");
         sharedUser.registerId = sharedPref.getLong(pref_key_user_register_id, 0);

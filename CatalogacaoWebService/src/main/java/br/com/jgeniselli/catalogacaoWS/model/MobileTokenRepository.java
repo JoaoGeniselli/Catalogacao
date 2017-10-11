@@ -14,4 +14,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface MobileTokenRepository extends CrudRepository<MobileToken, Long> {
     List<MobileToken> findByToken(String token);
+    List<MobileToken> findByUserId(Long userId);
 }

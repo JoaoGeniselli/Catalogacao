@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SessionController extends BaseController {
     
     @Value("${server.tokenGenerationKey}")
-    private Integer tokenGenerationKey;
+    private String tokenGenerationKey;
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -62,18 +62,23 @@ public class SessionController extends BaseController {
         }
         
         User fetchedUser = users.get(0);
-        
-        if (user.getPassword().equals(fetchedUser.getPassword())) {
+
+        if (passwordEncoder.matches(user.getPassword(), fetchedUser.getPassword())) {
             String token = generateToken(user.getUsername());
             
+            List<MobileToken> activeTokens = mobileTokenRepository.findByUserId(fetchedUser.getId());
+            if (!activeTokens.isEmpty()) {
+                mobileTokenRepository.delete(activeTokens);
+            }
+
             MobileToken mobileToken = new MobileToken();
             mobileToken.setToken(token);
-            mobileToken.setUser(user);
+            mobileToken.setUser(fetchedUser);
             mobileTokenRepository.save(mobileToken);
 
             HashMap<String, String> map = new HashMap<>();
             map.put("token", token);
-            map.put("username", user.getName());
+            map.put("username", fetchedUser.getName());
             return new ResponseEntity<>(map, HttpStatus.OK);
         } else {
             String message = "Senha inválida";

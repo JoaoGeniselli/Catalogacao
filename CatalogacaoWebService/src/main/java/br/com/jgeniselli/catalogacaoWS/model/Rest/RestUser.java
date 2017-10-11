@@ -16,6 +16,7 @@ public class RestUser {
     private String name;
 
     public RestUser() {
+        
     }
 
     public String getUserId() {

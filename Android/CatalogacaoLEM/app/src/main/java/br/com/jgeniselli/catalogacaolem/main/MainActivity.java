@@ -8,6 +8,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
+import br.com.jgeniselli.catalogacaolem.login.User;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.PendenciesActivity_;
 import io.realm.Realm;
@@ -27,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -41,6 +43,13 @@ public class MainActivity extends AppCompatActivity
 
     @ViewById
     RecyclerView nestsRecycler;
+
+    @ViewById
+    TextView nameLabel;
+
+    @ViewById
+    TextView userIdLabel;
+
 
     private Realm realm;
 
@@ -68,6 +77,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        nameLabel = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nameLabel);
+        userIdLabel = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userIdLabel);
+
+
+        User user = User.shared(this);
+
+        nameLabel.setText(user.getName());
+        userIdLabel.setText(user.getUsername());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         nestsRecycler.setLayoutManager(layoutManager);
