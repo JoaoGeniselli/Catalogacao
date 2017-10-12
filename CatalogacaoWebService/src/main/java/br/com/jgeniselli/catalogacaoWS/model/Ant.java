@@ -1,5 +1,7 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import br.com.jgeniselli.catalogacaoWS.model.annotation.FormIgnore;
+import br.com.jgeniselli.catalogacaoWS.model.annotation.FormLabel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,30 +21,42 @@ import javax.persistence.Temporal;
 public class Ant implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @FormIgnore
     private Long id;
     
-    private String name; // texto
+    @FormLabel("Nome")
+    private String name;
 
     // Taxonomy
-    private String antOrder; // texto
-    private String antFamily; // texto
-    private String antSubfamily; // texto
-    private String antGenus; // texto
-    private String antSubgenus; // texto
-    private String antSpecies; // texto
+    @FormLabel("Ordem")
+    private String antOrder; 
+    @FormLabel("Família")
+    private String antFamily;
+    @FormLabel("Sub-Família")
+    private String antSubfamily;
+    @FormLabel("Gênero")
+    private String antGenus;
+    @FormLabel("Sub-Gênero")
+    private String antSubgenus;
+    @FormLabel("Espécie")
+    private String antSpecies;
 
     @ManyToOne
     @JsonIgnore
+    @FormIgnore
     private DataUpdateVisit visit;
 
     @ManyToOne
     @JsonIgnore
+    @FormIgnore
     private AntNest antNest;
     
     @OneToMany
+    @FormIgnore
     private List<Photo> photos;
     
     @Temporal(javax.persistence.TemporalType.DATE)
+    @FormIgnore
     private Date registerDate;
 
     public Ant() {

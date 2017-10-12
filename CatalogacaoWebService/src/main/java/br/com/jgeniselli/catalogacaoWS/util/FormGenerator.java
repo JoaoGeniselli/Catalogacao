@@ -18,6 +18,12 @@ import java.util.logging.Logger;
  */
 public class FormGenerator<T> {
     
+    private T model;
+
+    public FormGenerator(T model) {
+        this.model = model;
+    }
+
     /**
      *
      * @param model
@@ -38,5 +44,4 @@ public class FormGenerator<T> {
 
         
     }
-    
 }

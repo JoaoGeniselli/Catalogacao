@@ -1,5 +1,7 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import br.com.jgeniselli.catalogacaoWS.model.annotation.FormIgnore;
+import br.com.jgeniselli.catalogacaoWS.model.annotation.FormTitle;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,17 +27,20 @@ public class DataUpdateVisit implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @FormIgnore
     private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date collectionDate; // data
+    private Date collectionDate; 
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date registerDate; // data
+    @FormIgnore
+    private Date registerDate;
     
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
+    @FormIgnore
     private User collector;
 
     @OneToOne
@@ -48,12 +53,15 @@ public class DataUpdateVisit implements Serializable {
 
     @ManyToOne
     @JsonIgnore
+    @FormIgnore
     private AntNest nest;
 
     @OneToMany(mappedBy = "visit")
+    @FormIgnore
     private List<Ant> ants;
     
     @OneToMany
+    @FormIgnore
     private List<Photo> photos;
 
     public DataUpdateVisit() {

@@ -3,21 +3,15 @@ package br.com.jgeniselli.catalogacaoWS.model;
 import br.com.jgeniselli.catalogacaoWS.model.location.City;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -42,8 +36,7 @@ public class AntNest implements Serializable {
     
     private String name;
     private String vegetation;
-    
-    
+
     @OneToMany(mappedBy = "nest")
     private Set<DataUpdateVisit> dataUpdateVisits;
 

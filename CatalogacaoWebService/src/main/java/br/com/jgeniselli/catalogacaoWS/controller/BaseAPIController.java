@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author joaog
  */
 @RequestMapping(path = "api/v1")
-public class BaseController {
+public class BaseAPIController {
     
     @Autowired
     protected MobileTokenRepository mobileTokenRepository;

@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author joaog
  */
 @RestController
-public class SessionController extends BaseController {
+public class SessionController extends BaseAPIController {
     
     @Value("${server.tokenGenerationKey}")
     private String tokenGenerationKey;

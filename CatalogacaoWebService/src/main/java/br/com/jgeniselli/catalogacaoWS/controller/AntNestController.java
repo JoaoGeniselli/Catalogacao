@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author joaog
  */
 @RestController
-public class AntNestController extends BaseController {
+public class AntNestController extends BaseAPIController {
     
     public static final String IMAGES_PATH = "~/Desktop/images/";
     

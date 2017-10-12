@@ -12,7 +12,7 @@ import br.com.jgeniselli.catalogacaoWS.model.form.FormField;
  *
  * @author jgeniselli
  */
-public class FormUtils {
+public class FormUtils<T> {
 
     
     public String buildWhereFromForm(Form form) {
@@ -20,4 +20,7 @@ public class FormUtils {
         String where = new String();
         return null;
     }
+    
+    
+    
 }
