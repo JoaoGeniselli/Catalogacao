@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -55,6 +56,8 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -98,13 +101,13 @@ public class SiteNestsController extends BaseSiteController {
     DataUpdateVisitRepository dataUpdateVisitRepository; 
     
     @Autowired
+    AntRepository antRepository; 
+    
+    @Autowired
     CoordinateRepository coordinateRepository; 
     
     @Autowired
     DataSource dataSource; 
-    
-    @Autowired
-    AntRepository antRepository; 
     
     @RequestMapping("/home.html")
     public String home(Model model) {
@@ -121,6 +124,7 @@ public class SiteNestsController extends BaseSiteController {
     
     @RequestMapping("/nestDetails.html")
     public String nestDetails(@RequestParam(name = "nestId") Long nestId, Model model) {
+
         AntNest nest = antNestRepository.findOne(nestId);
         if (nest != null) {
             model.addAttribute("nest", nest);
@@ -223,48 +227,6 @@ public class SiteNestsController extends BaseSiteController {
         }
     }
     
-    @RequestMapping("/mockReport")
-    public void mock(HttpServletResponse response) {
-
-        InputStream employeeReportStream
-            = getClass().getResourceAsStream("/reports/nestReport.jrxml");
-        try {
-            JasperReport jasperReport
-                    = JasperCompileManager.compileReport(employeeReportStream);
-            
-            JRSaver.saveObject(jasperReport, "nestReport.jasper");
-            
-            DataSource ds = (DataSource)appContext.getBean("dataSource");
-            Connection connection = ds.getConnection();
-            
-            HashMap params = new HashMap();
-            params.put("IMAGE_PATH", imagePath);
-            
-            JasperPrint jasperPrint = JasperFillManager.fillReport(
-                jasperReport, params, connection);
-            
-            HtmlExporter exporter = new HtmlExporter();
-            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        
-            exporter.setExporterOutput(
-              new SimpleHtmlExporterOutput("/Users/jgeniselli/Desktop/nestReport.html"));
-
-            try {
-                exporter.exportReport();
-            } catch (JRException ex) {
-                Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            response.setContentType("text/html");
-            File imgPath = new File("/Users/jgeniselli/Desktop/nestReport.html");
-            InputStream in = new FileInputStream(imgPath);
-            IOUtils.copy(in, response.getOutputStream());
-
-        } catch (JRException | SQLException | IOException ex) {
-            Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @RequestMapping("/editDataUpdate")
     public String editDataUpdate(@RequestParam(name = "dataUpdateId") Long dataUpdateId, Model model) {
         
@@ -281,7 +243,7 @@ public class SiteNestsController extends BaseSiteController {
             errorMessage = ex.getMessage();
         } finally {
             model.addAttribute("destinationPath", "/web/saveDataUpdate");
-            model.addAttribute("title", "Gerar Relatório de Formigas");
+            model.addAttribute("title", "Edição de Atualização de Dados");
             if (errorMessage == null) {
                 model.addAttribute("formFragment", "form-data-update");
                 model.addAttribute("dataUpdate", visit);
@@ -291,24 +253,6 @@ public class SiteNestsController extends BaseSiteController {
             }
         }
         return "reportForm";
-    }
-    
-    public static class EditionNotAllowedException extends Exception {
-        @Override
-        public String getMessage() {
-            return "Operação não autorizada para esse usuário";
-        }
-    }
-    
-    
-    @RequestMapping("/saveAnt")
-    public void saveAntEdition(@ModelAttribute Form<Ant> form, Model model) {
-//        try {
-//            form.applyChanges();
-//            antRepository.save(form.getCommandObject());
-//        } catch (Form.FormValidationException ex) {
-//            Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
     
     @RequestMapping("/saveDataUpdate")
@@ -336,5 +280,68 @@ public class SiteNestsController extends BaseSiteController {
         }
         
         return nestDetails(new Long(1), model);
+    }
+    
+    @RequestMapping("/editAnt")
+    public String editAnt(@RequestParam(name = "antId") Long antId, Model model) {
+
+        Ant ant = antRepository.findOne(antId);
+        User user;
+
+        String errorMessage = null;
+        try {
+            user = super.getSessionUser();
+            if (!ant.getVisit().getCollector().getId().equals(user.getId())) {
+                throw new EditionNotAllowedException();
+            }
+        } catch (UserNotLoggedException | EditionNotAllowedException ex) {
+            errorMessage = ex.getMessage();
+        } finally {
+            model.addAttribute("destinationPath", "/web/saveAnt");
+            model.addAttribute("title", "Edição de Amostra de Formiga");
+            if (errorMessage == null) {
+                model.addAttribute("formFragment", "form-ant");
+                model.addAttribute("ant", ant);
+            } else {
+                model.addAttribute("formFragment", "form-empty");
+                model.addAttribute("errorMessage", errorMessage);
+            }
+        }
+        return "reportForm";
+    }
+    
+    @RequestMapping(path="/saveAnt", method=RequestMethod.POST)
+    public String saveAnt(@ModelAttribute @Valid Ant ant, BindingResult bindingResult, Model model) {
+        try {
+            Ant realAnt = antRepository.findOne(ant.getId());
+            
+            realAnt.setName(ant.getName());
+            realAnt.setAntOrder(ant.getAntOrder());
+            realAnt.setAntFamily(ant.getAntFamily());
+            realAnt.setAntSubfamily(ant.getAntSubfamily());
+            realAnt.setAntGenus(ant.getAntGenus());
+            realAnt.setAntSubgenus(ant.getAntSubgenus());
+            realAnt.setAntSpecies(ant.getAntSpecies());
+            realAnt.setNotes(ant.getNotes());
+
+            antRepository.save(realAnt);
+            model.addAttribute("message", "Amostra de formiga salva com sucesso");
+            
+        } catch (Exception ex) {
+            model.addAttribute("errorMessage", "Ocorreu um erro ao salvar os dados da amostra");
+            Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return nestDetails(new Long(1), model);
+    }
+    
+    
+    
+    
+    public static class EditionNotAllowedException extends Exception {
+        @Override
+        public String getMessage() {
+            return "Operação não autorizada para esse usuário";
+        }
     }
 }
