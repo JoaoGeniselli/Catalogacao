@@ -16,36 +16,11 @@
 	<parameter name="IMAGE_PATH" class="java.lang.String">
 		<defaultValueExpression><![CDATA[$P{IMAGE_PATH}]]></defaultValueExpression>
 	</parameter>
+	<parameter name="query" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{query}]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT 
-    V.ID AS ATUALIZACAO,
-    V.nest_nest_id AS NINHO,
-    DATE_FORMAT(V.collection_date, '%d/%m/%y') AS DATA,
-    CONCAT('Lat: ',
-            INITIAL_COORDINATE.latitude,
-            '\r\nLong: ',
-            INITIAL_COORDINATE.longitude) AS PONTO_INICIAL,
-    CONCAT('Lat: ', FINAL_COORDINATE.latitude,
-            '\r\nLong: ',
-            FINAL_COORDINATE.longitude) AS PONTO_FINAL,
-	V.notes as OBSERVACOES,
-    IFNULL(GROUP_CONCAT(CONCAT($P{IMAGE_PATH}, P.FILEPATH)
-        SEPARATOR '; '), '-') AS FOTOS,
-    IFNULL(GROUP_CONCAT(A.NAME
-        SEPARATOR '; '), '-') AS AMOSTRAS
-FROM
-    DATA_UPDATE_VISIT V
-        LEFT JOIN
-    DATA_UPDATE_VISIT_PHOTOS I ON I.DATA_UPDATE_VISIT_ID = V.ID
-        LEFT JOIN
-    PHOTO P ON P.ID = I.PHOTOS_ID
-        LEFT JOIN
-    COORDINATE INITIAL_COORDINATE ON (INITIAL_COORDINATE.id = V.new_begining_point_id)
-        LEFT JOIN
-    COORDINATE FINAL_COORDINATE ON (FINAL_COORDINATE.id = V.new_ending_point_id)
-		LEFT JOIN 
-	ANT A ON A.VISIT_ID = V.ID 
-GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
+		<![CDATA[$P!{query}]]>
 	</queryString>
 	<field name="ATUALIZACAO" class="java.lang.Long"/>
 	<field name="NINHO" class="java.lang.Long"/>
@@ -95,7 +70,7 @@ GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Atualização]]></text>
 			</staticText>
@@ -105,7 +80,7 @@ GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ninho]]></text>
 			</staticText>
@@ -115,47 +90,47 @@ GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="160" y="0" width="120" height="18" forecolor="#000000" uuid="267e2e79-7b52-468d-b361-c2110b578fdb">
+				<reportElement style="Column header" x="160" y="0" width="130" height="18" forecolor="#000000" uuid="267e2e79-7b52-468d-b361-c2110b578fdb">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ponto Inicial]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="280" y="0" width="120" height="18" forecolor="#000000" uuid="6d7e92c1-fe79-411d-91f1-466ce1b94b3e">
+				<reportElement style="Column header" x="290" y="0" width="130" height="18" forecolor="#000000" uuid="6d7e92c1-fe79-411d-91f1-466ce1b94b3e">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ponto Final]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="400" y="0" width="150" height="18" forecolor="#000000" uuid="b7e37aeb-4222-4fa1-8376-b924b6db5507">
+				<reportElement style="Column header" x="420" y="0" width="135" height="18" forecolor="#000000" uuid="b7e37aeb-4222-4fa1-8376-b924b6db5507">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observações]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="550" y="0" width="140" height="18" forecolor="#000000" uuid="958eb687-b2fb-4520-9c26-e2675aac6c7c">
+				<reportElement style="Column header" x="555" y="0" width="135" height="18" forecolor="#000000" uuid="958eb687-b2fb-4520-9c26-e2675aac6c7c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fotos]]></text>
 			</staticText>
@@ -165,7 +140,7 @@ GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Amostras]]></text>
 			</staticText>
@@ -193,34 +168,34 @@ GROUP BY V.ID ORDER BY V.NEST_NEST_ID;]]>
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement style="Detail" positionType="Float" x="100" y="0" width="60" height="18" uuid="e8931c7e-1fb4-4cff-baf2-31eef53baaea"/>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="160" y="0" width="120" height="18" uuid="88592cb4-7162-4dfc-946c-d43f05781b6b"/>
+					<reportElement style="Detail" positionType="Float" x="160" y="0" width="130" height="18" uuid="88592cb4-7162-4dfc-946c-d43f05781b6b"/>
 					<textElement>
 						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{PONTO_INICIAL}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="280" y="0" width="120" height="18" uuid="eea8b25c-6f59-4a8d-95c4-3ecb44d831b2"/>
+					<reportElement style="Detail" positionType="Float" x="290" y="0" width="130" height="18" uuid="eea8b25c-6f59-4a8d-95c4-3ecb44d831b2"/>
 					<textElement>
 						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{PONTO_FINAL}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="400" y="0" width="150" height="18" uuid="1b201791-1cf7-4047-ae78-c891ac0c1774"/>
+					<reportElement style="Detail" positionType="Float" x="420" y="0" width="135" height="18" uuid="1b201791-1cf7-4047-ae78-c891ac0c1774"/>
 					<textElement>
 						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{OBSERVACOES}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="550" y="0" width="140" height="18" uuid="238029e1-3d20-49ce-b7c0-a48ad164c361"/>
+					<reportElement style="Detail" positionType="Float" x="555" y="0" width="135" height="18" uuid="238029e1-3d20-49ce-b7c0-a48ad164c361"/>
 					<textElement>
 						<font size="11"/>
 					</textElement>

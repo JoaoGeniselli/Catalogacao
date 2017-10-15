@@ -24,24 +24,4 @@ public class FormGenerator<T> {
         this.model = model;
     }
 
-    /**
-     *
-     * @param model
-     */
-    public void generateForm(T model) {
-        JsonUtils<T> jsonUtils = new JsonUtils<T>();
-        
-        String json;
-        HashMap map;
-        try {
-            json = jsonUtils.jsonStringFromObject(model);
-            map = jsonUtils.mapFromJsonString(json);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(FormGenerator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FormGenerator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
-    }
 }

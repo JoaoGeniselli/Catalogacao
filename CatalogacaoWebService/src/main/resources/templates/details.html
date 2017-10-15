@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -81,6 +82,7 @@
                                         <th>Id</th>
                                         <th>Coletor</th>
                                         <th>Data</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,6 +91,7 @@
                                         <td th:text="${update.id}"></td>
                                         <td th:text="${update.collector.username}"></td>
                                         <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
+                                        <td><a th:href="@{/web/editDataUpdate(dataUpdateId=${update.id})}">Editar</a></td>
                                     </tr>
                                 </tbody>
                             </table>

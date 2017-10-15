@@ -5,11 +5,13 @@
  */
 package br.com.jgeniselli.catalogacaoWS.model.form;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jgeniselli
  */
-public class FormField {
+public class FormField implements Serializable {
     
     private int id;
     private int order;
@@ -20,6 +22,10 @@ public class FormField {
     private String label;
     private String content;
     private String whereClauseMask;
+    
+    public FormField() {
+        
+    }
 
     public FormField(String tag, String htmlInputType, String label) {
         this.htmlInputType = htmlInputType;
@@ -73,4 +79,14 @@ public class FormField {
     public void setWhereClauseMask(String whereClauseMask) {
         this.whereClauseMask = whereClauseMask;
     }
+
+    public String getExtraClasses() {
+        return extraClasses;
+    }
+
+    public void setExtraClasses(String extraClasses) {
+        this.extraClasses = extraClasses;
+    }
+    
+    
 }

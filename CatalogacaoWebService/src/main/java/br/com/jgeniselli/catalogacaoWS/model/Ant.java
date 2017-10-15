@@ -58,6 +58,8 @@ public class Ant implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @FormIgnore
     private Date registerDate;
+    
+    private String notes;
 
     public Ant() {
 
@@ -153,5 +155,13 @@ public class Ant implements Serializable {
 
     public List<Photo> getPhotos() {
         return photos;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

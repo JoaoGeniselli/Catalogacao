@@ -48,6 +48,8 @@ public class AntNest implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date registerDate; 
+
+    private Boolean active = true;
    
     public AntNest() {
         
@@ -120,4 +122,14 @@ public class AntNest implements Serializable {
     public List<Photo> getPhotos() {
         return photos;
     }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
+    
 }

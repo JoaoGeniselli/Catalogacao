@@ -6,6 +6,7 @@
 package br.com.jgeniselli.catalogacaoWS.controller.site;
 
 import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,18 +22,24 @@ public class BaseSiteController {
     protected UserRepository userRepository;
     
     public br.com.jgeniselli.catalogacaoWS.model.User getSessionUser() throws UserNotLoggedException {
+        
+        br.com.jgeniselli.catalogacaoWS.model.User user = null;
         try {
             org.springframework.security.core.userdetails.User springUser = 
                 (org.springframework.security.core.userdetails.User) 
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-            br.com.jgeniselli.catalogacaoWS.model.User user = 
-                    (br.com.jgeniselli.catalogacaoWS.model.User) 
-                    userRepository.findByUsername(springUser.getUsername());
+            List users = userRepository.findByUsername(springUser.getUsername());
+            
+            if (users.isEmpty()) {
+                throw new Exception();
+            }
+            user = (br.com.jgeniselli.catalogacaoWS.model.User) users.get(0);
+            
         } catch (Exception e) {
             throw new UserNotLoggedException();
         }
-        return null;
+        return user;
     }
     
     public static class UserNotLoggedException extends Exception {

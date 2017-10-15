@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaoWS.model;
 
+import br.com.jgeniselli.catalogacaoWS.model.annotation.FormIdProvider;
 import br.com.jgeniselli.catalogacaoWS.model.annotation.FormIgnore;
 import br.com.jgeniselli.catalogacaoWS.model.annotation.FormTitle;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -28,6 +29,7 @@ public class DataUpdateVisit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @FormIgnore
+    @FormIdProvider
     private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -130,6 +132,10 @@ public class DataUpdateVisit implements Serializable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

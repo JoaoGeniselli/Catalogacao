@@ -45,137 +45,39 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 th:text="${form.getTitle()}" class="page-header"></h1>
+                    <h1 th:text="${title}" class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            
+            <div th:replace="formFragments :: ${formFragment}"></div>
 
-            <div class="row" >
+<!--            <div class="row" >
                 <div class="col-lg-9">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Insira os filtros para os dados do relatório
+                        <div th:if="${form.headMessage != null}" class="panel-heading">
+                            <span th:text="${form.headMessage}"></span>
                         </div>
-                        <!-- /.panel-heading -->
+                         /.panel-heading 
 
-                        <div th:if="${!errorMessage}" class="panel-body">
-                            <form th:action="@{${form.getActionURI()}}">
-                                <div class="form-group" th:object="${form}" th:each="field,row : ${form.fields}">
+                        <div th:if="${errorMessage == null}" class="panel-body">
+                            <form th:action="@{${form.getActionURI()}}" th:object="${form}">
+                                <div class="form-group"  th:each="field,row : ${form.fields}">
                                   <label for="${field.tag}" th:text="${field.label}"></label>
                                   <input th:pattern="${field.pattern}" th:type="${field.htmlInputType}" class="form-control" th:field="${form.fields[__${row.index}__].content}">
                                 </div>
                                 <input type="submit" class="btn btn-default"></button>
                             </form>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-
-<!--                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Atualizações de dados
-                        </div>
-                         /.panel-heading 
-                        <div class="panel-body h-100">
-                            <table width="100%" class="display table table-striped table-bordered table-hover" id="data-updates-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Id</th>
-                                        <th>Coletor</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="odd gradeX" th:each="update : ${nest.dataUpdateVisits}">
-                                        <td class="details-control" orderable="false"><span class="fa fa-plus"></span></td>
-                                        <td th:text="${update.id}"></td>
-                                        <td th:text="${update.collector.userId}"></td>
-                                        <td th:text="${#dates.format(update.collectionDate, 'dd/MM/yyyy')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                             /.table-responsive 
-                        </div>
-                         /.panel-body 
-                    </div>
-                     /.panel 
-                </div>
-                 /.col-lg-8 -->
-                
-<!--                <div class="col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Extensão atual
-                        </div>
-                         /.panel-heading 
-
-                        <div class="panel-body h-100" id="map" style="min-height: 200px">
-                            
-                        </div>
-                         /.panel-body 
                         
-                        <div class="panel-footer">Pontos obtidos na última atualização de dados do ninho</div>
-                    </div>
-                     /.panel 
-                    
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Fotos do ninho
-                        </div>
-                         /.panel-heading 
-
-                        <div class="panel-body h-100" id="slider-container" style="min-height: 200px">
-                            <div th:replace="slider :: image-slider(images = ${nest.photos})"></div>
+                        <div th:if="${form.footerMessage != null}" class="panel-footer">
+                            <span th:text="${form.footerMessage}"></span>
                         </div>
                          /.panel-body 
                     </div>
                      /.panel 
-                </div>
-                 /.col-lg-8 
-                
+                </div>-->
             </div>
-             /.row -->
-                
-<!--            <div class="row">
-                <div class="col-lg-9">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Amostras de Formigas
-                        </div>
-                         /.panel-heading 
-                        <div class="panel-body h-100">
-                            <table width="100%" class="display table table-striped table-bordered table-hover" id="ants-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Id</th>
-                                        <th>Nome</th>
-                                        <th>Espécie</th>
-                                        <th>Coletor</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="odd gradeX" th:each="ant : ${nest.ants}">
-                                        <td class="details-control" orderable="false"><span class="fa fa-plus"></span></td>
-                                        <td th:text="${ant.id}"></td>
-                                        <td th:text="${ant.name}"></td>
-                                        <td th:text="${ant.antSpecies}"></td>
-                                        <td th:text="${ant.visit.collector.userId}"></td>
-                                        <td th:text="${#dates.format(ant.registerDate, 'dd/MM/yyyy')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                             /.table-responsive 
-                        </div>
-                         /.panel-body 
-                    </div>
-                     /.panel 
-                </div>
-                 /.col-lg-8 
-            </div>
-             /.row -->
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -195,7 +97,7 @@
     <script th:src="@{/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
     <script th:src="@{/theme/vendor/datatables-responsive/dataTables.responsive.js}"></script>
 
-    <script th:inline="javascript">
+<!--    <script th:inline="javascript">
         function midpoint(lat1, long1, lat2, long2, per) {
             return [lat1 + (lat2 - lat1) * per, long1 + (long2 - long1) * per];
         }
@@ -225,7 +127,7 @@
             title: 'Ponto final'
           });
         }
-    </script>
+    </script>-->
 
     <!-- Custom Theme JavaScript -->
     <script th:src="@{/theme/local/js/sb-admin-2.js}"></script>
