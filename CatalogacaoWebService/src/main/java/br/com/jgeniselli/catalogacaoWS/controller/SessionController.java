@@ -88,36 +88,6 @@ public class SessionController extends BaseAPIController {
         }
     }
     
-    @PostMapping(path="/registerUser")
-    public ResponseEntity<String> addNewUser(@RequestBody RestUser userInfo) {
-        
-        if (!userInfo.valid()) {
-            String message = "Campos inválidos";
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-        
-        List<User> users = userRepository.findByUsername(userInfo.getUserId());
-        if(!users.isEmpty()) {
-            String message = "id de usuário já cadastrado";
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-
-        User user = new User();
-        user.setUsername(userInfo.getUserId());
-        user.setName(userInfo.getName());
-        user.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-        user.setEnable(Boolean.TRUE);
-        
-        Role role = roleRepository.findByRole("USER");
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-        
-        user.setRoles(roles);
-        
-        userRepository.save(user);
-        return new ResponseEntity<>(user.getName() + ": Salvo", HttpStatus.CREATED);
-    }
-    
     public ResponseEntity<String> logoutMobileUser(@RequestBody AuthenticatedRestModel body) {
         
         List<MobileToken> tokens = mobileTokenRepository.findByToken(body.getToken());

@@ -50,33 +50,17 @@
                 <!-- /.col-lg-12 -->
             </div>
             
+            <div th:if="${message != null}" class="col-md-9 alert alert-success alert-dismissable" id="messageDisplay"> 
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <span th:text="${message}"></span>
+            </div>
+            <div th:if="${errorMessage != null}" class="col-md-9 alert alert-danger alert-dismissable" id="error"> 
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <span th:text="${errorMessage}"></span>
+            </div>
+            
             <div th:replace="formFragments :: ${formFragment}"></div>
 
-<!--            <div class="row" >
-                <div class="col-lg-9">
-                    <div class="panel panel-default">
-                        <div th:if="${form.headMessage != null}" class="panel-heading">
-                            <span th:text="${form.headMessage}"></span>
-                        </div>
-                         /.panel-heading 
-
-                        <div th:if="${errorMessage == null}" class="panel-body">
-                            <form th:action="@{${form.getActionURI()}}" th:object="${form}">
-                                <div class="form-group"  th:each="field,row : ${form.fields}">
-                                  <label for="${field.tag}" th:text="${field.label}"></label>
-                                  <input th:pattern="${field.pattern}" th:type="${field.htmlInputType}" class="form-control" th:field="${form.fields[__${row.index}__].content}">
-                                </div>
-                                <input type="submit" class="btn btn-default"></button>
-                            </form>
-                        </div>
-                        
-                        <div th:if="${form.footerMessage != null}" class="panel-footer">
-                            <span th:text="${form.footerMessage}"></span>
-                        </div>
-                         /.panel-body 
-                    </div>
-                     /.panel 
-                </div>-->
             </div>
         </div>
         <!-- /#page-wrapper -->
@@ -96,38 +80,6 @@
     <script th:src="@{/theme/vendor/datatables/js/jquery.dataTables.min.js}"></script>
     <script th:src="@{/theme/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
     <script th:src="@{/theme/vendor/datatables-responsive/dataTables.responsive.js}"></script>
-
-<!--    <script th:inline="javascript">
-        function midpoint(lat1, long1, lat2, long2, per) {
-            return [lat1 + (lat2 - lat1) * per, long1 + (long2 - long1) * per];
-        }
-
-        function initMap() {
-          /*<![CDATA[*/
-          var nest = /*[[${nest}]]*/ 'test';
-          var dataUpdate = nest['dataUpdateVisits'][nest['dataUpdateVisits'].length-1];
-          /*]]>*/
-          var initialLatLng = {lat: dataUpdate['newBeginingPoint']['latitude'], lng: dataUpdate['newBeginingPoint']['longitude']};
-          var finalLatLng = {lat: dataUpdate['newEndingPoint']['latitude'], lng: dataUpdate['newEndingPoint']['longitude']};
-
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: initialLatLng
-          });
-
-          var initialMarker = new google.maps.Marker({
-            position: initialLatLng,
-            map: map,
-            title: 'Ponto inicial'
-          });
-
-          var finalMarker = new google.maps.Marker({
-            position: finalLatLng,
-            map: map,
-            title: 'Ponto final'
-          });
-        }
-    </script>-->
 
     <!-- Custom Theme JavaScript -->
     <script th:src="@{/theme/local/js/sb-admin-2.js}"></script>

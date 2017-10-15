@@ -128,7 +128,7 @@
                     </div>
                     <!-- /.panel -->
                     
-                    <div class="panel panel-default">
+                    <div th:if="${nest.photos!= null && nest.photos.size() > 0}"class="panel panel-default">
                         <div class="panel-heading">
                             Fotos do ninho
                         </div>
@@ -163,6 +163,7 @@
                                         <th>Espécie</th>
                                         <th>Coletor</th>
                                         <th>Data</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,6 +174,7 @@
                                         <td th:text="${ant.antSpecies}"></td>
                                         <td th:text="${ant.visit.collector.username}"></td>
                                         <td th:text="${#dates.format(ant.registerDate, 'dd/MM/yyyy')}"></td>
+                                        <td><a th:href="@{/web/editAnt(antId=${ant.id})}">Editar</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -265,15 +267,16 @@
                 '<p><strong class="col-md-3 text-right">Gênero: </strong> ' + ant["antGenus"] + '</p>' +
                 '<p><strong class="col-md-3 text-right">Sub-gênero: </strong> ' + ant["antSubgenus"] + '</p>' +
                 '<p><strong class="col-md-3 text-right">Espécie: </strong> ' + ant["antSpecies"] + '</p>' +
+                '<p><strong class="col-md-3 text-right">Observações: </strong> ' + (ant["notes"] ? ant["notes"] : "-") + '</p>' +
               '</div>' +
             '<div class="col-md-4">';
 
-            var carousel = buildSliderForPhotoList(ant['photos']);
-
-            html = html + carousel;
-
+            if (ant['photos'] && ant['photos'].length > 0) {
+                var carousel = buildSliderForPhotoList(ant['photos']);
+                html = html + carousel;
+            }
+            
             html = html +
-            '<div th:replace="slider :: image-slider"></div>' +
             '</div>' +
             '</div>';
 

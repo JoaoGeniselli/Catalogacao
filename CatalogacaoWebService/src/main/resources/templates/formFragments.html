@@ -58,7 +58,7 @@
                         <!-- /.panel-heading -->
 
                         <div th:if="${errorMessage == null}" class="panel-body">
-                            <form role="form" th:action="@{${destinationPath}}" th:object="${dataUpdate}">
+                            <form role="form" method="post" th:action="@{${destinationPath}}" th:object="${dataUpdate}">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key"></i>
@@ -75,19 +75,19 @@
                                 <label>Coordenadas iniciais do ninho</label>
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">Latitude</span>
-                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.latitude}"/>
+                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.latitude}" required/>
 
                                     <span class="input-group-addon">Longitude</span>
-                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.longitude}"/>
+                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.longitude}" required/>
                                 </div>
 
                                 <label>Coordenadas finais do ninho</label>
                                 <div class="form-group input-group">     
                                     <span class="input-group-addon">Latitude</span>
-                                    <input type="number" class="form-control" th:field="*{newEndingPoint.latitude}"/>
+                                    <input type="number" class="form-control" th:field="*{newEndingPoint.latitude}" required/>
 
                                     <span class="input-group-addon">Longitude</span>
-                                    <input type="number" class="form-control" th:field="*{newEndingPoint.longitude}"/>
+                                    <input type="number" class="form-control" th:field="*{newEndingPoint.longitude}" required/>
                                 </div>
                                 
                                 
@@ -116,52 +116,52 @@
                         <!-- /.panel-heading -->
 
                         <div th:if="${errorMessage == null}" class="panel-body">
-                            <form role="form" th:action="@{/web/saveDataUpdate}" th:object="${ant}">
+                            <form role="form" method="post" th:action="@{${destinationPath}}" th:object="${ant}">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key"></i>
                                     </span>
-                                    <input type="number" class="form-control" th:field="*{id}" disabled/>
+                                    <input type="number" class="form-control" th:field="*{id}" th:value="*{id}" readonly/>
                                     
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    <input type="date" class="form-control" th:field="*{registerDate}" th:value="*{#dates.format(registerDate, 'dd/MMM/yyyy')}" disabled/>
+                                    <input type="date" class="form-control" th:field="*{registerDate}" th:value="*{registerDate}" readonly/>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="*{antName}">Nome</label>
-                                    <input type="text" class="form-control" th:field="*{name}"/>
+                                    <label for="*{name}">Nome</label>
+                                    <input type="text" class="form-control" th:field="*{name}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antOrder}">Ordem</label>
-                                    <input type="text" class="form-control" th:field="*{antOrder}"/>
+                                    <input type="text" class="form-control" th:field="*{antOrder}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antFamily}">Família</label>
-                                    <input type="text" class="form-control" th:field="*{antFamily}"/>
+                                    <input type="text" class="form-control" th:field="*{antFamily}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antSubfamily}">Sub-Família</label>
-                                    <input type="text" class="form-control" th:field="*{antSubfamily}"/>
+                                    <input type="text" class="form-control" th:field="*{antSubfamily}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antGenus}">Gênero</label>
-                                    <input type="text" class="form-control" th:field="*{antGenus}"/>
+                                    <input type="text" class="form-control" th:field="*{antGenus}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antSubgenus}">Sub-Gênero</label>
-                                    <input type="text" class="form-control" th:field="*{antSubgenus}"/>
+                                    <input type="text" class="form-control" th:field="*{antSubgenus}" required/>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="*{antSpecies}">Espécie</label>
-                                    <input type="text" class="form-control" th:field="*{antSpecies}"/>
+                                    <input type="text" class="form-control" th:field="*{antSpecies}" required/>
                                 </div>
 
                                 <div class="form-group">
@@ -335,15 +335,6 @@
                                         <input type="text" class="form-control" th:field="*{collector}"/>
                                     </div>
                                 </div>
-<!--                                <div class="form-group">
-                                    <label for="*{name}">Nome</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-bug"></i>
-                                        </span>
-                                        <input type="text" class="form-control" th:field="*{name}"/>
-                                    </div>
-                                </div>-->
                                 
                                 <div class="form-group">
                                     <label for="*{address}">Endereço</label>
@@ -392,7 +383,73 @@
                 </div>
             </div>
             
-            
+            <div class="row" th:fragment="form-user-register">
+                <div class="col-lg-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Dados do novo usuário</div>
+                        <!-- /.panel-heading -->
+
+                        <div class="panel-body">
+                            <form method="post" role="form" th:action="@{${destinationPath}}" th:object="${user}">
+                                
+                                <div class="form-group">
+                                    <label for="*{username}">Identificação do usuário</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-key"></i>
+                                        </span>
+                                        <input type="text" class="form-control" th:field="*{username}" required/>    
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="*{name}">Nome</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control" th:field="*{name}" required/>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="*{password}">Senha</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                        <input type="password" class="form-control" th:field="*{password}" required/>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="*{confirmPassword}">Confirme a Senha</label>
+                                    
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                        <input type="password" class="form-control" th:field="*{confirmPassword}" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="*{role}">Perfil</label>
+                                    <select th:field="*{role}" class="form-control" required>
+                                        <option th:each="role : ${roles}" 
+                                                th:value="${role.id}" 
+                                                th:text="${role.role}">Role</option>
+                                    </select>
+                                </div>
+
+                                <input type="submit" class="btn btn-default"></input>
+                            </form>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+            </div>
             
         </div>
         <!-- /#page-wrapper -->

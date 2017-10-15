@@ -133,20 +133,4 @@ public class AntNest implements Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
-    public DataUpdateVisit lastDataUpdate() {
-        DataUpdateVisit last = null;
-        
-        ArrayList<DataUpdateVisit> visitsList = new ArrayList<>();
-        visitsList.addAll(getDataUpdateVisits());
-
-        if (visitsList.isEmpty()) {
-            return null;
-        } else {
-            Collections.sort(visitsList, (DataUpdateVisit o1, DataUpdateVisit o2) -> 
-                o1.getCollectionDate().compareTo(o2.getCollectionDate()));
-            last = visitsList.get(visitsList.size()-1);
-        }
-        return last;
-    }
 }

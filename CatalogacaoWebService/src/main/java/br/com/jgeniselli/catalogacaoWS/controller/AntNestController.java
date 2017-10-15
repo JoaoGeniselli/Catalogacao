@@ -127,7 +127,7 @@ public class AntNestController extends BaseAPIController {
         dataUpdate.setNewBeginingPoint(nestInfo.getBeginingPoint());
         dataUpdate.setNewEndingPoint(nestInfo.getEndingPoint());
         
-        dataUpdate.setNotes("--- REGISTRO DO NINHO ---");
+        dataUpdate.setNotes("REGISTRO DO NINHO");
         dataUpdate.setNest(nest);
         dataUpdate.setCollectionDate(new Date());
         dataUpdate.setRegisterDate(new Date());

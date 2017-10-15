@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by joaog on 26/05/2017.
@@ -55,6 +56,7 @@ public class Ant implements Serializable {
     @FormIgnore
     private List<Photo> photos;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     @FormIgnore
     private Date registerDate;
@@ -163,5 +165,9 @@ public class Ant implements Serializable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
