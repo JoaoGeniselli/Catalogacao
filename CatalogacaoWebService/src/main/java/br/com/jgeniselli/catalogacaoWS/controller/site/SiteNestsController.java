@@ -10,6 +10,7 @@ import br.com.jgeniselli.catalogacaoWS.model.AntNest;
 import br.com.jgeniselli.catalogacaoWS.model.AntNestRepository;
 import br.com.jgeniselli.catalogacaoWS.model.AntReportFilter;
 import br.com.jgeniselli.catalogacaoWS.model.AntRepository;
+import br.com.jgeniselli.catalogacaoWS.model.CoordinateRepository;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
 import br.com.jgeniselli.catalogacaoWS.model.NestReportFilter;
@@ -95,6 +96,9 @@ public class SiteNestsController extends BaseSiteController {
     
     @Autowired
     DataUpdateVisitRepository dataUpdateVisitRepository; 
+    
+    @Autowired
+    CoordinateRepository coordinateRepository; 
     
     @Autowired
     DataSource dataSource; 
@@ -308,22 +312,29 @@ public class SiteNestsController extends BaseSiteController {
     }
     
     @RequestMapping("/saveDataUpdate")
-    public String saveDataUpdateEdition(@ModelAttribute DataUpdateVisit dataUpdate, Model model) {
-        String message = "Atualização salva com sucesso";
-        
-        
-        if (dataUpdate == null) {
-            message = "Teste";
+    public String saveDataUpdateEdition(@ModelAttribute @Valid DataUpdateVisit dataUpdate, BindingResult bindingResult, Model model) {
+        try {
+            
+            DataUpdateVisit realVisit = dataUpdateVisitRepository.findOne(dataUpdate.getId());
+            
+            realVisit.setNotes(dataUpdate.getNotes());
+            realVisit.getNewBeginingPoint().setLatitude(dataUpdate.getNewBeginingPoint().getLatitude());
+            realVisit.getNewBeginingPoint().setLongitude(dataUpdate.getNewBeginingPoint().getLongitude());
+            
+            realVisit.getNewEndingPoint().setLatitude(dataUpdate.getNewBeginingPoint().getLatitude());
+            realVisit.getNewEndingPoint().setLongitude(dataUpdate.getNewBeginingPoint().getLongitude());
+
+            dataUpdateVisitRepository.save(realVisit);
+            coordinateRepository.save(realVisit.getNewBeginingPoint());
+            coordinateRepository.save(realVisit.getNewEndingPoint());
+            
+            model.addAttribute("message", "Atualização salva com sucesso");
+            
+        } catch (Exception ex) {
+            model.addAttribute("errorMessage", "Ocorreu um erro ao salvar a atualização");
+            Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try {
-////            DataUpdateVisit visit = dataUpdateVisitRepository.findOne(n);
-//            form.applyChanges(null);
-//            dataUpdateVisitRepository.save(form.getCommandObject());
-//        } catch (Form.FormValidationException ex) {
-//            message = "Ocorreu um erro ao salvar a atualização";
-//            Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        model.addAttribute("message", message);
+        
         return nestDetails(new Long(1), model);
     }
 }

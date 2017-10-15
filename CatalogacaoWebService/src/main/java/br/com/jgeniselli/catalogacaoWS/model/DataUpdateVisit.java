@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by joaog on 26/05/2017.
@@ -32,6 +33,7 @@ public class DataUpdateVisit implements Serializable {
     @FormIdProvider
     private Long id;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date collectionDate; 
     

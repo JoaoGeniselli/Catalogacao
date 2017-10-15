@@ -58,17 +58,17 @@
                         <!-- /.panel-heading -->
 
                         <div th:if="${errorMessage == null}" class="panel-body">
-                            <form role="form" th:action="@{/web/saveDataUpdate}" th:object="${dataUpdate}">
+                            <form role="form" th:action="@{${destinationPath}}" th:object="${dataUpdate}">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key"></i>
                                     </span>
-                                    <input type="number" class="form-control" th:field="*{id}" disabled/>
+                                    <input type="number" class="form-control" th:field="*{id}" readonly="readonly"/>
                                     
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    <input type="date" class="form-control" th:field="*{collectionDate}" th:value="*{#dates.format(collectionDate, 'dd/MMM/yyyy')}" disabled/>
+                                    <input type="date" class="form-control" th:field="*{collectionDate}" th:value="*{collectionDate}" readonly/>
                                 </div>
                                 
 
@@ -96,9 +96,9 @@
                                   <textarea class="form-control" th:field="*{notes}"></textarea>
                                 </div>
                                 
-                                <div th:if="*{photos != null && !photos.isEmpty()}"> 
+<!--                                <div th:if="*{photos != null && !photos.isEmpty()}"> 
                                     
-                                </div>
+                                </div>-->
 
                                 <input type="submit" class="btn btn-default"></input>
                             </form>

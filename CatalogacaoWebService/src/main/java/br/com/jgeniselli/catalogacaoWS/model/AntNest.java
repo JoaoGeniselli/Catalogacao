@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -131,5 +134,19 @@ public class AntNest implements Serializable {
         this.active = active;
     }
     
-    
+    public DataUpdateVisit lastDataUpdate() {
+        DataUpdateVisit last = null;
+        
+        ArrayList<DataUpdateVisit> visitsList = new ArrayList<>();
+        visitsList.addAll(getDataUpdateVisits());
+
+        if (visitsList.isEmpty()) {
+            return null;
+        } else {
+            Collections.sort(visitsList, (DataUpdateVisit o1, DataUpdateVisit o2) -> 
+                o1.getCollectionDate().compareTo(o2.getCollectionDate()));
+            last = visitsList.get(visitsList.size()-1);
+        }
+        return last;
+    }
 }
