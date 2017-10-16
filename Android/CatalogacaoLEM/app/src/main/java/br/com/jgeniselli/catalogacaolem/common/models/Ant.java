@@ -3,6 +3,7 @@ package br.com.jgeniselli.catalogacaolem.common.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -26,6 +27,8 @@ public class Ant extends RealmObject implements Serializable {
     private String antSpecies;
     private Date registerDate;
     private String notes;
+
+    private RealmList<PhotoModel> photos;
 
     public Ant() {
 
@@ -128,5 +131,13 @@ public class Ant extends RealmObject implements Serializable {
         setAntSubgenus(ant.getAntSubgenus());
         setAntSpecies(ant.getAntSpecies());
         setNotes(ant.getNotes());
+    }
+
+    public RealmList<PhotoModel> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(RealmList<PhotoModel> photos) {
+        this.photos = photos;
     }
 }

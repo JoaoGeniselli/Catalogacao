@@ -204,16 +204,9 @@ public class FormFragment extends Fragment {
             Uri fileSelected = chooseFileManager.getSelectedFile(data);
 
             if (chooseFileManager.isSupportedFile(getContext(), fileSelected)) {
-                Number currentIdNum = realm.where(PhotoModel.class).max("photoId");
-                long nextId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
 
                 PhotoModel photo = new PhotoModel();
                 photo.setFileURI(fileSelected);
-                photo.setPhotoId(nextId);
-
-                realm.beginTransaction();
-                photo = realm.copyToRealm(photo);
-                realm.commitTransaction();
 
                 EventBus.getDefault().post(new ImageResponseEvent(photo));
             }

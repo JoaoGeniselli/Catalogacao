@@ -8,6 +8,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import br.com.jgeniselli.catalogacaolem.login.User;
 import br.com.jgeniselli.catalogacaolem.nestDetails.NestDashboardActivity_;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.PendenciesActivity_;
@@ -186,7 +187,15 @@ public class MainActivity extends AppCompatActivity
 
                 nextCoordinateId++;
                 nest.getEndingPoint().setId(nextCoordinateId);
-                
+
+                currentIdNum = realmInstance.where(PhotoModel.class).max("photoId");
+                nextId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
+                for (PhotoModel photo :
+                        nest.getPhotos()) {
+                    photo.setPhotoId(nextId);
+                    photo.setAntNest(nest);
+                }
+
                 realmInstance.beginTransaction();
                 realmInstance.copyToRealm(nest);
                 realmInstance.commitTransaction();

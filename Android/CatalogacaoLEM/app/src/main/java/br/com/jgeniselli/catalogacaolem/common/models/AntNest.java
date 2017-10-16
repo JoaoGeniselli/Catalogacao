@@ -31,12 +31,15 @@ public class AntNest extends RealmObject implements Serializable {
     private Date lastDataUpdateDate;
     private boolean registered;
 
+    private RealmList<PhotoModel> photos;
+
     private RealmList<DataUpdateVisit> dataUpdateVisits;
 
     private Date registerDate;
 
     public AntNest() {
         registered = false;
+        this.photos = new RealmList<>();
     }
 
     public boolean isRegistered() {
@@ -135,5 +138,13 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setLastDataUpdateDate(Date lastDataUpdateDate) {
         this.lastDataUpdateDate = lastDataUpdateDate;
+    }
+
+    public RealmList<PhotoModel> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(RealmList<PhotoModel> photos) {
+        this.photos = photos;
     }
 }

@@ -129,17 +129,27 @@ public class PendenciesActivity extends AppCompatActivity {
         nestSyncController.addDataUpdates(this, new ServiceCallback<List<DataUpdateVisit>>() {
             @Override
             public void onFinish(List<DataUpdateVisit> failedDataUpdates, Error error) {
-                startAntsSynchronization();
+            startAntsSynchronization();
             }
         });
     }
 
     public void startAntsSynchronization() {
-
         nestSyncController.synchronizeNewAnts(this, new ServiceCallback<List<Ant>>() {
             @Override
             public void onFinish(List<Ant> response, Error error) {
+                startPhotosSynchronization();
+            }
+        });
+    }
 
+    public void startPhotosSynchronization() {
+        nestSyncController.synchronizeNewPhotos(this, new ServiceCallback<List<Ant>>() {
+            @Override
+            public void onFinish(List<Ant> response, Error error) {
+                nestSyncController.removeAllSynchronizedData();
+                stopLoading();
+                confirmSynchronization();
             }
         });
     }
@@ -176,5 +186,10 @@ public class PendenciesActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @UiThread
+    public void confirmSynchronization() {
+        Toast.makeText(PendenciesActivity.this, "Sincronização Completa", Toast.LENGTH_SHORT).show();
     }
 }

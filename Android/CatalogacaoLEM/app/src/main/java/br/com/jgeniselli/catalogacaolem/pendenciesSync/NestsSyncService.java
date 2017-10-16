@@ -14,6 +14,7 @@ import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntListReq
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhoto;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhotoListRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -37,5 +38,5 @@ public interface NestsSyncService {
     Call<List<ModelResponse>> addAnts(@Body RestAntListRequest ants);
 
     @POST("addPhotos")
-    Call<List<ModelResponse>> addPhotos(@Body List<RestPhoto> photos);
+    Call<List<ModelResponse>> addPhotos(@Body RestPhotoListRequest photos);
 }
