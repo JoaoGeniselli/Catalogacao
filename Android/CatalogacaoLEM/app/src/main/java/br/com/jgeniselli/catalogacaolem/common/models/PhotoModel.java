@@ -17,6 +17,10 @@ public class PhotoModel extends RealmObject {
     @PrimaryKey
     private Long photoId;
 
+    private Ant ant;
+    private AntNest antNest;
+    private DataUpdateVisit dataUpdateVisit;
+
     private Long registerId;
     private String filePath;
     private String description;
@@ -66,5 +70,33 @@ public class PhotoModel extends RealmObject {
 
     public void setFileURI(Uri uri) {
         filePath = uri.toString();
+    }
+
+    public Ant getAnt() {
+        return ant;
+    }
+
+    public void setAnt(Ant ant) {
+        this.ant = ant;
+    }
+
+    public AntNest getAntNest() {
+        return antNest;
+    }
+
+    public void setAntNest(AntNest antNest) {
+        this.antNest = antNest;
+    }
+
+    public DataUpdateVisit getDataUpdateVisit() {
+        return dataUpdateVisit;
+    }
+
+    public void setDataUpdateVisit(DataUpdateVisit dataUpdateVisit) {
+        this.dataUpdateVisit = dataUpdateVisit;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

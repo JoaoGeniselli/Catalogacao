@@ -2,10 +2,12 @@ package br.com.jgeniselli.catalogacaolem.common.form.modelAdapters;
 
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelCity;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelCoordinate;
+import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelText;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 
 /**
  * Created by jgeniselli on 03/09/17.
@@ -44,6 +46,11 @@ public class AntNestFormToModelAdapter extends FormToModelAdapter<AntNest> {
         position.setLongitude(positionField.getLongitude());
         nest.setEndingPoint(position);
 
+        FormFieldModelImageList imagesField = (FormFieldModelImageList) form.fieldByTag("photos");
+        for (PhotoModel photo :
+                imagesField.getImages()) {
+            nest.getPhotos().add(photo);
+        }
         return nest;
     }
 

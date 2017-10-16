@@ -20,16 +20,20 @@ import br.com.jgeniselli.catalogacaolem.BuildConfig;
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.CatalogacaoLEMApplication;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
+import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
 import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.AntNestFormToModelAdapter;
 import br.com.jgeniselli.catalogacaolem.common.location.CitySynchronization;
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntListRequest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhoto;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhotoListRequest;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.TaggedCounterDecreaseEvent;
 import io.realm.Realm;
@@ -47,6 +51,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NestSyncController {
 
     private NestsSyncService syncService;
+
+    @Bean
+    ChooseFileManager fileManager;
 
     public NestSyncController() {
         Retrofit retrofit = CatalogacaoLEMApplication.getDefaultRetrofit();
@@ -257,7 +264,7 @@ public class NestSyncController {
             if (response.code() == HttpStatus.CREATED.value()) {
 
                 for (int i = 0; i < response.body().size(); i++) {
-                    ModelResponse modelResponse = response.body().get(i);
+                    final ModelResponse modelResponse = response.body().get(i);
                     final Ant ant = antsByRestAnts.get(ants.get(i));
 
                     if (modelResponse.getId() != 0) {
@@ -265,6 +272,7 @@ public class NestSyncController {
                             @Override
                             public void execute(Realm realm) {
                                 ant.setRegisterDate(new Date());
+                                ant.setRegisterId(modelResponse.getId());
                             }
                         };
                         realm.executeTransaction(transaction);
@@ -283,6 +291,77 @@ public class NestSyncController {
             realm.close();
             callback.onFinish(null, error);
         }
+    }
+
+    public void synchronizeNewPhotos(Context context, ServiceCallback<List<Ant>> callback) {
+        loading = true;
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<PhotoModel> photos = realm.where(PhotoModel.class).isNull("registerId").findAll();
+
+        final HashMap<RestPhoto, PhotoModel> photosByRestPhotos = new HashMap<>();
+
+        List<RestPhoto> restPhotos = new ArrayList<>();
+        for (PhotoModel photo: photos) {
+            RestPhoto restPhoto = new RestPhoto(photo, fileManager, context);
+            restPhotos.add(restPhoto);
+            photosByRestPhotos.put(restPhoto, photo);
+        }
+
+        Error error = null;
+        RestPhotoListRequest request = new RestPhotoListRequest(context, restPhotos);
+
+        try {
+            Call<List<ModelResponse>> call = syncService.addPhotos(request);
+            Response<List<ModelResponse>> response = call.execute();
+
+            if (response.code() == HttpStatus.CREATED.value()) {
+                for (int i = 0; i < response.body().size(); i++) {
+                    final ModelResponse modelResponse = response.body().get(i);
+                    final PhotoModel photoModel = photosByRestPhotos.get(photos.get(i));
+
+                    if (modelResponse.getId() != 0) {
+                        Realm.Transaction transaction = new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                photoModel.setRegisterId(modelResponse.getId());
+                            }
+                        };
+                        realm.executeTransaction(transaction);
+                        EventBus.getDefault()
+                                .post(new TaggedCounterDecreaseEvent(R.id.antPendenciesView));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = new Error("Ocorreu um erro ao sincronizar as novas formigas...");
+        }
+
+        if (callback != null) {
+            loading = false;
+            realm.close();
+            callback.onFinish(null, error);
+        }
+    }
+
+    public void removeAllSynchronizedData() {
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<DataUpdateVisit> synchronizedDataUpdates = realm.where(DataUpdateVisit.class)
+                .isNotNull("registerId")
+                .findAll();
+        synchronizedDataUpdates.deleteAllFromRealm();
+
+        RealmResults<Ant> synchronizedAnts = realm.where(Ant.class)
+                .isNotNull("registerId")
+                .findAll();
+        synchronizedAnts.deleteAllFromRealm();
+
+        RealmResults<PhotoModel> synchronizedPhotos = realm.where(PhotoModel.class)
+                .isNotNull("registerId")
+                .findAll();
+        synchronizedPhotos.deleteAllFromRealm();
     }
 
     public boolean isLoading() {

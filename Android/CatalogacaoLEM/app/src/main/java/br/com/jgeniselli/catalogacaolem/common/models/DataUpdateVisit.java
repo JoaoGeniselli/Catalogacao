@@ -30,6 +30,8 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
     private Coordinate newBeginingPoint;
     private Coordinate newEndingPoint;
 
+    private RealmList<PhotoModel> photos;
+
     private String notes;
 
     private RealmList<Ant> ants;
@@ -122,5 +124,13 @@ public class DataUpdateVisit extends RealmObject implements Serializable {
         return (StringUtils.isEmpty(notes) &&
                 newBeginingPoint.zeroCoordinates() &&
                 newEndingPoint.zeroCoordinates());
+    }
+
+    public RealmList<PhotoModel> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(RealmList<PhotoModel> photos) {
+        this.photos = photos;
     }
 }
