@@ -168,19 +168,19 @@ public class NestReportFilter {
         "    V.COLLECTOR_ID AS COLLECTOR,\n" +
         "    V.COLLECTION_DATE\n" +
         "FROM\n" +
-        "    DATA_UPDATE_VISIT V\n" +
+        "    data_update_visit V\n" +
         "        LEFT JOIN\n" +
-        "    DATA_UPDATE_VISIT_PHOTOS I ON I.DATA_UPDATE_VISIT_ID = V.ID\n" +
+        "    data_update_visit_photos I ON I.DATA_UPDATE_VISIT_ID = V.ID\n" +
         "        LEFT JOIN\n" +
-        "    ANT_NEST N ON V.NEST_NEST_ID = N.NEST_ID\n" +
+        "    ant_nest N ON V.NEST_NEST_ID = N.NEST_ID\n" +
         "        LEFT JOIN\n" +
-        "    PHOTO P ON P.ID = I.PHOTOS_ID\n" +
+        "    photo P ON P.ID = I.PHOTOS_ID\n" +
         "        LEFT JOIN\n" +
-        "    COORDINATE INITIAL_COORDINATE ON (INITIAL_COORDINATE.id = V.new_begining_point_id)\n" +
+        "    coordinate INITIAL_COORDINATE ON (INITIAL_COORDINATE.id = V.new_begining_point_id)\n" +
         "        LEFT JOIN\n" +
-        "    COORDINATE FINAL_COORDINATE ON (FINAL_COORDINATE.id = V.new_ending_point_id)\n" +
+        "    coordinate FINAL_COORDINATE ON (FINAL_COORDINATE.id = V.new_ending_point_id)\n" +
         "        LEFT JOIN\n" +
-        "    ANT A ON A.VISIT_ID = V.ID\n" +
+        "    ant A ON A.VISIT_ID = V.ID\n" +
         "GROUP BY V.ID, N.NEST_ID\n";
 
         query = query + getHavingClause();

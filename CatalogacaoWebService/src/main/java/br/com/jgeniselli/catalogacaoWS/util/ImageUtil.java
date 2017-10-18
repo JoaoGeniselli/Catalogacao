@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import javax.imageio.ImageIO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -21,6 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
  * @author jgeniselli
  */
 public class ImageUtil {
+    
+    @Value("${spring.profiles.active}")
+    private String environment;
     
     public static void saveImageFromBase64(
             String imageString, 
@@ -32,14 +36,16 @@ public class ImageUtil {
 
         imageByte = Base64.getMimeDecoder().decode(imageString);
 
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
-            image = ImageIO.read(bis);
-            bis.close();
-        }
-
-        // write the image to a file
-        File outputfile = new File(filepath);
-        ImageIO.write(image, "png", outputfile);
+//        try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
+//            image = ImageIO.read(bis);
+//            bis.close();
+//        }
+//
+//        // write the image to a file
+//        File outputfile = new File(filepath);
+//        ImageIO.write(image, "png", outputfile);
+        
+        DriveUtils.insertImage(imageByte, filepath, "", filepath);
     }
     
     public static void saveMultipartFile(
@@ -61,5 +67,9 @@ public class ImageUtil {
             filename = String.format("%s%s", filename, sufix);
         }
         return filename + ".png";
+    }
+    
+    public void uploadImageToE3() {
+        
     }
 }

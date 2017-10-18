@@ -6,7 +6,7 @@
     <groupId>br.com.jgeniselli</groupId>
     <artifactId>CatalogacaoWebService</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>CatalogacaoWebService</name>
     <description>Demo project for Spring Boot</description>
@@ -57,131 +57,145 @@
             <artifactId>spring-restdocs-mockmvc</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
 <!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>-->
-        
+
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>3.0.0.RELEASE</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
             <version>3.0.0.RELEASE</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-        
+
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>6.4.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!--DEPLOYABLES--> 
-<!--        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>-->
-        
         <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v3-rev86-1.23.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.23.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>1.23.0</version>
+        </dependency>
+
+
+        <!-- DEPLOYABLE WAR ONLY -->
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
-        
+        </dependency> -->
+
 <!--        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-        </dependency>   
-        
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>-->
-        
-        <!-- Bootstrap Template Dependencies --> 
-        
+
+        <!-- Bootstrap Template Dependencies -->
+
 <!--        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>4.0.0-beta</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>bootstrap-social</artifactId>
             <version>5.1.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>datatables</artifactId>
             <version>1.10.16</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>github-com-DataTables-Plugins</artifactId>
             <version>1.10.15</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>datatables-responsive</artifactId>
             <version>2.1.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>flot</artifactId>
             <version>0.8.3-1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>flot.tooltip</artifactId>
             <version>0.8.5</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>font-awesome</artifactId>
             <version>4.7.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
             <version>3.2.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>metisMenu</artifactId>
             <version>2.7.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>morrisjs</artifactId>
             <version>0.5.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>raphael</artifactId>
