@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -86,6 +87,9 @@ public class DriveUtils {
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
+//        ArrayList<String> dscopes = new ArrayList();
+//        dscopes.addAll(DriveScopes.all());
+        
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -122,7 +126,7 @@ public class DriveUtils {
         body.setName(name);
         body.setDescription(description);
         body.setMimeType("image/png");
-        body.setParents(Collections.singletonList("0BzHlMy3pZDRRWmNDYy1fUjZJR3M"));
+        body.setParents(Collections.singletonList("0B9GbrNmKCqu3bVlpbEY5b3VjTGM"));
         
         java.io.File imageFile = java.io.File.createTempFile(filename, "png");
 
@@ -131,7 +135,7 @@ public class DriveUtils {
 
         // File's content.
         java.io.File fileContent = new java.io.File(filename);
-        FileContent mediaContent = new FileContent("image/png", fileContent);
+        FileContent mediaContent = new FileContent("image/png", imageFile);
         try {
           File file = service.files().create(body, mediaContent).execute();
 
