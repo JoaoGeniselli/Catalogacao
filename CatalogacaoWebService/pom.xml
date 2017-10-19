@@ -6,7 +6,7 @@
     <groupId>br.com.jgeniselli</groupId>
     <artifactId>CatalogacaoWebService</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>CatalogacaoWebService</name>
     <description>Demo project for Spring Boot</description>
@@ -112,11 +112,11 @@
 
 
         <!-- DEPLOYABLE WAR ONLY -->
-<!--        <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency> -->
+        </dependency> 
 
 <!--        <dependency>
             <groupId>org.hibernate</groupId>

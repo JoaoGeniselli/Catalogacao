@@ -147,28 +147,58 @@ public class DriveUtils {
           System.out.println("An error occurred: " + e);
           return null;
         }
-  }
-
-    public static void main(String[] args) throws IOException {
-        // Build a new authorized API client service.
-        Drive service = getDriveService();
-
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list()
-             .setPageSize(10)
-             .setFields("nextPageToken, files(id, name)")
-             .execute();
-        
-        List<com.google.api.services.drive.model.File> files = result.getFiles();
-        if (files == null || files.size() == 0) {
-            System.out.println("No files found.");
-        } else {
-            System.out.println("Files:");
-            for (com.google.api.services.drive.model.File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
-            }
-        }
     }
+    
+    public static InputStream retrieveImage(String driveImageId) throws IOException {
+        
+        Drive service = getDriveService();
+        
+        
+        try {
+            InputStream mediaContent = service
+                    .files()
+                    .get(driveImageId)
+                    .executeMediaAsInputStream();                    
+            
+            if(!(mediaContent.available()>0)) {
+                throw new IOException("Media content empty, bytes expected");
+            }
+            
+            return mediaContent;
+        } catch (IOException e) {
+            System.out.println("Error retrieving image" + e);
+            return null;
+        }
+
+//        try {
+//            File file = service.files().get(driveImageId).execute();
+//            return file;
+//        } catch (IOException e) {
+//            System.out.println("An error occurred: " + e);
+//            return null;
+//        }
+    }
+
+//    public static void main(String[] args) throws IOException {
+//        // Build a new authorized API client service.
+//        Drive service = getDriveService();
+//
+//        // Print the names and IDs for up to 10 files.
+//        FileList result = service.files().list()
+//             .setPageSize(10)
+//             .setFields("nextPageToken, files(id, name)")
+//             .execute();
+//        
+//        List<com.google.api.services.drive.model.File> files = result.getFiles();
+//        if (files == null || files.size() == 0) {
+//            System.out.println("No files found.");
+//        } else {
+//            System.out.println("Files:");
+//            for (com.google.api.services.drive.model.File file : files) {
+//                System.out.printf("%s (%s)\n", file.getName(), file.getId());
+//            }
+//        }
+//    }
 
     
 }
