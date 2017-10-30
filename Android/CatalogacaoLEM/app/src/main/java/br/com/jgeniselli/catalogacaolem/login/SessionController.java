@@ -12,7 +12,6 @@ import br.com.jgeniselli.catalogacaolem.common.CatalogacaoLEMApplication;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryModel;
 import br.com.jgeniselli.catalogacaolem.common.location.RestCountryToRealmAdapter;
 import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -47,6 +46,7 @@ public class SessionController {
         } finally {
             if (response == null) {
                 completion.onFinish(null, error);
+                return;
             }
 
             if (response.code() == HttpStatus.OK.value()) {

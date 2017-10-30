@@ -353,25 +353,25 @@ public class AntNestController extends BaseAPIController {
             String imageName = ImageUtil.generateImageFilename("ant-", null);
             
             // TODO: VOLTAR ORIGINAL
-            //String filepath = imagesPath + imageName;
-            String filepath = imageName;
-//            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
+            String filepath = imagesPath + imageName;
+//            String filepath = imageName;
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
             
-            com.google.api.services.drive.model.File file = 
-                    ImageUtil.saveBase64ImageToDrive(
-                            restPhoto.getBase64Photo(),
-                            filepath
-                    );
-            
-            if (file == null || file.getId() == null) {
-                throw new Exception();
-            }
+//            com.google.api.services.drive.model.File file = 
+//                    ImageUtil.saveBase64ImageToDrive(
+//                            restPhoto.getBase64Photo(),
+//                            filepath
+//                    );
+//            
+//            if (file == null || file.getId() == null) {
+//                throw new Exception();
+//            }
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-//            photo.setFilepath(imageName);
-            photo.setFilepath(file.getId());
+            photo.setFilepath(imageName);
+//            photo.setFilepath(file.getId());
 
             photoRepository.save(photo);
             
@@ -397,24 +397,24 @@ public class AntNestController extends BaseAPIController {
             }
             
             String imageName = ImageUtil.generateImageFilename("nest-", null);
-            String filepath = /*imagesPath + */ imageName;
-//            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
+            String filepath = imagesPath + imageName;
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
 
-            com.google.api.services.drive.model.File file = 
-                    ImageUtil.saveBase64ImageToDrive(
-                            restPhoto.getBase64Photo(),
-                            filepath
-                    );
-            
-            if (file == null || file.getId() == null) {
-                throw new Exception();
-            }
+//            com.google.api.services.drive.model.File file = 
+//                    ImageUtil.saveBase64ImageToDrive(
+//                            restPhoto.getBase64Photo(),
+//                            filepath
+//                    );
+//            
+//            if (file == null || file.getId() == null) {
+//                throw new Exception();
+//            }
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-//            photo.setFilepath(imageName);
-            photo.setFilepath(file.getId());
+            photo.setFilepath(imageName);
+//            photo.setFilepath(file.getId());
 
             photoRepository.save(photo);
             
@@ -441,23 +441,23 @@ public class AntNestController extends BaseAPIController {
             
             String imageName = ImageUtil.generateImageFilename("data-update-", null);
             String filepath = imagesPath + imageName;
-//            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
+            ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
 
-            com.google.api.services.drive.model.File file = 
-                                ImageUtil.saveBase64ImageToDrive(
-                                        restPhoto.getBase64Photo(),
-                                        filepath
-                                );
-            
-            if (file == null || file.getId() == null) {
-                throw new Exception();
-            }
+//            com.google.api.services.drive.model.File file = 
+//                                ImageUtil.saveBase64ImageToDrive(
+//                                        restPhoto.getBase64Photo(),
+//                                        filepath
+//                                );
+//            
+//            if (file == null || file.getId() == null) {
+//                throw new Exception();
+//            }
 
             photo = new Photo();
             photo.setDescription(restPhoto.getDescription());
             photo.setRegisterDate(new Date());
-//            photo.setFilepath(imageName);
-            photo.setFilepath(file.getId());
+            photo.setFilepath(imageName);
+//            photo.setFilepath(file.getId());
 
             photoRepository.save(photo);
             
