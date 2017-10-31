@@ -48,27 +48,27 @@ public class ImageUtil {
 //        DriveUtils.insertImage(imageByte, filepath, "", filepath);
     }
     
-    public static com.google.api.services.drive.model.File saveBase64ImageToDrive(
-            String imageString, 
-            String filepath) throws IOException {
-        
-        // create a buffered image
-        BufferedImage image;
-        byte[] imageByte;
-
-        imageByte = Base64.getMimeDecoder().decode(imageString);
-
-//        try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
-//            image = ImageIO.read(bis);
-//            bis.close();
-//        }
+//    public static com.google.api.services.drive.model.File saveBase64ImageToDrive(
+//            String imageString, 
+//            String filepath) throws IOException {
+//        
+//        // create a buffered image
+//        BufferedImage image;
+//        byte[] imageByte;
 //
-//        // write the image to a file
-//        File outputfile = new File(filepath);
-//        ImageIO.write(image, "png", outputfile);
-        
-        return DriveUtils.insertImage(imageByte, filepath, "", filepath);
-    }
+//        imageByte = Base64.getMimeDecoder().decode(imageString);
+//
+////        try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
+////            image = ImageIO.read(bis);
+////            bis.close();
+////        }
+////
+////        // write the image to a file
+////        File outputfile = new File(filepath);
+////        ImageIO.write(image, "png", outputfile);
+//        
+//        return DriveUtils.insertImage(imageByte, filepath, "", filepath);
+//    }
     
     public static void saveMultipartFile(
             MultipartFile multipartFile,
