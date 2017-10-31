@@ -352,7 +352,6 @@ public class AntNestController extends BaseAPIController {
             
             String imageName = ImageUtil.generateImageFilename("ant-", null);
             
-            // TODO: VOLTAR ORIGINAL
             String filepath = imagesPath + imageName;
 //            String filepath = imageName;
             ImageUtil.saveImageFromBase64(restPhoto.getBase64Photo(), filepath);
