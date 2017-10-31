@@ -18,10 +18,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.0.107:8080/catalogacao/api/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:8080/catalogacao/api/v1/"'
         }
         release {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.0.107:8080/catalogacao/api/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:8080/catalogacao/api/v1/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -48,8 +48,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -68,7 +66,6 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
     compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'org.parceler:parceler:1.1.9'

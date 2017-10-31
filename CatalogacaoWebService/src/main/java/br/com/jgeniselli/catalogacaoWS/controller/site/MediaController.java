@@ -5,7 +5,6 @@
  */
 package br.com.jgeniselli.catalogacaoWS.controller.site;
 
-import br.com.jgeniselli.catalogacaoWS.util.DriveUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,15 +28,11 @@ public class MediaController extends BaseSiteController {
     
     @RequestMapping("/image/{imageId}")
     public void photo(HttpServletResponse response, @PathVariable String imageId) throws IOException {
-        
-        response.setContentType("image/png");
-        InputStream in = DriveUtils.retrieveImage(imageId);
-        IOUtils.copy(in, response.getOutputStream());
 
-//        response.setContentType("image/jpeg");
-//        File imgPath = new File(imagesPath + imageId + ".png");
-//        InputStream in = new FileInputStream(imgPath);
-//        IOUtils.copy(in, response.getOutputStream());
+        response.setContentType("image/jpeg");
+        File imgPath = new File(imagesPath + imageId + ".png");
+        InputStream in = new FileInputStream(imgPath);
+        IOUtils.copy(in, response.getOutputStream());
     }
     
 }
