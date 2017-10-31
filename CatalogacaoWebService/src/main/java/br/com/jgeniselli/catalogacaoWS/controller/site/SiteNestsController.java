@@ -82,6 +82,9 @@ public class SiteNestsController extends BaseSiteController {
     @Value("${server.imagesPath}")
     private String imagePath;
     
+    @Value("${server.compiledReportPath}")
+    private String compiledReportPath;
+    
     @Autowired
     private ApplicationContext appContext;
     
@@ -158,7 +161,7 @@ public class SiteNestsController extends BaseSiteController {
             JasperReport jasperReport
                     = JasperCompileManager.compileReport(reportInputStream);
             
-            JRSaver.saveObject(jasperReport, "nestReport.jasper");
+            JRSaver.saveObject(jasperReport, compiledReportPath + "/nestReport.jasper");
             Connection connection = dataSource.getConnection();
             
             HashMap params = new HashMap();
@@ -203,7 +206,7 @@ public class SiteNestsController extends BaseSiteController {
             JasperReport jasperReport
                     = JasperCompileManager.compileReport(reportInputStream);
             
-            JRSaver.saveObject(jasperReport, "antReport.jasper");
+            JRSaver.saveObject(jasperReport, compiledReportPath + "/antReport.jasper");
             Connection connection = dataSource.getConnection();
             
             HashMap params = new HashMap();
