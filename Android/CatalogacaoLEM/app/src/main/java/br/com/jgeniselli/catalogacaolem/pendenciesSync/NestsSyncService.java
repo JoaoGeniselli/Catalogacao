@@ -26,7 +26,7 @@ import retrofit2.http.POST;
 public interface NestsSyncService {
 
     @POST("nestsByCities")
-    Call<List<AntNest>> nestsByCities(@Body HashMap citiesIds);
+    Call<List<RestAntNest>> nestsByCities(@Body HashMap citiesIds);
 
     @POST("addNewNest")
     Call<ModelResponse> addNewNest(@Body RestAntNest nest);

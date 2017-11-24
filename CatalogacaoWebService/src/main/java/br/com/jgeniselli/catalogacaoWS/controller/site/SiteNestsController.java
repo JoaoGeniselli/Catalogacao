@@ -15,25 +15,17 @@ import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaoWS.model.DataUpdateVisitRepository;
 import br.com.jgeniselli.catalogacaoWS.model.NestReportFilter;
 import br.com.jgeniselli.catalogacaoWS.model.User;
-import br.com.jgeniselli.catalogacaoWS.model.UserRepository;
-import br.com.jgeniselli.catalogacaoWS.model.form.AntReportForm;
-import br.com.jgeniselli.catalogacaoWS.model.form.Form;
-import br.com.jgeniselli.catalogacaoWS.model.form.NestReportForm;
 import br.com.jgeniselli.catalogacaoWS.model.location.CityRepository;
-import br.com.jgeniselli.catalogacaoWS.model.location.CountryState;
 import br.com.jgeniselli.catalogacaoWS.model.location.CountryStateRepository;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -46,18 +38,11 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -245,7 +230,7 @@ public class SiteNestsController extends BaseSiteController {
         } catch (UserNotLoggedException | EditionNotAllowedException ex) {
             errorMessage = ex.getMessage();
         } finally {
-            model.addAttribute("destinationPath", "/web/saveDataUpdate");
+            model.addAttribute("destinationPath", "/web/saveDataUpdate/" + visit.getNest().getNestId());
             model.addAttribute("title", "Edição de Atualização de Dados");
             if (errorMessage == null) {
                 model.addAttribute("formFragment", "form-data-update");
@@ -258,8 +243,14 @@ public class SiteNestsController extends BaseSiteController {
         return "reportForm";
     }
     
-    @RequestMapping("/saveDataUpdate")
-    public String saveDataUpdateEdition(@ModelAttribute @Valid DataUpdateVisit dataUpdate, BindingResult bindingResult, Model model) {
+    @RequestMapping("/saveDataUpdate/{nest}")
+    public String saveDataUpdateEdition(
+            @PathVariable(name = "nest") Long nest, 
+            @ModelAttribute @Valid DataUpdateVisit dataUpdate, 
+            BindingResult bindingResult, 
+            Model model
+    ) {
+        
         try {
             
             DataUpdateVisit realVisit = dataUpdateVisitRepository.findOne(dataUpdate.getId());
@@ -268,8 +259,8 @@ public class SiteNestsController extends BaseSiteController {
             realVisit.getNewBeginingPoint().setLatitude(dataUpdate.getNewBeginingPoint().getLatitude());
             realVisit.getNewBeginingPoint().setLongitude(dataUpdate.getNewBeginingPoint().getLongitude());
             
-            realVisit.getNewEndingPoint().setLatitude(dataUpdate.getNewBeginingPoint().getLatitude());
-            realVisit.getNewEndingPoint().setLongitude(dataUpdate.getNewBeginingPoint().getLongitude());
+            realVisit.getNewEndingPoint().setLatitude(dataUpdate.getNewEndingPoint().getLatitude());
+            realVisit.getNewEndingPoint().setLongitude(dataUpdate.getNewEndingPoint().getLongitude());
 
             dataUpdateVisitRepository.save(realVisit);
             coordinateRepository.save(realVisit.getNewBeginingPoint());
@@ -282,7 +273,7 @@ public class SiteNestsController extends BaseSiteController {
             Logger.getLogger(SiteNestsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return nestDetails(new Long(1), model);
+        return nestDetails(nest, model);
     }
     
     @RequestMapping("/editAnt")

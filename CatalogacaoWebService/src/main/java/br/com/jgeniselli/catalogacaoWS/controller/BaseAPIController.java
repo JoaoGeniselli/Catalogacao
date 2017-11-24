@@ -27,11 +27,12 @@ public class BaseAPIController {
     @Autowired
     protected UserRepository userRepository;
    
-    protected void validateTokenString(AuthenticatedRestModel model) throws InvalidTokenException {
+    protected User validateTokenString(AuthenticatedRestModel model) throws InvalidTokenException {
         List<MobileToken> tokens = mobileTokenRepository.findByToken(model.getToken());
         if (tokens.isEmpty()) {
             throw new InvalidTokenException();
         }
+        return tokens.get(0).getUser();
     }
     
     protected User getUser(Long userId) throws InvalidUserException {

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Catalogação LEM</title>
+    <title>Catalogação</title>
 
     <!-- Bootstrap Core CSS -->
     <link th:href="@{/theme/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -75,19 +75,19 @@
                                 <label>Coordenadas iniciais do ninho</label>
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">Latitude</span>
-                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.latitude}" required/>
+                                    <input type="number" step="0.000000001" class="form-control" th:field="*{newBeginingPoint.latitude}" required/>
 
                                     <span class="input-group-addon">Longitude</span>
-                                    <input type="number" class="form-control" th:field="*{newBeginingPoint.longitude}" required/>
+                                    <input type="number" step="0.000000001" class="form-control" th:field="*{newBeginingPoint.longitude}" required/>
                                 </div>
 
                                 <label>Coordenadas finais do ninho</label>
                                 <div class="form-group input-group">     
                                     <span class="input-group-addon">Latitude</span>
-                                    <input type="number" class="form-control" th:field="*{newEndingPoint.latitude}" required/>
+                                    <input type="number" step="0.000000001" class="form-control" th:field="*{newEndingPoint.latitude}" required/>
 
                                     <span class="input-group-addon">Longitude</span>
-                                    <input type="number" class="form-control" th:field="*{newEndingPoint.longitude}" required/>
+                                    <input type="number" step="0.000000001" class="form-control" th:field="*{newEndingPoint.longitude}" required/>
                                 </div>
                                 
                                 

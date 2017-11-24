@@ -17,7 +17,7 @@ import io.realm.RealmList;
 
 public class FormFieldModelImageList extends FormFieldModel {
 
-    private RealmList<PhotoModel> images;
+    private ArrayList<PlaceholderPhotoModel> images;
 
     public FormFieldModelImageList(int id, int order, String title, String tag) {
         super(id, order, title, tag);
@@ -28,14 +28,14 @@ public class FormFieldModelImageList extends FormFieldModel {
         return FormFieldModelType.IMAGE_LIST;
     }
 
-    public RealmList<PhotoModel> getImages() {
+    public ArrayList<PlaceholderPhotoModel> getImages() {
         if (images == null) {
-            images = new RealmList<>();
+            images = new ArrayList<>();
         }
         return images;
     }
 
-    public void setImages(RealmList<PhotoModel> images) {
+    public void setImages(ArrayList<PlaceholderPhotoModel> images) {
         this.images = images;
     }
 
@@ -58,7 +58,7 @@ public class FormFieldModelImageList extends FormFieldModel {
         }
     }
 
-    public void requestImageRemoval(PhotoModel image) {
+    public void requestImageRemoval(PlaceholderPhotoModel image) {
         try {
             images.remove(image);
         } catch (Exception e ) {

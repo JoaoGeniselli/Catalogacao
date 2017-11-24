@@ -24,16 +24,18 @@ import io.realm.RealmResults;
 public class CitiesListLineAdapter extends RecyclerView.Adapter<CitiesListLineAdapter.CitySynchronizationViewHolder> {
 
     private RealmResults<CitySynchronization> cities;
+    private CitySynchronizationRemoveListener listener;
 
-    public CitiesListLineAdapter(RealmResults<CitySynchronization> synchronizationCities) {
+    public CitiesListLineAdapter(RealmResults<CitySynchronization> synchronizationCities, CitySynchronizationRemoveListener listener) {
         this.cities = synchronizationCities;
+        this.listener = listener;
     }
 
     @Override
     public CitySynchronizationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.line_view_city_synchronization, parent, false);
-        return new CitySynchronizationViewHolder(view);
+        return new CitySynchronizationViewHolder(view, listener);
     }
 
     @Override
@@ -63,8 +65,11 @@ public class CitiesListLineAdapter extends RecyclerView.Adapter<CitiesListLineAd
         private WeakReference<TextView> textView;
         private WeakReference<Button> removeButton;
 
-        public CitySynchronizationViewHolder(View itemView) {
+        private CitySynchronizationRemoveListener listener;
+
+        public CitySynchronizationViewHolder(View itemView, CitySynchronizationRemoveListener listener) {
             super(itemView);
+            this.listener = listener;
 
             textView = new WeakReference<>((TextView)itemView.findViewById(R.id.textView));
             removeButton = new WeakReference<>((Button)itemView.findViewById(R.id.removeButton));
@@ -88,7 +93,7 @@ public class CitiesListLineAdapter extends RecyclerView.Adapter<CitiesListLineAd
 
         public void triggerModelRemoval() {
             if (model != null) {
-                EventBus.getDefault().post(new SyncCityRemoveRequestEvent(model.get()));
+                this.listener.onRemoveRequest(model.get());
             }
         }
     }

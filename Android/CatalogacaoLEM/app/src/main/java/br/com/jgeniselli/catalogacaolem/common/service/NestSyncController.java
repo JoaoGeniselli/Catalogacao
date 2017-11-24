@@ -7,6 +7,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.rest.spring.annotations.RestService;
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,23 @@ import br.com.jgeniselli.catalogacaolem.common.CatalogacaoLEMApplication;
 import br.com.jgeniselli.catalogacaolem.common.MyPreferences_;
 import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
 import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.AntNestFormToModelAdapter;
+import br.com.jgeniselli.catalogacaolem.common.location.CityModel;
 import br.com.jgeniselli.catalogacaolem.common.location.CitySynchronization;
 import br.com.jgeniselli.catalogacaolem.common.models.Ant;
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
+import br.com.jgeniselli.catalogacaolem.common.models.AntNestRepository;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
+import br.com.jgeniselli.catalogacaolem.common.models.CoordinateRepository;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
+import br.com.jgeniselli.catalogacaolem.common.models.RestAntNestRealmAdapter;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntListRequest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestDataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhoto;
 import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestPhotoListRequest;
+import br.com.jgeniselli.catalogacaolem.login.User;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.TaggedCounterDecreaseEvent;
 import io.realm.Realm;
@@ -65,7 +71,8 @@ public class NestSyncController {
     public void syncCities(
             RealmResults<CitySynchronization> cities,
             Realm realmInstance,
-            ServiceCallback<List<AntNest>> completion) {
+            Context context,
+            ServiceCallback<List<RestAntNest>> completion) {
 
         loading = true;
 
@@ -77,15 +84,20 @@ public class NestSyncController {
             }
         }
 
-        HashMap<String, List<Long>> params = new HashMap<>();
+        HashMap params = new HashMap<>();
         params.put("cities", cityIds);
 
-        List<AntNest> response = null;
+        User user = User.shared(context);
+        String token = user.getToken();
+
+        if (!StringUtils.isEmpty(token)) {
+            params.put("token", token);
+        }
+
+        List<RestAntNest> response = null;
         Error error = null;
         try {
-            Call<List<AntNest>> call = syncService.nestsByCities(params);
-            //response = restClient.nestsByCities(params);
-
+            Call<List<RestAntNest>> call = syncService.nestsByCities(params);
             response = call.execute().body();
         } catch (Exception e) {
             response = null;
@@ -98,36 +110,29 @@ public class NestSyncController {
         }
     }
 
+    public void saveNests(List<RestAntNest> restAntNests, Realm realmInstance) {
 
+        List<AntNest> unsavedNests = new ArrayList<>();
+        AntNestRepository nestRepo = new AntNestRepository();
+        for (RestAntNest restAntNest : restAntNests) {
 
-    @Background
-    public void saveNests(List<AntNest> nests, Realm realmInstance) {
-        try {
-            Number currentIdNum = realmInstance.where(AntNest.class).max("nestId");
-            long nextNestId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
+            AntNest existingNest = realmInstance
+                    .where(AntNest.class)
+                    .equalTo("registerId", restAntNest.getRegisterId())
+                    .findFirst();
 
-            currentIdNum = realmInstance.where(Coordinate.class).max("id");
-            long nextCoordinateId = currentIdNum == null ? 1 : currentIdNum.intValue() + 1;
+            RestAntNestRealmAdapter adapter = new RestAntNestRealmAdapter();
+            AntNest createdNest = adapter.adapt(restAntNest, realmInstance);
 
-            realmInstance.beginTransaction();
-
-            for (AntNest nest : nests) {
-                nest.setNestId(nextNestId);
-                nextNestId++;
-
-                if (nest.getBeginingPoint() != null) {
-                    nest.getBeginingPoint().setId(nextCoordinateId);
-                    nextCoordinateId++;
-                }
-
-                if (nest.getEndingPoint() != null) {
-                    nest.getEndingPoint().setId(nextCoordinateId);
-                    nextCoordinateId++;
-                }
+            if (existingNest == null) {
+                unsavedNests.add(createdNest);
+            } else {
+                nestRepo.update(createdNest, existingNest, realmInstance);
             }
+        }
 
-            realmInstance.copyToRealm(nests);
-            realmInstance.commitTransaction();
+        try {
+            nestRepo.create(unsavedNests, realmInstance);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -312,24 +317,26 @@ public class NestSyncController {
         RestPhotoListRequest request = new RestPhotoListRequest(context, restPhotos);
 
         try {
-            Call<List<ModelResponse>> call = syncService.addPhotos(request);
-            Response<List<ModelResponse>> response = call.execute();
+            if (photos.size() > 0) {
+                Call<List<ModelResponse>> call = syncService.addPhotos(request);
+                Response<List<ModelResponse>> response = call.execute();
 
-            if (response.code() == HttpStatus.CREATED.value()) {
-                for (int i = 0; i < response.body().size(); i++) {
-                    final ModelResponse modelResponse = response.body().get(i);
-                    final PhotoModel photoModel = photosByRestPhotos.get(photos.get(i));
+                if (response.code() == HttpStatus.CREATED.value()) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        final ModelResponse modelResponse = response.body().get(i);
+                        final PhotoModel photoModel = photosByRestPhotos.get(photos.get(i));
 
-                    if (modelResponse.getId() != 0) {
-                        Realm.Transaction transaction = new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                photoModel.setRegisterId(modelResponse.getId());
-                            }
-                        };
-                        realm.executeTransaction(transaction);
-                        EventBus.getDefault()
-                                .post(new TaggedCounterDecreaseEvent(R.id.antPendenciesView));
+                        if (modelResponse.getId() != 0) {
+                            Realm.Transaction transaction = new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    photoModel.setRegisterId(modelResponse.getId());
+                                }
+                            };
+                            realm.executeTransaction(transaction);
+                            EventBus.getDefault()
+                                    .post(new TaggedCounterDecreaseEvent(R.id.antPendenciesView));
+                        }
                     }
                 }
             }

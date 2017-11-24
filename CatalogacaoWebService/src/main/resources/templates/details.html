@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Catalogação LEM</title>
+    <title>Catalogação</title>
 
     <!-- Bootstrap Core CSS -->
     <link th:href="@{/theme/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -109,45 +109,7 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-8 -->
-                
-                <div class="col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Extensão atual
-                        </div>
-                        <!-- /.panel-heading -->
-
-                        <div class="panel-body" id="map" style="height: 200px">
-                            
-                        </div>
-                        <!-- /.panel-body -->
-                        
-                        <div class="panel-footer">Pontos obtidos na última atualização de dados do ninho</div>
-                    </div>
-                    <!-- /.panel -->
                     
-                    <div th:if="${nest.photos!= null && nest.photos.size() > 0}"class="panel panel-default">
-                        <div class="panel-heading">
-                            Fotos do ninho
-                        </div>
-                        <!-- /.panel-heading -->
-
-                        <div class="panel-body" id="slider-container" style="height: 230px">
-<!--                            <div th:replace="slider :: image-slider(images = ${nest.photos})"></div>-->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-8 -->
-                
-            </div>
-            <!-- /.row -->
-                
-            <div class="row">
-                <div class="col-lg-9">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Amostras de Formigas
@@ -179,6 +141,37 @@
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                
+                <div class="col-lg-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Extensão atual
+                        </div>
+                        <!-- /.panel-heading -->
+
+                        <div class="panel-body" id="map" style="height: 200px">
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                        
+                        <div class="panel-footer">Pontos obtidos na última atualização de dados do ninho</div>
+                    </div>
+                    <!-- /.panel -->
+                    
+                    <div th:if="${nest.photos!= null && nest.photos.size() > 0}"class="panel panel-default">
+                        <div class="panel-heading">
+                            Fotos do ninho
+                        </div>
+                        <!-- /.panel-heading -->
+
+                        <div class="panel-body" id="slider-container" style="height: 230px">
+<!--                            <div th:replace="slider :: image-slider(images = ${nest.photos})"></div>-->
                         </div>
                         <!-- /.panel-body -->
                     </div>

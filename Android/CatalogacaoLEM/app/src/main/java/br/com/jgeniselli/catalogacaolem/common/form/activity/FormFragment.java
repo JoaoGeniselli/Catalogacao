@@ -39,6 +39,7 @@ import br.com.jgeniselli.catalogacaolem.common.form.event.ImageResponseEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.model.ChooseFileManager;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormLineAdapter;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormModel;
+import br.com.jgeniselli.catalogacaolem.common.form.model.PlaceholderPhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.form.model.SaveFormStrategy;
 import br.com.jgeniselli.catalogacaolem.common.form.event.CityRequestEvent;
 import br.com.jgeniselli.catalogacaolem.common.form.event.CityResponseEvent;
@@ -205,7 +206,7 @@ public class FormFragment extends Fragment {
 
             if (chooseFileManager.isSupportedFile(getContext(), fileSelected)) {
 
-                PhotoModel photo = new PhotoModel();
+                PlaceholderPhotoModel photo = new PlaceholderPhotoModel();
                 photo.setFileURI(fileSelected);
 
                 EventBus.getDefault().post(new ImageResponseEvent(photo));
