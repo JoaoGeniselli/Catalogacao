@@ -43,10 +43,13 @@ public class AntNest extends RealmObject implements Serializable {
     }
 
     public boolean isRegistered() {
-        return registerDate != null;
+        return registerId != null || registerDate != null;
     }
 
     public String getCompleteAddress() {
+        if (city == null) {
+            return "";
+        }
         return city.getState().getCountry().getName() + ", " +
                 city.getState().getName() + ", " +
                 city.getName();
@@ -146,5 +149,27 @@ public class AntNest extends RealmObject implements Serializable {
 
     public void setPhotos(RealmList<PhotoModel> photos) {
         this.photos = photos;
+    }
+
+    public void updateFrom(AntNest n) {
+        setName(n.getName());
+        setCity(n.getCity());
+        setPhotos(n.getPhotos());
+        setAddress(n.getAddress());
+        setRegisterId(n.getRegisterId());
+        setVegetation(n.getVegetation());
+
+        Coordinate coordinate = getEndingPoint();
+
+        coordinate.setLatitude(n.getEndingPoint().getLatitude());
+        coordinate.setLongitude(n.getEndingPoint().getLongitude());
+
+        coordinate = getBeginingPoint();
+
+        coordinate.setLatitude(n.getBeginingPoint().getLatitude());
+        coordinate.setLongitude(n.getBeginingPoint().getLongitude());
+
+        setDataUpdateVisits(n.getDataUpdateVisits());
+        setLastDataUpdateDate(n.getLastDataUpdateDate());
     }
 }

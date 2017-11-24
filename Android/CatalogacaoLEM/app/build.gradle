@@ -18,10 +18,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:8080/catalogacao/api/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.0.100:8080/catalogacao/api/v1/"'
         }
         release {
-            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:8080/catalogacao/api/v1/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.0.100/catalogacao/api/v1/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

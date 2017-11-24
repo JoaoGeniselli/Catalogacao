@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cat. LEM</string>
+    <string name="app_name">Catalogação</string>
     <string name="ant_nest_register">Novo Ninho</string>
     <string name="default_login_rest_error">Ocorreu um problema ao obter as informações do serviço</string>
     <string name="updating_location_content">Atualizando informações de localização</string>
@@ -10,14 +10,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configurações</string>
     <string name="action_route_config">Configuração de Rota</string>
     <string name="action_sync">Sincronizar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Cancelar</string>
     <string name="ok">Ok</string>
     <string name="city_name">Nome da cidade</string>
 
@@ -25,14 +25,14 @@
 
     <string name="select_city">Selecionar Cidade</string>
     <string name="select_location">Selecionar Localização</string>
-    <string name="title_activity_coordinates_selection">Map</string>
+    <string name="title_activity_coordinates_selection">Mapa</string>
 
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="title_activity_nest_dashboard">Detalhes</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Notificações</string>
     <string name="title_ants_list">Amostras de Formigas</string>
 
     <string name="nav_title_details">Detalhes</string>

@@ -57,6 +57,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".common.form.activity.FormActivity_"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -73,9 +74,11 @@
         <activity
             android:name=".common.form.activity.CoordinatesSelectionActivity_"
             android:label="@string/title_activity_coordinates_selection"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".common.form.activity.CitySelectionActivity_"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_city_selection" />
         <activity
             android:name=".nestDetails.NestDashboardActivity_"

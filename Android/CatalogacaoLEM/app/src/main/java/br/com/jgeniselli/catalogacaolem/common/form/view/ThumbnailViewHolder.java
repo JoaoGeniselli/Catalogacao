@@ -9,6 +9,7 @@ import java.lang.ref.WeakReference;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
+import br.com.jgeniselli.catalogacaolem.common.form.model.PlaceholderPhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.form.utils.ThumbnailUtil;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.view.BindableViewHolder;
@@ -17,9 +18,9 @@ import br.com.jgeniselli.catalogacaolem.common.view.BindableViewHolder;
  * Created by jgeniselli on 15/09/17.
  */
 
-public class ThumbnailViewHolder extends BindableViewHolder<PhotoModel> {
+public class ThumbnailViewHolder extends BindableViewHolder<PlaceholderPhotoModel> {
 
-    private WeakReference<PhotoModel> photoModel;
+    private WeakReference<PlaceholderPhotoModel> photoModel;
     private WeakReference<FormFieldModelImageList> formModel;
 
     private ImageButton removeButton;
@@ -45,7 +46,7 @@ public class ThumbnailViewHolder extends BindableViewHolder<PhotoModel> {
     }
 
     @Override
-    public void bind(PhotoModel model) {
+    public void bind(PlaceholderPhotoModel model) {
         this.photoModel = new WeakReference<>(model);
         RoundedBitmapDrawable thumbnail = ThumbnailUtil.getThumbailFromUri(itemView.getContext(), model.getFileURI());
         if (thumbnail != null)

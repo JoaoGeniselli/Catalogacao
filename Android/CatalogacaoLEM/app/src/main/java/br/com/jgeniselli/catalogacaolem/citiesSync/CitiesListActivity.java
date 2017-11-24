@@ -47,13 +47,16 @@ import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
 import br.com.jgeniselli.catalogacaolem.common.service.NestSyncController;
 import br.com.jgeniselli.catalogacaolem.common.service.ServiceCallback;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAnt;
+import br.com.jgeniselli.catalogacaolem.common.service.restModels.RestAntNest;
 import br.com.jgeniselli.catalogacaolem.pendenciesSync.NestsSyncService;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Retrofit;
 
 @EActivity(R.layout.activity_cities_list)
-public class CitiesListActivity extends AppCompatActivity {
+public class CitiesListActivity extends AppCompatActivity implements CitySynchronizationRemoveListener {
 
     public static final int CITY_SELECTION_RESULT_CODE = 1;
 
@@ -83,8 +86,6 @@ public class CitiesListActivity extends AppCompatActivity {
 
     private Realm realm;
 
-
-
     @AfterViews
     public void afterViews() {
         setSupportActionBar(toolbar);
@@ -95,7 +96,7 @@ public class CitiesListActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         citiesRecycler.setLayoutManager(layoutManager);
 
-        CitiesListLineAdapter adapter = new CitiesListLineAdapter(cities);
+        CitiesListLineAdapter adapter = new CitiesListLineAdapter(cities, this);
         citiesRecycler.setAdapter(adapter);
 
         setupUpdateLabel();
@@ -188,9 +189,9 @@ public class CitiesListActivity extends AppCompatActivity {
             RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class)
                     .findAll();
 
-            nestSyncController.syncCities(cities, realm, new ServiceCallback<List<AntNest>>() {
+            nestSyncController.syncCities(cities, realm, this, new ServiceCallback<List<RestAntNest>>() {
                 @Override
-                public void onFinish(List<AntNest> response, Error error) {
+                public void onFinish(List<RestAntNest> response, Error error) {
                     stopLoading();
 
                     if (error != null) {
@@ -261,8 +262,9 @@ public class CitiesListActivity extends AppCompatActivity {
 
             RealmResults<DataUpdateVisit> dataUpdateResults = realm
                     .where(DataUpdateVisit.class)
-                    .in("nest.id", (Long[]) nestIds.toArray())
+                    .in("nest.nestId", nestIds.toArray(new Long[nestIds.size()]))
                     .isNull("registerId")
+                    .endGroup()
                     .findAll();
 
             if (nestResults.size() > 0 || dataUpdateResults.size() > 0) {
@@ -295,4 +297,52 @@ public class CitiesListActivity extends AppCompatActivity {
                 .show();
     }
 
+
+    public void onRemoveRequest(CitySynchronization sync) {
+        if (sync != null) {
+
+            RealmResults<AntNest> nestResults = realm
+                    .where(AntNest.class)
+                    .equalTo("city.id", sync.getCity().getId())
+                    .isNull("registerId")
+                    .findAll();
+
+            ArrayList<Long> nestIds = new ArrayList<>();
+            for (AntNest nest : nestResults) {
+                nestIds.add(nest.getNestId());
+            }
+
+            boolean hasPendingDataUpdates = false;
+
+            if (nestIds.size() > 0) {
+                long count = realm
+                        .where(DataUpdateVisit.class)
+                        .in("nest.nestId", nestIds.toArray(new Long[nestIds.size()]))
+                        .isNull("registerId")
+                        .count();
+
+                hasPendingDataUpdates = count > 0;
+            }
+
+            if (nestResults.size() > 0 || hasPendingDataUpdates) {
+                showAlert(R.string.city_has_not_synchronized_nests_alert);
+            } else {
+                nestResults = realm
+                        .where(AntNest.class)
+                        .equalTo("city.id", sync.getCity().getId())
+                        .findAll();
+
+                realm.beginTransaction();
+                sync.deleteFromRealm();
+                for (AntNest nest : nestResults) {
+                    nest.deleteFromRealm();
+                }
+                realm.commitTransaction();
+
+                CitiesListLineAdapter adapter = (CitiesListLineAdapter) citiesRecycler.getAdapter();
+                RealmResults<CitySynchronization> cities = realm.where(CitySynchronization.class).findAll();
+                adapter.setCities(cities);
+            }
+        }
+    }
 }

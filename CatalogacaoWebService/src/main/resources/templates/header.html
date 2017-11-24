@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Catalogação LEM</title>
+    <title>Catalogação</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/theme/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Catalogação L.E.M.</a>
+                <a class="navbar-brand" href="index.html">Catalogação</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -53,9 +53,10 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        <li><span sec:authentication="name">Bob</span></li>
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
                         </li>
-                        <li sec:authorize="hasRole('ROLE_ADMIN')">
+                        <li sec:authorize="hasAuthority('ADMIN')">
                             <a th:href="@{/web/register}"><i class="fa fa-plus-square fa-fw"></i> Cadastrar Usuário</a>
                         </li>
                         <li class="divider"></li>

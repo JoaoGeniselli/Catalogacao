@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import br.com.jgeniselli.catalogacaolem.R;
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
+import br.com.jgeniselli.catalogacaolem.common.form.model.PlaceholderPhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 import io.realm.RealmList;
 
@@ -41,7 +42,8 @@ public class ThumbnailLineAdapter extends RecyclerView.Adapter<ThumbnailViewHold
 
     @Override
     public void onBindViewHolder(ThumbnailViewHolder holder, int position) {
-        PhotoModel model = formModel.getImages().get(position);
+
+        PlaceholderPhotoModel model = formModel.getImages().get(position);
         holder.bind(model);
     }
 

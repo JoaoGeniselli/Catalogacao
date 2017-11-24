@@ -24,6 +24,8 @@ import br.com.jgeniselli.catalogacaolem.common.form.modelAdapters.DataUpdateForm
 import br.com.jgeniselli.catalogacaolem.common.models.AntNest;
 import br.com.jgeniselli.catalogacaolem.common.models.Coordinate;
 import br.com.jgeniselli.catalogacaolem.common.models.DataUpdateVisit;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
+import br.com.jgeniselli.catalogacaolem.common.models.PhotoModelRepository;
 import io.realm.Realm;
 
 @EActivity(R.layout.activity_nest_dashboard)
@@ -181,6 +183,9 @@ public class NestDashboardActivity extends AppCompatActivity {
                 DataUpdateFormToModelAdapter modelAdapter = new DataUpdateFormToModelAdapter();
                 realmInstance.beginTransaction();
                 modelAdapter.updateModelFromForm(dataUpdateVisit, form);
+
+                PhotoModelRepository photoRepo = new PhotoModelRepository();
+                photoRepo.create(dataUpdateVisit.getPhotos(), realmInstance);
                 realmInstance.commitTransaction();
             }
         }

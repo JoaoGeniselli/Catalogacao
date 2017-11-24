@@ -1,5 +1,6 @@
 package br.com.jgeniselli.catalogacaolem.common.form.event;
 
+import br.com.jgeniselli.catalogacaolem.common.form.model.PlaceholderPhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 
 /**
@@ -8,13 +9,13 @@ import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 
 public class ImageResponseEvent {
 
-    private PhotoModel photoModel;
+    private PlaceholderPhotoModel photoModel;
 
-    public ImageResponseEvent(PhotoModel photoModel) {
+    public ImageResponseEvent(PlaceholderPhotoModel photoModel) {
         this.photoModel = photoModel;
     }
 
-    public PhotoModel getPhotoModel() {
+    public PlaceholderPhotoModel getPhotoModel() {
         return photoModel;
     }
 }

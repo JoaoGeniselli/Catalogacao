@@ -1,15 +1,15 @@
 
 -- Criação da base catalogacao
-CREATE DATABASE catalogacao_lem;
+CREATE DATABASE catalogacao;
 
 -- Criação do usuário para ser utilizado no sistema web
 CREATE USER 'catalogacao_web'@'%' IDENTIFIED BY 'Cortadeiras7102';
 
 -- Atribuicao de privilegios para o usuario do sistema web
-GRANT ALL PRIVILEGES  ON catalogacao_lem.* TO 'catalogacao_web'@'%';
+GRANT ALL PRIVILEGES  ON catalogacao.* TO 'catalogacao_web'@'%';
 
 -- Seleçao da nova base
-use catalogacao_lem;
+use catalogacao;
 
 -- ATENÇÃO: Os códigos a seguir para a criação inicial da base foram gerados
 -- pelo HIBERNATE, quaisquer alterações em nomes de campos ou tabelas devem ser
@@ -17,6 +17,7 @@ use catalogacao_lem;
 -- nas entidades da aplicação web.
 
 -- Drop de chaves estrangeiras, nao e necessario para o primeiro deploy, so estao listados aqui para ajudar em possiveis limpezas da base
+
 -- alter table ant drop foreign key FKei6ujiwlchd5ixaov3myb79m5;
 -- alter table ant drop foreign key FK2nh295odwwfifg0ap5laiojxy;
 -- alter table ant_photos drop foreign key FKedtiu9lups68bhcwg2in3gej3;
@@ -100,7 +101,7 @@ insert into role(id, role) values(2, 'USER');
 select * from user;
 
 -- Criaçao do Admin 
-insert into user(id, enable, name, password, username) values (1, 1, 'Administrador', ***REMOVIDO***, 'admin');
+insert into user(id, enable, name, password, username) values (1, 1, 'Administrador', ***REMOVED***, 'admin');
 -- Senha crua do admin: ***REMOVIDO***
 
 -- Atribuiçao da autoridade ao admin

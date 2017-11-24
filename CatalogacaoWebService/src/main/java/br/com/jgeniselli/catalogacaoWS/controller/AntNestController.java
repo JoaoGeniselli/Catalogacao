@@ -80,9 +80,8 @@ public class AntNestController extends BaseAPIController {
 
         User user;
         try {
-            user = getUser(nestInfo.getCollectorId());
-            validateTokenString(nestInfo);
-        } catch (InvalidUserException | InvalidTokenException e) {
+            user = validateTokenString(nestInfo);
+        } catch (InvalidTokenException e) {
             String message = e.getMessage();
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);
@@ -151,9 +150,8 @@ public class AntNestController extends BaseAPIController {
     public ResponseEntity<?> addDataUpdateToNest(@RequestBody RestDataUpdateVisit dataUpdateInfo) {
         User user;
         try {
-            user = getUser(dataUpdateInfo.getCollectorId());
-            validateTokenString(dataUpdateInfo);
-        } catch (InvalidUserException | InvalidTokenException e) {
+            user = validateTokenString(dataUpdateInfo);
+        } catch (InvalidTokenException e) {
             String message = e.getMessage();
             HashMap<String, String> map = new HashMap<>();
             map.put("msg", message);

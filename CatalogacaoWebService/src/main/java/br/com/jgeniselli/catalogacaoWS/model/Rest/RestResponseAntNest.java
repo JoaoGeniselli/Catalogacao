@@ -22,8 +22,9 @@ import java.util.List;
 public class RestResponseAntNest {
     
     private Long registerId;
-    private Long city;
+    private Long cityId;
     private String vegetation;
+    private String name;
     private String address;
     private Coordinate beginingPoint;
     private Coordinate endingPoint;
@@ -40,9 +41,10 @@ public class RestResponseAntNest {
     
     private void setup(AntNest nest) {
         setRegisterId(nest.getNestId());
-        setCity(nest.getCity().getId());
+        setCityId(nest.getCity().getId());
         setVegetation(nest.getVegetation());
         setAddress(nest.getAddress());
+        name = nest.getName();
         
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         setRegisterDate(formatter.format(nest.getRegisterDate()));
@@ -73,12 +75,12 @@ public class RestResponseAntNest {
         this.registerId = registerId;
     }
 
-    public Long getCity() {
-        return city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCity(Long city) {
-        this.city = city;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getVegetation() {
@@ -128,4 +130,12 @@ public class RestResponseAntNest {
     public void setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
     }   
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

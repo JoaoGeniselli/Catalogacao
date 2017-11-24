@@ -1,6 +1,7 @@
 package br.com.jgeniselli.catalogacaolem.common.form.event;
 
 import br.com.jgeniselli.catalogacaolem.common.form.model.FormFieldModelImageList;
+import br.com.jgeniselli.catalogacaolem.common.form.model.PlaceholderPhotoModel;
 import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 
 /**
@@ -9,16 +10,16 @@ import br.com.jgeniselli.catalogacaolem.common.models.PhotoModel;
 
 public class ImageRemovalRequestEvent {
 
-    private PhotoModel photoModel;
+    private PlaceholderPhotoModel photoModel;
 
     private FormFieldModelImageList formModel;
 
-    public ImageRemovalRequestEvent(PhotoModel photoModel, FormFieldModelImageList formModel) {
+    public ImageRemovalRequestEvent(PlaceholderPhotoModel photoModel, FormFieldModelImageList formModel) {
         this.photoModel = photoModel;
         this.formModel = formModel;
     }
 
-    public PhotoModel getPhotoModel() {
+    public PlaceholderPhotoModel getPhotoModel() {
         return photoModel;
     }
 

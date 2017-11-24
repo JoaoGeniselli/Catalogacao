@@ -43,6 +43,11 @@ public class SiteLoginController extends BaseSiteController {
         return "login";
     }
     
+    @RequestMapping(path = "/forbidden.html")
+    public String forbidden(Model model) {
+        return "forbidden";
+    }
+    
     @RequestMapping(path = "/register")
     public String register(Model model) {
         
