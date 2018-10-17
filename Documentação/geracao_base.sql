@@ -94,18 +94,18 @@ alter table mobile_token add constraint FKmg5xhnenvbsjxjmhbiebpf2pf foreign key 
 alter table user_roles add constraint FKj9553ass9uctjrmh0gkqsmv0d foreign key (roles_id) references role (id);
 alter table user_roles add constraint FK55itppkw3i07do3h7qoclqd4k foreign key (user_id) references user (id);
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
+-- Autoridades
+insert into role(id, role) values(1, 'ADMIN');
+insert into role(id, role) values(2, 'USER');
 
-***REMOVED***
+select * from user;
 
-***REMOVED***
+-- Criaçao do Admin 
 insert into user(id, enable, name, password, username) values (1, 1, 'Administrador', ***REMOVED***, 'admin');
-***REMOVED***
+-- Senha crua do admin: ***REMOVIDO***
 
-***REMOVED***
-***REMOVED***
+-- Atribuiçao da autoridade ao admin
+insert into user_roles(user_id, roles_id) values (1,1);
 
 -- Checagem da criacao do administrador
 select u.*, r.role from user u join user_roles ur on (ur.user_id = u.id) join role r on (r.id = ur.roles_id);
